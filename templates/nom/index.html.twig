@@ -1,4 +1,4 @@
-{% extends 'base2.html.twig' %}
+{% extends 'base1.html.twig' %}
 
 {% block title %}Hello NomController!{% endblock %}
 
@@ -357,18 +357,74 @@
         </div>
         <!--begin::Body-->
     </div>#}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="container1" id="container1">
+        <div class="form-container1 sign-up1">
+            <form >
+                <h1>Create Account</h1>
+                <div class="social-icons1">
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-google-plus-g"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                </div>
+                <span>or use your email for registration</span>
+                <input type="text"
+                       placeholder="Name">
+                <input type="email"
+                       placeholder="Email">
+                <input type="password"
+                       placeholder="Password">
+                <button>Sign Up</button>
+            </form>
+        </div>
+        <div class="form-container1 sign-in1">
+            <form >
+                <h1>Sign In</h1>
+                <div class="social-icons1">
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-google-plus-g"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="icon">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                </div>
+                <span>or use your email and password</span>
+                <input type="email"
+                       placeholder="Email">
+                <input type="password"
+                       placeholder="Password">
+                <a href="">Forgot your email or password?</a>
+                <button>Sign in</button>
+            </form>
+        </div>
+        <div class="toggle-container1">
+            <div class="toggle1">
+                <div class="toggle-panel1 toggle-left1">
+                    <h1>Welcome Back!</h1>
+                    <p>Enter your personal details to use all of site features</p>
+                    <button class="hidden" id="login1">Sign In</button>
+                </div>
+                <div class="toggle-panel1 toggle-right1">
+                    <h1>Hello, User!</h1>
+                    <p>Register with your personal details to use all of site features</p>
+                    <button class="hidden" id="register1">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/weder/OneDrive/Bureau/Pidev/src/Controller/NomController.php'|file_link(0) }}">src/Controller/NomController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/weder/OneDrive/Bureau/Pidev/templates/nom/index.html.twig'|file_link(0) }}">templates/nom/index.html.twig</a></code></li>
-    </ul>
-</div>
 {% endblock %}
