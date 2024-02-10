@@ -5,10 +5,9 @@ namespace App\Form;
 use App\Entity\Evenement;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 use Symfony\Component\Validator\Constraints as Assert;
 class EvenementType extends AbstractType
 {
@@ -26,10 +25,21 @@ class EvenementType extends AbstractType
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\GreaterThanOrEqual('...'),
+                    new Assert\GreaterThanOrEqual('today'),
                 ],
             ])
+            ->add('image_evenement',FileType::class,[
+                'label' => 'image_evenement',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new Assert\File([
+                        'maxSize' => '2Mi',
+                        'mimeTypesMessage' => 'Please upload a valid image file',
+                    ])
+                ],])
         ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

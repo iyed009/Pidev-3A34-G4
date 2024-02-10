@@ -31,6 +31,9 @@ class Evenement
     #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'evenement')]
     private Collection $tickets;
 
+    #[ORM\Column(length: 255)]
+    private ?string $image_evenement = null;
+
     public function __construct()
     {
         $this->date_evenement = new \DateTime();
@@ -116,6 +119,18 @@ class Evenement
                 $ticket->setEvenement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImageEvenement(): ?string
+    {
+        return $this->image_evenement;
+    }
+
+    public function setImageEvenement(string $image_evenement): self
+    {
+        $this->image_evenement = $image_evenement;
 
         return $this;
     }
