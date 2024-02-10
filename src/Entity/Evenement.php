@@ -33,6 +33,7 @@ class Evenement
 
     public function __construct()
     {
+        $this->date_evenement = new \DateTime();
         $this->tickets = new ArrayCollection();
     }
 

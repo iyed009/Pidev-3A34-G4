@@ -1,0 +1,104 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Evenement{% endblock %}
+
+{% block body %}
+
+
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Post-->
+    <div class="post d-flex flex-column-fluid" id="kt_post">
+        <!--begin::Container-->
+        <div id="kt_content_container" class="container-xxl">
+            <!--begin::Card-->
+            <div class="card">
+                <!--begin::Card header-->
+                <div class="card-header ">
+            <!--begin::Card title-->
+            <div class="card-title m-0">
+                <h3 class="fw-bolder m-0">Evenement Details</h3>
+            </div>
+            <!--end::Card title-->
+            <!--begin::Action-->
+            <div class="card-header border-0 pt-5">
+              <div class="card-header border-left-2 pt-4"> {{ include('evenement/_delete_form.html.twig') }}</div>
+                <a href="{{ path('app_evenement_edit', {'id': evenement.id}) }}" class="btn btn-light-success  align-self-center">Modifier Evenement</a>
+            <!--end::Action-->
+            </div>
+        </div>
+        <!--begin::Card header-->
+        <!--begin::Card body-->
+        <div class="card-body p-9">
+            <!--begin::Row-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Nom</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8">
+                    <span class="fw-bolder fs-6 text-gray-800">{{ evenement.nom }}</span>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Row-->
+            <!--begin::Input group-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Description</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8 fv-row">
+                    <span class="fw-bolder fs-6 text-gray-800 me-2">{{ evenement.description }}</span>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Lieu
+                   </label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8 d-flex align-items-center">
+                    <span class="fw-bolder fs-6 text-gray-800 me-2">{{ evenement.lieu }}</span>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Date Evenement</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8">
+                    <a  class="fw-bolder fs-6 text-gray-800 me-2">{{ evenement.dateEvenement ? evenement.dateEvenement|date('Y-m-d') : '' }}</a>
+                </div>
+                <!--end::Col-->
+            </div>
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Heure Evenement</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8">
+                    <a  class="fw-bolder fs-6 text-gray-800 me-2">{{ evenement.dateEvenement ? evenement.dateEvenement|date('H:i:s') : '' }}</a>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Input group-->
+
+
+            <a href="{{ path('app_evenement_index') }}" class="btn btn-light">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+
+        </div>
+        <!--end::Card body-->
+    </div>
+        </div>
+        </div>
+    </div>
+
+{% endblock %}
