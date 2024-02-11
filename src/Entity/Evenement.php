@@ -19,7 +19,7 @@ class Evenement
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "text")]
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
