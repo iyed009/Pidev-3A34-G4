@@ -14,7 +14,7 @@ class Ticket
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?float $prix = null;
+    private ?int $prix = null;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
@@ -33,12 +33,12 @@ class Ticket
         return $this->id;
     }
 
-    public function getPrix(): ?float
+    public function getPrix(): ?int
     {
         return $this->prix;
     }
 
-    public function setPrix(float $prix): static
+    public function setPrix(int $prix): static
     {
         $this->prix = $prix;
 
