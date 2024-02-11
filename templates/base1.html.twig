@@ -14,6 +14,7 @@
 
         <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Oswald:300,400,500,600,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
                                                                                                                                     <!-- Css Styles -->
         <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css ')}}" type="text/css">
@@ -24,6 +25,8 @@
         <link rel="stylesheet" href="{{ asset('css/magnific-popup.css ')}}" type="text/css">
         <link rel="stylesheet" href="{{ asset('css/slicknav.min.css ')}}" type="text/css">
         <link rel="stylesheet" href="{{ asset ('css/style.css ')}}" type="text/css">
+
+        <link rel="stylesheet" href="{{ asset ('css/form.css ')}}" type="text/css">
 
     {% endblock %}
 
@@ -62,6 +65,17 @@
                     <li><a href="./404.html">404</a></li>
                 </ul>
             </li>
+            <li><a href="#">Pages</a>
+                <ul class="dropdown">
+                    <li><a href="./about-us.html">About us</a></li>
+                    <li><a href="./class-timetable.html">Classes timetable</a></li>
+                    <li><a href="./bmi-calculator.html">Bmi calculate</a></li>
+                    <li><a href="./team.html">Our team</a></li>
+                    <li><a href="./gallery.html">Gallery</a></li>
+                    <li><a href="./blog.html">Our blog</a></li>
+                    <li><a href="./404.html">404</a></li>
+                </ul>
+            </li>
             <li><a href="./contact.html">Contact</a></li>
         </ul>
     </nav>
@@ -82,7 +96,7 @@
             <div class="col-lg-3">
                 <div class="logo">
                     <a href="./index.html">
-                        <img src="img/logo.png" alt="">
+                        <img src="{{asset('img/logo.png')}}" alt="">
                     </a>
                 </div>
             </div>
@@ -105,7 +119,14 @@
                                 <li><a href="./404.html">404</a></li>
                             </ul>
                         </li>
-                        <li><a href="./contact.html">Contact</a></li>
+                        <li><a href="#">Contact</a>
+                            <ul class="dropdown">
+                                <li><a href="./about-us.html">ECRIRE</a></li>
+                                <li><a href="./class-timetable.html">VOICE</a></li>
+
+                            </ul>
+                        </li>
+
                     </ul>
                 </nav>
             </div>
@@ -133,7 +154,7 @@
 
 
 <!-- Breadcrumb Section Begin -->
-<section class="breadcrumb-section set-bg" data-setbg="img/breadcrumb-bg.jpg">
+<section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb-bg.jpg')}}">
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
@@ -150,8 +171,11 @@
 </section>
 <!-- Breadcrumb Section End -->
 
+{% block body %}
 
-{% block body %}{% endblock %}
+
+    {% endblock %}
+
 <!-- Footer Section Begin -->
 <section class="footer-section">
     <div class="container">
@@ -248,7 +272,7 @@
 <script src="{{ asset ('js/jquery.slicknav.js ')}}"></script>
 <script src="{{ asset ('js/owl.carousel.min.js ')}}"></script>
 <script src="{{ asset ('js/main.js ')}}"></script>
-{% endblock %}
+    <script src="{{ asset ('js/form.js ')}}"></script>{% endblock %}
 
 
 </body>
