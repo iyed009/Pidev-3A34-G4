@@ -6,36 +6,62 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface ,PasswordAuthenticatedUserInterface
 {
+    
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\GeneratedValue('CUSTOM')]
+    #[ORM\Column(type: 'uuid', unique: true)]
+    #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
+    private ?string $id = null;
+
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank()]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $role = null;
+    #[ORM\Column(type: 'json')]
+    #[Assert\NotBlank()]
+    private $roles = ['ROLE_USER'];
 
     #[ORM\Column]
     private ?int $numTele = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $motDePass = null;
+    #[Assert\NotBlank()]
+    private ?string $motDePasse = null;
 
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank()]
+    private string $avatar;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\NotNull()]
+    private \DateTimeImmutable $createdAt;
+
+    #[ORM\Column(type: 'datetime_immutable')]
+    #[Assert\NotNull()]
+    private \DateTimeImmutable $updatedAt;
+
 
     #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'utilisateur')]
     private Collection $tickets;
@@ -56,12 +82,31 @@ class User
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
         $this->tickets = new ArrayCollection();
         $this->reclamations = new ArrayCollection();
         $this->reponses = new ArrayCollection();
         $this->salles = new ArrayCollection();
         $this->activites = new ArrayCollection();
+
     }
+
+    #
+
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        $this->avatar = 'https://avatars.dicebear.com/api/avataaars/' . urlencode($this->email) . '.svg';
+    }
+
+    #[ORM\PreUpdate]
+    public function preUpdate(): void
+    {
+        $this->avatar = 'https://avatars.dicebear.com/api/avataaars/' . urlencode($this->email) . '.svg';
+        $this->updatedAt = new \DateTimeImmutable();
+    }
+
 
     public function getId(): ?int
     {
@@ -73,7 +118,7 @@ class User
         return $this->nom;
     }
 
-    public function setNom(string $nom): static
+    public function setNom(string $nom): self
     {
         $this->nom = $nom;
 
@@ -85,7 +130,7 @@ class User
         return $this->prenom;
     }
 
-    public function setPrenom(string $prenom): static
+    public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
 
@@ -97,60 +142,131 @@ class User
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
         return $this;
     }
 
-    public function getRole(): ?string
-    {
-        return $this->role;
-    }
-
-    public function setRole(string $role): static
-    {
-        $this->role = $role;
-
-        return $this;
-    }
 
     public function getNumTele(): ?int
     {
         return $this->numTele;
     }
 
-    public function setNumTele(int $numTele): static
+    public function setNumTele(int $numTele): self
     {
         $this->numTele = $numTele;
 
         return $this;
     }
 
-    public function getMotDePass(): ?string
-    {
-        return $this->motDePass;
-    }
-
-    public function setMotDePass(string $motDePass): static
-    {
-        $this->motDePass = $motDePass;
-
-        return $this;
-    }
 
     public function getAdresse(): ?string
     {
         return $this->adresse;
     }
 
-    public function setAdresse(string $adresse): static
+    public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
 
         return $this;
     }
+
+
+
+    public function getUsername(): string
+    {
+        // This method can be kept for backward compatibility or if your application specifically requires it.
+        return $this->getEmail();
+    }
+
+    public function getUserIdentifier(): string
+    {
+        // This is now the preferred method for identifying the user.
+        return $this->getEmail();
+    }
+    
+    public function getPassword(): string
+    {
+        return $this->motDePasse;
+    }
+    
+    public function setPassword(string $motDePasse): self
+    {
+        $this->motDePasse = $motDePasse;
+
+        return $this;
+    }
+
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar($avatar):self 
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+
+    public function getSalt()
+    {
+        // Not needed for bcrypt or argon2i
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+    }
+
 
     /**
      * @return Collection<int, Ticket>
@@ -301,6 +417,4 @@ class User
 
         return $this;
     }
-
-
 }
