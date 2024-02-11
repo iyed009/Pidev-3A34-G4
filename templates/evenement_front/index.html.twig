@@ -28,26 +28,41 @@
                 <div class="col-lg-12">
                     <div class="team-title">
                         <div class="section-title">
-                            <span>PARTICIPER A NOS</span>
-                            <h2>EVENEMENT</h2>
+                            <span>Our Team</span>
+                            <h2>TRAIN WITH EXPERTS</h2>
                         </div>
-                        <a href="#" class="primary-btn btn-normal appoinment-btn">RESERVER</a>
+                        <a href="#" class="primary-btn btn-normal appoinment-btn">appointment</a>
                     </div>
                 </div>
             </div>
             <div class="row">
+
                 <div class="ts-slider owl-carousel">
+                    {% for evenement in evenements %}
 
                     <div class="col-lg-4">
 
-                        <div class="ts_text">
-                            <h4>Athart Rachel</h4>
-                            <span>Gym Trainer</span>
+                        <div  class="ts-item set-bg" >
+                            <a href="{{ path('app_evenement_front_show', {'id': evenement.id}) }}">
+                                <img src="{{ asset('uploads/' ~ evenement.imageEvenement) }}" alt="Evenement Image">
+                            </a>
+
+                            <div class="ts_text">
+                                <h4  style="color: #f36100;">{{ evenement.nom }}</h4>
+                                <span> {{ evenement.dateEvenement ? evenement.dateEvenement|date('D') : '' }}{{ evenement.dateEvenement ? evenement.dateEvenement|date('d') : '' }},{{ evenement.dateEvenement ? evenement.dateEvenement|date('M') : '' }}</span>
+                                <span>{{ evenement.dateEvenement ? evenement.dateEvenement|date('h:i') : '' }}</span>
+
+
+
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
+
+
     </section>
     <!-- Team Section End -->
 {% endblock %}
