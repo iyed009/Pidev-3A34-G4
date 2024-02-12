@@ -102,7 +102,7 @@ class EvenementController extends AbstractController
                 $entityManager->flush();
 
 
-                return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_evenement_show', ['id' => $evenement->getId()], Response::HTTP_SEE_OTHER);
             }
         }
 
