@@ -1,0 +1,27 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card" style="padding: 20px; margin-bottom: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.nom }} {{ user.prenom }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ user.email }}</h6>
+                    <p class="card-text">
+                        <strong>Adresse:</strong> {{ user.adresse }}<br>
+                        <strong>Telephone:</strong> {{ user.numTele }}<br>
+                        <strong>Date Created:</strong> {{ user.createdAt|date('Y-m-d H:i') }}<br>
+                        <strong>Last Updated:</strong> {{ user.updatedAt|date('Y-m-d H:i') }}<br> 
+                        <strong>Is Verified:</strong> {{ user.isVerified ? 'Yes' : 'No' }}<br>
+                    </p>
+                    <a href="{{ path('user_list_role_AdminSalle') }}" class="btn btn-primary">Back to list</a>
+                    <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="btn btn-secondary">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Security;
 
 use App\Repository\UserRepository;
@@ -65,28 +66,28 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     // }
 
     public function authenticate(Request $request): Passport
-{
-    $email = $request->request->get('email');
-    $password = $request->request->get('password');
-    $csrfToken = $request->request->get('_csrf_token');
+    {
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
+        $csrfToken = $request->request->get('_csrf_token');
 
-    $userBadge = new UserBadge($email, function($userIdentifier) {
-        $user = $this->userRepository->findOneByEmail($userIdentifier);
-        if (!$user) {
-            
-            throw new CustomUserMessageAuthenticationException('Email not registered yet.');
-        }
-        return $user;
-    });
+        $userBadge = new UserBadge($email, function ($userIdentifier) {
+            $user = $this->userRepository->findOneByEmail($userIdentifier);
+            if (!$user) {
 
-    return new Passport(
-        $userBadge,
-        new PasswordCredentials($password),
-        [
-            new CsrfTokenBadge('authenticate', $csrfToken),
-        ]
-    );
-}
+                throw new CustomUserMessageAuthenticationException('Email not registered yet.');
+            }
+            return $user;
+        });
+
+        return new Passport(
+            $userBadge,
+            new PasswordCredentials($password),
+            [
+                new CsrfTokenBadge('authenticate', $csrfToken),
+            ]
+        );
+    }
 
 
     // public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
@@ -100,20 +101,18 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
     // }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
-{
-    // Check for the role and redirect accordingly
-    if (in_array('ROLE_ADMIN', $token->getRoleNames())) {
-        // Redirect to the admin dashboard if the user has the ROLE_ADMIN role
-        return new RedirectResponse($this->urlGenerator->generate('app_salle'));
-    } elseif (in_array('ROLE_CLIENT', $token->getRoleNames())) {
-        // Redirect to the client dashboard if the user has the ROLE_CLIENT role
-        return new RedirectResponse($this->urlGenerator->generate('app_nom'));
-    }
+    {
+        // Check for the role and redirect accordingly
+        if (in_array('ROLE_ADMIN', $token->getRoleNames())) {
+            // Redirect to the admin dashboard if the user has the ROLE_ADMIN role
+            return new RedirectResponse($this->urlGenerator->generate('app_salle'));
+        } elseif (in_array('ROLE_CLIENT', $token->getRoleNames())) {
 
-    // Default redirection if no specific role is found
-    // This could be a generic dashboard or a homepage, for instance
-    return new RedirectResponse($this->urlGenerator->generate('app_login'));
-}
+            return new RedirectResponse($this->urlGenerator->generate('app_nom'));
+        }
+
+        return new RedirectResponse($this->urlGenerator->generate('app_login'));
+    }
 
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response

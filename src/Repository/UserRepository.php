@@ -21,6 +21,23 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findByRole($role)
+    {
+        $em = $this->getEntityManager();
+        $conn = $em->getConnection();
+        $sql = '
+            SELECT * FROM user 
+            WHERE JSON_CONTAINS(roles, :role) = 1
+        ';
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->executeQuery(['role' => '"' . $role . '"']);
+
+        // Fetch and return results using fetchAllAssociative() for associative array results
+        return $result->fetchAllAssociative();
+    }
+
+
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

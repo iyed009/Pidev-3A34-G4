@@ -31,7 +31,7 @@ class UserFixtures extends Fixture
             )
             ->setNumTele(12345678)
             ->setAdresse('ariana');
-            
+
 
         $manager->persist($user);
 

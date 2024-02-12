@@ -1,23 +1,19 @@
 {% extends 'base2.html.twig' %}
-{% block title %}
-    New User
-{% endblock %}
+
+{% block title %}New User{% endblock %}
+
 {% block body %}
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h1>
-                            Create new Client
-                        </h1>
-                    </div>
-                    <div class="card-body">
-                        {{ form_start(form, {'attr': {'class': 'form-horizontal' }}
-                        ) }}
-                        
-                                            
-                        <div class="mb-3">
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center"> 
+                    <h1>Create new AdminSalle</h1>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                    <div class="mb-3">
                             {{ form_label(form.nom) }}
                             {{ form_widget(form.nom, {'attr': {'class': 'form-control' }}
                             ) }}
@@ -75,18 +71,16 @@
                                 {{ form_errors(form.adresse) }}
                             </div>
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">
-                                {{ button_label|default('Save') }}
-                            </button>
-                            <a href="{{ path('user_list_role_client') }}" class="btn btn-secondary">
-                                Back to list
-                            </a>
-                        </div>
-                        {{ form_end(form) }}
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+                        <a href="{{ path('user_list_role_AdminSalle') }}" class="btn btn-secondary">Back to list</a>
                     </div>
+
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

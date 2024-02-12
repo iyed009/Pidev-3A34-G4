@@ -6,52 +6,66 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Uid\Uuid;
 
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Table(name: '`user`')]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
+    // #[ORM\Id]
+    // #[ORM\GeneratedValue('CUSTOM')]
+    // #[ORM\Column(type: 'uuid', unique: true)]
+    // #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
     #[ORM\Id]
-    #[ORM\GeneratedValue('CUSTOM')]
-    #[ORM\Column(type: 'uuid', unique: true)]
-    #[ORM\CustomIdGenerator('doctrine.uuid_generator')]
+    #[ORM\Column(type: 'string', unique: true)]
     private ?string $id = null;
 
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: "Nom is required")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank(message: "Prenom is required")]
     private ?string $prenom = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank(message: "Email is required")]
+    #[Assert\Email(message: "The email '{{ value }}' is not a valid email.")]
     private ?string $email = null;
 
     #[ORM\Column(type: 'json')]
-    #[Assert\NotBlank()]
-    private $roles = ['ROLE_USER'];
+    private array $roles = [];
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Phone number is required")]
+    #[Assert\Regex(
+        pattern: "/^\d{8}$/",
+        message: "Phone number must be exactly 8 digits."
+    )]
     private ?int $numTele = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank()]
-    private ?string $motDePasse = null;
+    #[Assert\NotBlank(message: "Password is required")]
+    #[Assert\Length(
+        min: 6,
+        minMessage: "Password must be at least {{ limit }} characters long"
+    )]
+    private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Password is required")]
     private ?string $adresse = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank()]
     private string $avatar;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -78,7 +92,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'utilisateur')]
     private Collection $activites;
 
+    #[ORM\Column(type: 'boolean')]
+    private $isVerified = false;
 
+    private $plainPassword;
 
     public function __construct()
     {
@@ -89,9 +106,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reponses = new ArrayCollection();
         $this->salles = new ArrayCollection();
         $this->activites = new ArrayCollection();
+        $this->id = Uuid::v4()->toRfc4122();
     }
 
-    #
+
 
     #[ORM\PrePersist]
     public function prePersist(): void
@@ -107,7 +125,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -190,13 +208,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getPassword(): string
     {
-        return $this->motDePasse;
+        return $this->password;
     }
 
-    public function setPassword(string $motDePasse): self
+    public function setPassword(string $password): self
     {
-        $this->motDePasse = $motDePasse;
+        $this->password = $password;
 
+        return $this;
+    }
+
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword(string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
         return $this;
     }
 
@@ -413,6 +442,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $activite->setUtilisateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): static
+    {
+        $this->isVerified = $isVerified;
 
         return $this;
     }
