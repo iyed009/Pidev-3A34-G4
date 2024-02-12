@@ -28,7 +28,7 @@ class Evenement
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_evenement = null;
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'evenement')]
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'evenement' ,cascade: ["remove"])]
     private Collection $tickets;
 
     #[ORM\Column(length: 255)]
@@ -134,4 +134,5 @@ class Evenement
 
         return $this;
     }
+
 }

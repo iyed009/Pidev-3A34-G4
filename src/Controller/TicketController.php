@@ -55,11 +55,22 @@ class TicketController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_ticket_show', methods: ['GET'])]
-    public function show(Ticket $ticket): Response
+    #[Route('/{id}', name: 'app_ticket_show', methods: ['GET', 'POST'])]
+    public function show(Request $request,Ticket $ticket, EntityManagerInterface $entityManager): Response
     {
+        $form = $this->createForm(TicketType::class, $ticket);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+
         return $this->render('ticket/show.html.twig', [
             'ticket' => $ticket,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -81,7 +92,7 @@ class TicketController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_ticket_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_ticket_delete', methods: ['POST'])]
     public function delete(Request $request, Ticket $ticket, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$ticket->getId(), $request->request->get('_token'))) {
