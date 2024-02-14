@@ -35,6 +35,9 @@ class Activite
     #[ORM\ManyToOne(inversedBy: 'activites')]
     private ?User $utilisateur = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $imageActivte = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Activite
     public function setUtilisateur(?User $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getImageActivte(): ?string
+    {
+        return $this->imageActivte;
+    }
+
+    public function setImageActivte(string $imageActivte): static
+    {
+        $this->imageActivte = $imageActivte;
 
         return $this;
     }

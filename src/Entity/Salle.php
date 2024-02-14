@@ -27,7 +27,7 @@ class Salle
     #[ORM\Column]
     private ?int $capacite = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "text")]
     private ?string $description = null;
 
     #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'salle')]
@@ -35,6 +35,12 @@ class Salle
 
     #[ORM\ManyToOne(inversedBy: 'salles')]
     private ?User $utilisateur = null;
+
+    #[ORM\Column]
+    private ?int $nbrClient = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $logoSalle = null;
 
     public function __construct()
     {
@@ -144,6 +150,30 @@ class Salle
     public function setUtilisateur(?User $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getNbrClient(): ?int
+    {
+        return $this->nbrClient;
+    }
+
+    public function setNbrClient(int $nbrClient): static
+    {
+        $this->nbrClient = $nbrClient;
+
+        return $this;
+    }
+
+    public function getLogoSalle(): ?string
+    {
+        return $this->logoSalle;
+    }
+
+    public function setLogoSalle(string $logoSalle): static
+    {
+        $this->logoSalle = $logoSalle;
 
         return $this;
     }

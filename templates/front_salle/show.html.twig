@@ -1,0 +1,66 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Salle{% endblock %}
+
+{% block body %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb-bg.jpg')}}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>Salles</h2>
+                        <div class="bt-option">
+                            <a href="./index.html">Home</a>
+                            <span>Salle</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <section class="class-details-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="class-details-text">
+                        <div class="cd-trainer">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="cd-trainer-pic">
+                                        <img src="{{ asset('uploads/' ~ salle.logoSalle) }}" style="width: 360px; height: 437px;" alt="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="cd-trainer-text card-body">
+                                        <div class="trainer-title">
+                                            <h4>{{ salle.nom }}</h4>
+                                        </div>
+                                        <div class="trainer-social">
+                                            <a href="#"><i class="fa fa-facebook"></i></a>
+                                            <a href="#"><i class="fa fa-twitter"></i></a>
+                                            <a href="#"><i class="fa fa-youtube-play"></i></a>
+                                            <a href="#"><i class="fa fa-instagram"></i></a>
+                                            <a href="#"><i class="fa  fa-envelope-o"></i></a>
+                                        </div>
+                                        <ul class="list-unstyled trainer-info">
+                                            <li><span>Numero_Tel:</span> {{ salle.numTel }}</li>
+                                            <li><span>Capacité:</span> {{ salle.capacite }}</li>
+                                            <li><span>NbrClient:</span> {{ salle.nbrClient }}</li>
+                                            <li><span >Addresse:</span> {{ salle.addresse }}</li>
+                                            <li style=" word-wrap: break-word;"><span >Description:</span> {{ salle.description }}</li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
