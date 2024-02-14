@@ -37,34 +37,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         return $request->attributes->get('_route') === 'app_login' && $request->isMethod('POST');
     }
 
-    // public function getCredentials(Request $request)
-    // {
-    //     $credentials=[
-    //         'email' =>$request->request->get('email'),
-    //         'password' =>$request->request->get('MotDePasse'),
-    //         '_csrf_token' =>$request->request->get('_csrf_token'),
-    //     ];
-    //     $request->getSession()->set(Security::LAST_USERNAME,$credentials['email']);
-    //     return $credentials;
-    // }
-
-    // public function authenticate(Request $request): Passport
-    // {
-    //     $email = $request->request->get('email');
-    //     $password = $request->request->get('password');
-    //     $csrfToken = $request->request->get('_csrf_token');
-
-    //     return new Passport(
-    //         new UserBadge($email, function($userIdentifier) {
-    //             return $this->userRepository->findOneByEmail($userIdentifier);
-    //         }),
-    //         new PasswordCredentials($password),
-    //         [
-    //             new CsrfTokenBadge('authenticate', $csrfToken),
-    //         ]
-    //     );
-    // }
-
     public function authenticate(Request $request): Passport
     {
         $email = $request->request->get('email');
@@ -89,26 +61,20 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         );
     }
 
-
-    // public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
-    // {
-    //     if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
-    //         return new RedirectResponse($targetPath);
-    //     }
-
-    //     // For example, redirect to the homepage
-    //     return new RedirectResponse($this->urlGenerator->generate('app_nom'));
-    // }
-
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         // Check for the role and redirect accordingly
         if (in_array('ROLE_ADMIN', $token->getRoleNames())) {
-            // Redirect to the admin dashboard if the user has the ROLE_ADMIN role
-            return new RedirectResponse($this->urlGenerator->generate('app_salle'));
-        } elseif (in_array('ROLE_CLIENT', $token->getRoleNames())) {
+
+            return new RedirectResponse($this->urlGenerator->generate('app_salle_index'));
+        }
+
+        if (in_array('ROLE_SUPER_ADMIN', $token->getRoleNames())) {
 
             return new RedirectResponse($this->urlGenerator->generate('app_nom'));
+        } elseif (in_array('ROLE_CLIENT', $token->getRoleNames())) {
+
+            return new RedirectResponse($this->urlGenerator->generate('app_client'));
         }
 
         return new RedirectResponse($this->urlGenerator->generate('app_login'));

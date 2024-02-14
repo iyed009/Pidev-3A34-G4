@@ -34,7 +34,7 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $roles = $form->get('roles')->getData();
             if ($roles !== null) {
                 $user->setRoles([$roles]);
@@ -50,15 +50,15 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation(
-                'app_verify_email',
-                $user,
-                (new TemplatedEmail())
-                    ->from(new Address('majedsmichi@gmail.com', '6Core'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+            // $this->emailVerifier->sendEmailConfirmation(
+            //     'app_verify_email',
+            //     $user,
+            //     (new TemplatedEmail())
+            //         ->from(new Address('majedsmichi@gmail.com', '6Core'))
+            //         ->to($user->getEmail())
+            //         ->subject('Please Confirm your Email')
+            //         ->htmlTemplate('registration/confirmation_email.html.twig')
+            // );
             // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(

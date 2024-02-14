@@ -16,14 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/user')]
 class UserController extends AbstractController
 {
-    // #[Route('/', name: 'app_user_index', methods: ['GET'])]
-    // public function index(UserRepository $userRepository): Response
-    // {
-    //     return $this->render('user/index.html.twig', [
-    //         'users' => $userRepository->findAll(),
-    //     ]);
-    // }
-
 
     #[Route('/users/role/client', name: 'user_list_role_client', methods: ['GET'])]
     public function listRoleClient(UserRepository $userRepository): Response

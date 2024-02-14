@@ -24,32 +24,32 @@
 							<div class="mb-3">
 								{{ form_label(registrationForm.email) }}
 								{{ form_widget(registrationForm.email, {'attr': {'class': 'form-control'}}) }}
-								{{ form_errors(registrationForm.email) }}
+								<div class="text-danger">{{ form_errors(registrationForm.email) }}</div>
 							</div>
 							<div class="mb-3">
 								{{ form_label(registrationForm.password, 'password') }}
 								{{ form_widget(registrationForm.password, {'attr': {'class': 'form-control'}}) }}
-								{{ form_errors(registrationForm.password) }}
+								<div class="text-danger">{{ form_errors(registrationForm.password) }}</div>
 							</div>
 							<div class="mb-3">
 								{{ form_label(registrationForm.nom) }}
 								{{ form_widget(registrationForm.nom, {'attr': {'class': 'form-control'}}) }}
-								{{ form_errors(registrationForm.nom) }}
+                                <div class="text-danger">{{ form_errors(registrationForm.nom) }}</div>
 							</div>
 							<div class="mb-3">
 								{{ form_label(registrationForm.prenom) }}
 								{{ form_widget(registrationForm.prenom, {'attr': {'class': 'form-control'}}) }}
-								{{ form_errors(registrationForm.prenom) }}
+								<div class="text-danger">{{ form_errors(registrationForm.prenom) }}</div>
 							</div>
 							<div class="mb-3">
 								{{ form_label(registrationForm.numTele) }}
 								{{ form_widget(registrationForm.numTele, {'attr': {'class': 'form-control'}}) }}
-								{{ form_errors(registrationForm.numTele) }}
+								<div class="text-danger">{{ form_errors(registrationForm.numTele) }}</div>
 							</div>
 							<div class="mb-3">
 								{{ form_label(registrationForm.adresse) }}
 								{{ form_widget(registrationForm.adresse, {'attr': {'class': 'form-control'}}) }}
-								{{ form_errors(registrationForm.adresse) }}
+								<div class="text-danger">{{ form_errors(registrationForm.adresse) }}</div>
 							</div>
 							<div class="form-group">
 								{{ form_label(registrationForm.roles, 'Role') }}
@@ -57,7 +57,7 @@
 							</div>
 							<div class="form-group">
 								{{ form_row(registrationForm.agreeTerms) }}
-								{{ form_errors(registrationForm.agreeTerms) }}
+								<div class="text-danger">{{ form_errors(registrationForm.agreeTerms) }}</div>
 							</div>
 							{% if error %}
 								<div class="alert alert-danger">{{ error }}</div>
