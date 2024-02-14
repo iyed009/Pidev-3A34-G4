@@ -35,6 +35,7 @@ security:
   - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
   - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
   - { path: ^/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  - { path: ^/super_admin, roles: ROLE_SUPER_ADMIN }
   - { path: ^/admin, roles: ROLE_ADMIN }
   - { path: ^/client, roles: ROLE_CLIENT }
     # Additional access control rules as needed
