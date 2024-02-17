@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ReclamationRepository::class)]
 class Reclamation
@@ -17,13 +19,21 @@ class Reclamation
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Le nom ne doit pas être vide.")]
+    #[Assert\Length(max:255, maxMessage:"Le nom ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+   /* #[Assert\Email(message: 'L\'adresse email "{{ value }}" n\'est pas valide.')]*/
     private ?string $email = null;
 
     #[ORM\Column(type: Types::INTEGER)]
-    private ?string $numTele = null;
+   /* #[Assert\Regex(
+        pattern: '/^\d{8}$/',
+        message: 'Le numéro de téléphone doit comporter 8 chiffres.'
+    )]
+    #[Assert\NotBlank(message: 'La numero ne peut pas être vide.')]*/
+    private ?int $numTele = null;
 
     #[ORM\Column(length: 255)]
     private ?string $etat = 'NonTraité';
@@ -32,18 +42,40 @@ class Reclamation
     private ?string $sujet = null;
 
     #[ORM\Column(length: 255)]
+   #[Assert\NotBlank(message: 'La description ne peut pas être vide.')]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\GreaterThanOrEqual(
+        "today",
+        message: "La date doit être égale ou postérieure à aujourd'hui."
+    )]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Reponse $reponse = null;
+
 
     #[ORM\ManyToOne(inversedBy: 'reclamations')]
     private ?User $utilisateur = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Le prenom ne doit pas être vide.")]
+    #[Assert\Length(max:255, maxMessage:"Le prenom ne peut pas dépasser {{ limit }} caractères.")]
+    private ?string $prenom = null;
 
+
+
+    #[ORM\OneToOne(mappedBy: "idReclamation", cascade: ['remove'])]
+    private ?Reponse $reponse = null;
+
+    public function getReponse(): ?Reponse
+    {
+        return $this->reponse;
+    }
+
+    public function setReponse(?Reponse $reponse): void
+    {
+        $this->reponse = $reponse;
+    }
 
 
 
@@ -76,12 +108,12 @@ class Reclamation
         return $this;
     }
 
-    public function getNumTele(): ?string
+    public function getNumTele(): ?int
     {
         return $this->numTele;
     }
 
-    public function setNumTele(string $numTele): static
+    public function setNumTele(int $numTele): static
     {
         $this->numTele = $numTele;
 
@@ -136,17 +168,7 @@ class Reclamation
         return $this;
     }
 
-    public function getReponse(): ?Reponse
-    {
-        return $this->reponse;
-    }
 
-    public function setReponse(?Reponse $reponse): static
-    {
-        $this->reponse = $reponse;
-
-        return $this;
-    }
 
     public function getUtilisateur(): ?User
     {
@@ -159,6 +181,25 @@ class Reclamation
 
         return $this;
     }
+    public function __construct()
+    {
+        // Set the default value for date to the current date and time
+        $this->date = new \DateTime();
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): static
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+
 
 
 

@@ -1,0 +1,328 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Reponse{% endblock %}
+
+{% block body %}
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+
+            <!--begin::Container-->
+            <div id="kt_content_container" class="container-xxl">
+                <button class="btn btn-gradient-info btn-rounded btn-fw"><!--begin::Card title-->
+
+                    <a href="{{ path('app_reponse_index') }}" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                        <i class="fas fa-arrow-left"></i> Back to list
+                    </a>
+                </button>
+
+                <!--begin::Layout-->
+                <div class="d-flex flex-column flex-xl-row">
+                    <!--begin::Sidebar-->
+                    <div class="flex-column flex-lg-row-auto w-100 w-xl-350px mb-10">
+                        <!--begin::Card-->
+                        <div class="card mb-5 mb-xl-8">
+                            <!--begin::Card body-->
+                            <div class="card-body">
+                                <!--begin::Summary-->
+                                <!--begin::User Info-->
+                                <div class="d-flex flex-center flex-column py-5">
+                                    <!--begin::Avatar-->
+                                    <div class="symbol symbol-100px symbol-circle mb-7">
+                                        <img src="{{ asset('assets/media/avatars/12.jpg') }}" alt="image" />
+                                    </div>
+                                    <!--end::Avatar-->
+                                    <!--begin::Name-->
+                                    <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-3">{{ reclamation.nom|capitalize }} {{ reclamation.prenom|capitalize }}</a>
+                                    <!--end::Name-->
+                                    <!--begin::Position-->
+
+                                    <!--end::Position-->
+                                    <!--begin::Info-->
+
+                                    <div class="d-flex flex-wrap flex-center">
+
+                      <span class="{{ reclamation.etat == 'Traité' ? 'badge badge-light-success fs-7 fw-bold' : 'badge badge-light-danger fs-7 fw-bold' }}">
+                                {{ reclamation.etat }}
+                                </span>
+
+                                    </div>
+                                    <!--end::Info-->
+                                </div>
+                                <!--end::User Info-->
+                                <!--end::Summary-->
+                                <!--begin::Details toggle-->
+                                <div class="d-flex flex-stack fs-4 py-3">
+                                    <div class="fw-bolder rotate collapsible" data-bs-toggle="collapse" href="#kt_user_view_details" role="button" aria-expanded="false" aria-controls="kt_user_view_details">Details
+                                        <span class="ms-2 rotate-180">
+														<!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+														<span class="svg-icon svg-icon-3">
+															<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+																<path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="black" />
+															</svg>
+														</span>
+                                            <!--end::Svg Icon-->
+													</span></div>
+
+                                </div>
+                                <!--end::Details toggle-->
+                                <div class="separator"></div>
+                                <!--begin::Details content-->
+                                <div id="kt_user_view_details" class="collapse show">
+                                    <div class="pb-5 fs-6">
+                                        <!--begin::Details item-->
+                                        <div class="fw-bolder mt-5">Email</div>
+                                        <div class="text-gray-600">{{ reclamation.email }}</div>
+                                        <!--begin::Details item-->
+                                        <!--begin::Details item-->
+                                        <div class="fw-bolder mt-5">Phone</div>
+                                        <div class="text-gray-600">{{ reclamation.numTele }}</div>
+
+                                        <!--begin::Details item-->
+                                        <!--begin::Details item-->
+                                        <div class="fw-bolder mt-5">Sujet</div>
+                                        <div class="text-gray-600">{{ reclamation.sujet }}</div>
+                                        <!--begin::Details item-->
+                                        <!--begin::Details item-->
+                                        <div class="fw-bolder mt-5">Description</div>
+                                        <div class="text-gray-600">{{ reclamation.description }}</div>
+                                        <!--begin::Details item-->
+                                        <!--begin::Details item-->
+                                        <div class="fw-bolder mt-5">Date</div>
+                                        <div class="text-gray-600">{{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}</div>
+                                        <!--begin::Details item-->
+                                    </div>
+                                </div>
+                                <!--end::Details content-->
+                            </div>
+                            <!--end::Card body-->
+                        </div>
+                        <!--end::Card-->
+
+                    </div>
+                    <!--end::Sidebar-->
+                    <!--begin::Content-->
+                    <div class="flex-lg-row-fluid ms-lg-15">
+
+                        <!--begin:::Tab content-->
+                        <div class="tab-content" id="myTabContent">
+                            <!--begin:::Tab pane-->
+                            <div class="tab-pane fade show active" id="kt_user_view_overview_tab" role="tabpanel">
+                                <!--begin::Card-->
+                                <div class="card card-flush mb-6 mb-xl-9">
+                                    <!--begin::Card header-->
+                                    <div class="card-header mt-6">
+
+                                        <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15 , ">
+                                            <div class="d-flex justify-content-center">
+                                                <div class="col-md-8"> <!-- Utilisez la classe col-md-8 pour réduire la taille du formulaire -->
+
+                                                    <!--begin::Heading-->
+                                                    <div class="mb-13 text-center">
+                                                        <!--begin::Title-->
+                                                        <h1 class="mb-3">Reponse</h1>
+                                                        <!--end::Title-->
+                                                    </div>
+                                                    <!--end::Heading-->
+                                                    <!--begin::Input group-->
+                                                    <div class="d-flex flex-column mb-8">
+                                                        <label class="fs-6 fw-bold mb-2">Reponse:</label>
+                                                        <span class="fw-bold text-gray-800 fs-6">{{ reponse.reponse}}</span>                                                    </div>
+                                                    <div class="d-flex flex-column mb-8">
+                                                        <label class="fs-6 fw-bold mb-2">Date</label>
+                                                        <span class="fw-bold text-gray-800 fs-6">{{ reponse.date ? reponse.date|date('Y-m-d H:i:s') : '' }} </span>                                                   </div>
+                                                    <!--end::Input group-->
+                                                    <!--begin::Switch-->
+                                                    <!--end::Input group-->
+                                                    <!--begin::Input group-->
+                                                    <!--end::Input group-->
+                                                    <!--begin::Actions-->
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div style="display: flex; justify-content: space-between;">
+                                            <div class="menu-item px-3">
+                                                {{ include('reponse/_delete_form.html.twig') }}
+                                            </div>
+
+                                            <div class="menu-item px-3" style="margin-left: 10px;">
+                                                <a href="#" class="btn btn-light-success" data-bs-toggle="modal"
+                                                   data-bs-target="#kt_modal_new_target">
+
+                                                <i class="fas fa-edit"></i> Edit <!-- Ajout de l'icône Edit -->
+                                                </a>
+                                                <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
+                                                     aria-hidden="true">
+                                                    <!--begin::Modal dialog-->
+                                                    <div class="modal-dialog modal-dialog-centered mw-650px" id="mainModal">
+                                                        <!--begin::Modal content-->
+                                                        <div class="modal-content rounded" id="mainModal">
+                                                            <!--begin::Modal header-->
+                                                            <div class="modal-header pb-0 border-0 justify-content-end">
+                                                                <!--begin::Close-->
+                                                                <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                                                     data-bs-dismiss="modal">
+                                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                                    <span class="svg-icon svg-icon-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none">
+                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                  transform="rotate(-45 6 17.3137)" fill="black"/>
+                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                  transform="rotate(45 7.41422 6)" fill="black"/>
+                                        </svg>
+                                    </span>
+                                                                    <!--end::Svg Icon-->
+                                                                </div>
+                                                                <!--end::Close-->
+                                                            </div>
+                                                            <!--begin::Modal header-->
+                                                            <!--begin::Modal body-->
+                                                            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                                                {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'action': path('app_reponse_show', {'id': reponse.id})}, 'row_attr': {'class': 'justify-content-center'}}) }}
+                                                                <div class="mb-13 text-center">
+                                                                    <h1 class="mb-3">Modifier Reclamation</h1>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div class="col">
+                                                                        <label class="form-label fw-bolder text-dark fs-6">Reponse:</label>
+                                                                        {{ form_widget(form.reponse, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter your name'}}) }}
+
+
+{#
+                                                                        {{ form_row(form.reponse, {'label': 'Nom', 'attr': {'class': 'form-control'}}) }}
+#}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div class="col">
+                                                                        <label class="form-label fw-bolder text-dark fs-6">Date:</label>
+                                                                        {{ form_widget(form.date, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter your name'}}) }}
+
+{#
+                                                                        {{ form_row(form.date, {'label': 'Date de l\'événement', 'attr': {'class': 'form-control'}}) }}
+#}
+                                                                    </div>
+                                                                </div>
+                                                                <div class="text-center mt-5 mb-3">
+                                                                    <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
+                                                                        <span class="indicator-label">Update</span>
+                                                                        <span class="indicator-progress">Veuillez patienter...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+                                                                    </button>
+                                                                </div>
+                                                                {{ form_end(form) }}
+                                                            </div>
+
+                                                            <!--end::Modal body-->
+                                                        </div>
+                                                        <!--end::Modal content-->
+                                                    </div>
+                                                    <!--end::Modal dialog-->
+                                                </div>
+                                            </div>
+                                          {#  <div class="card-toolbar">
+                                                <a href="#" class="btn btn-light-success" data-bs-toggle="modal"
+                                                   data-bs-target="#kt_modal_new_target">
+
+                                                    Modifier
+                                                    Evenement</a>
+                                                <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
+                                                     aria-hidden="true">
+                                                    <!--begin::Modal dialog-->
+                                                    <div class="modal-dialog modal-dialog-centered mw-650px" id="mainModal">
+                                                        <!--begin::Modal content-->
+                                                        <div class="modal-content rounded" id="mainModal">
+                                                            <!--begin::Modal header-->
+                                                            <div class="modal-header pb-0 border-0 justify-content-end">
+                                                                <!--begin::Close-->
+                                                                <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                                                     data-bs-dismiss="modal">
+                                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                                    <span class="svg-icon svg-icon-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none">
+                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                  transform="rotate(-45 6 17.3137)" fill="black"/>
+                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                  transform="rotate(45 7.41422 6)" fill="black"/>
+                                        </svg>
+                                    </span>
+                                                                    <!--end::Svg Icon-->
+                                                                </div>
+                                                                <!--end::Close-->
+                                                            </div>
+                                                            <!--begin::Modal header-->
+                                                            <!--begin::Modal body-->
+                                                            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                                                {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'action': path('app_reponse_show', {'id': reponse.id})}}) }}
+                                                                <div class="mb-13 text-center">
+                                                                    <h1 class="mb-3">Modifier Evenement</h1>
+                                                                </div>
+                                                                {{ form_row(form.reponse, {'label': 'Nom'}) }}
+                                                                {{ form_row(form.date, {'label': 'Date de l\'événement'}) }}
+                                                                <div class="text-center mt-5 mb-3">
+                                                                    <button type="submit" id="kt_modal_new_target_submit" class="btn btn-primary">
+                                                                        <span class="indicator-label">Soumettre</span>
+                                                                        <span class="indicator-progress">Veuillez patienter...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+                                                                    </button>
+                                                                </div>
+                                                                {{ form_end(form) }}
+                                                            </div>
+                                                            <!--end::Modal body-->
+                                                        </div>
+                                                        <!--end::Modal content-->
+                                                    </div>
+                                                    <!--end::Modal dialog-->
+                                                </div>
+                                            </div>#}
+
+
+
+
+
+
+                                    </div>
+
+
+                                        {#<a href="{{ path('app_reponse_index') }}">back to list</a>#}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {#<h1>Reponse</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Date</th>
+                <td>{{ reponse.date ? reponse.date|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Reponse</th>
+                <td>{{ reponse.reponse }}</td>
+            </tr>
+        </tbody>
+    </table>
+#}
+    <a href="{{ path('app_reponse_index') }}">back to list</a>
+
+    <a href="{{ path('app_reponse_edit', {'id': reponse.id}) }}">edit</a>
+
+    {{ include('reponse/_delete_form.html.twig') }}
+
+{% endblock %}

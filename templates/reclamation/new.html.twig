@@ -122,19 +122,35 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="leave-comment">
+                    <div class= "text-center">
                         {{ form_start(form, {'attr': {'action': '#', 'class': 'form-contact contact_form', 'id': 'contactForm', 'novalidate': 'novalidate'}}) }}
-                        <div class="form-group">
-                            {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Enter your name'}}) }}
-                        </div>
-                        <div class="form-group">
-                            {{ form_widget(form.sujet, {'attr': {'class': 'form-control', 'placeholder': 'Enter Subject'}}) }}
-                        </div>
-                        <div class="form-group">
-                            {{  form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter Description'}}) }}
+                        <div class="form-group row">
+                            <div class="col">
+                                {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Enter your name'}}) }}
+                                <div style="color: red;">{{ form_errors(form.nom) }}</div> {# Affiche les erreurs de validation pour le champ nom #}
+                            </div>
+                            <div class="col">
+                                {{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Enter your surname'}}) }}
+                                <div style="color: red;">{{ form_errors(form.prenom) }}</div> {# Affiche les erreurs de validation pour le champ prénom #}
+                            </div>
                         </div>
 
-                        <button type="submit" class="button button-contactForm boxed-btn">Submit</button>
+                        <div class="form-group">
+                            {{ form_widget(form.sujet, {'attr': {'class': 'leave-comment form-control form-select form-select-lg', 'placeholder': 'Enter Subject'}}) }}
+                            <div style="color: red;">{{ form_errors(form.sujet) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form_widget(form.date, {'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter your date'}}) }}
+                            <div style="color: red;">{{ form_errors(form.date) }}</div> {# Affiche les erreurs de validation pour le champ date #}
+                        </div>
+                        <div class="form-group">
+                            {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter Description'}}) }}
+                            <div style="color: red;">{{ form_errors(form.description) }}</div> {# Affiche les erreurs de validation pour le champ description #}
+                        </div>
+
+                        <button type="submit" class="button button-contactForm boxed-btn" style="background-color: #f36100; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; transition: background-color 0.3s ease;">Submit</button>
+
                         {{ form_end(form) }}
                     </div>
                 </div>
@@ -147,3 +163,6 @@
 
 
 {% endblock %}
+
+
+

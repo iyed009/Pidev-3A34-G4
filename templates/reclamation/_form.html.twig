@@ -1,28 +1,97 @@
-<div class="col-lg-8">
-    {{ form_start(form, {'attr': {'class': 'form-contact contact_form', 'id': 'contactForm', 'novalidate': 'novalidate'}}) }}
-    <div class="row">
 
-        <div class="col-sm-6">
-            <div class="form-group">
-                {{ form_widget(form.nom, {'attr': {'class': 'form-control valid', 'placeholder': 'Enter your name'}}) }}
+
+<div class="d-flex flex-column flex-lg-row-fluid py-10 bg-white" xmlns="http://www.w3.org/1999/html">
+    <!--begin::Content-->
+    <div class="d-flex flex-center flex-column flex-column-fluid bg-white">
+        <!--begin::Wrapper-->
+        <div class="w-lg-600px p-10 p-lg-15 mx-auto">
+
+            {{ form_start(form, {'attr': {'class': 'form w-100', 'id': 'kt_sign_up_form', 'novalidate': 'novalidate'}}) }}
+            <div class="mb-10 text-center">
+
+                <div class="d-flex justify-content-between align-items-center mb-10">
+
+                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}" class="btn btn-light">
+                        <i class="fas fa-arrow-left"></i> <!-- Remplacez "fas fa-arrow-left" par la classe de votre icône -->
+                    </a>
+
+                    <h1 class="text-dark mb-3 pe-5 mx-auto">Edit Reclamation</h1>
+                </div>
+
+
+                <div class="d-flex align-items-center mb-10">
+                    <div class="border-bottom border-gray-300 mw-50 w-100"></div>
+                    <span class="{{ reclamation.etat == 'Traité' ? 'badge badge-light-success fs-7 fw-bold' : 'badge badge-light-danger fs-7 fw-bold' }}">
+                        {{ reclamation.etat }}
+                    </span>
+                    <div class="border-bottom border-gray-300 mw-50 w-100"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            {{ form_widget(form.nom, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter your name'}}) }}
+                            <div style="color: red;">{{ form_errors(form.nom) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            {{ form_widget(form.prenom, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter your name'}}) }}
+                            <div style="color: red;">{{ form_errors(form.prenom) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
+
+                        </div>
+                    </div>
+                    <div class="row fv-row mb-7">
+                        <!--begin::Col-->
+                        <div class="col-xl-6">
+                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            {{ form_widget(form.date, {'attr': {'placeholder': 'Date and time...', 'class': 'form-control form-control-lg form-control-solid datepicker'}}) }}
+                            <div style="color: red;">{{ form_errors(form.date) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
+
+                        </div>
+
+                        <!--end::Col-->
+                        <!--begin::Col-->
+                        <div class="col-xl-6">
+                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            {{ form_widget(form.sujet, {'attr': {'class': 'form-select form-select-lg form-select-solid'}}) }}
+                            <div style="color: red;">{{ form_errors(form.sujet) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
+
+                        </div>
+                        <!--end::Col-->
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter Description'}}) }}
+                            <div style="color: red;">{{ form_errors(form.description) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
+
+                        </div>
+                    </div>
+
+                    <div class="text-center" style="margin-top: 20px;"> <!-- Ajout de la marge supérieure -->
+                        <button type="submit" id="kt_sign_up_submit" class="btn btn-lg btn-primary">
+                            <span class="indicator-label">Update</span>
+                            <span class="indicator-progress">Please wait...
+                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                            </span>
+                        </button>
+                    </div>
+
+
+                </div>
+
+
             </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                {{ form_widget(form.sujet, {'attr': {'class': 'form-control', 'placeholder': 'Enter Subject'}}) }}
-            </div>
-        </div>
-        <div class="col-12">
-            <div class="form-group">
-                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter Description'}}) }}
-            </div>
+            {{ form_end(form) }}
         </div>
     </div>
-    <div class="form-group mt-3">
-        <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+    <div class="col-lg-3 offset-lg-1">
+        <!-- Your contact information code goes here -->
     </div>
-    {{ form_end(form) }}
 </div>
-<div class="col-lg-3 offset-lg-1">
-    <!-- Your contact information code goes here -->
-</div>
+
