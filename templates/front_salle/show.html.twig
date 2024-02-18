@@ -58,6 +58,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-lg-4 col-md-8 p-0">
+                    <div class="sidebar-option">
+                        <div class="so-categories">
+                            <h5 class="title">Activite</h5>
+                            {% for activite in activites %}
+                            <ul>
+                                <li><a href="{{ path('app_front_activite_show', {'id': activite.id}) }}">{{ activite.nom}} <span>{{ activite.date ? activite.date|date('D') : '' }} {{ activite.date ? activite.date|date('d') : '' }}, {{ activite.date ? activite.date|date('M') : '' }} | {{ activite.date ? activite.date|date('h:i') : '' }}</span></a></li>
+                            </ul>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

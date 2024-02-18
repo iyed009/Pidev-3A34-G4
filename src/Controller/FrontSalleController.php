@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Salle;
+use App\Form\ActiviteType;
 use App\Form\Salle1Type;
+use App\Repository\ActiviteRepository;
 use App\Repository\SalleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,10 +45,11 @@ class FrontSalleController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_front_salle_show', methods: ['GET'])]
-    public function show(Salle $salle): Response
+    public function show(Salle $salle,ActiviteRepository $activiteRepository): Response
     {
         return $this->render('front_salle/show.html.twig', [
             'salle' => $salle,
+            'activites' => $activiteRepository->findBySalle($salle)
         ]);
     }
 

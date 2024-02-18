@@ -1,0 +1,52 @@
+{% extends 'base1.html.twig' %}
+
+{% block body %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb-bg.jpg')}}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>Salles</h2>
+                        <div class="bt-option">
+                            <a href="./index.html">Home</a>
+                            <span>Salles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+    <section class="aboutus-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 p-0">
+                    <div style="background-image: url('{{ asset('uploads/' ~ activite.imageActivte) }}'); height: 640px; width: 760px;">
+                        <a href="{{ path('app_front_activite_show', {'id': activite.id}) }}">
+                            <img src="{{ asset('uploads/' ~ activite.imageActivte) }}" style="height: 100%; width: 100%;" alt="Evenement Image">
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6 p-0">
+                    <div class="about-text">
+                        <div class="section-title">
+                            <h2 style="color: #f36100; font-size: 24px; margin-bottom: 10px;">{{ activite.nom }}</h2>
+                            <div style="font-size: 18px; color: #555;">
+                                <h4 style="margin-bottom: 5px;"><span style="color:  #777;">Location:</span> <span style="color:  #ccc;">{{ activite.salle.nom }}</span></h4>
+                            </div>
+                            <p style="margin-bottom: 5px;">{{ activite.date ? activite.date|date('D') : '' }} {{ activite.date ? activite.date|date('d') : '' }}, {{ activite.date ? activite.date|date('M') : '' }} | {{ activite.date ? activite.date|date('h:i') : '' }}</p>
+                        </div>
+                        <div class="at-desc" style="font-size: 16px; color: #333;">
+                            <p>{{ activite.description }}</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- About US Section End -->
+{% endblock %}

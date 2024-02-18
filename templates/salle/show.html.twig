@@ -5,8 +5,6 @@
 {% block body %}
 <div style="margin-left: 20px; margin-top: 20px;margin-right: 20px;">
         <div class="d-flex flex-column flex-xl-row">
-
-
             <!--begin::Post-->
             <div class="post d-flex flex-column-fluid" id="kt_post">
                 <!--begin::Container-->
@@ -44,7 +42,6 @@
                     <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="black" />
                 </svg>
             </span>
-                                                <!--end::Svg Icon-->
         </span>
                                         </div>
                                         <div class="d-flex align-items-center">
@@ -56,9 +53,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-
-
                                     <!--end::Details toggle-->
                                     <div class="separator separator-dashed my-3"></div>
                                     <!--begin::Details content-->
@@ -97,18 +91,11 @@
                                 <!--end::Card body-->
                             </div>
                             <!--end::Card-->
-                            <!--begin::Connected Accounts-->
-
-                            <!--end::Connected Accounts-->
                         </div>
                         <!--end::Sidebar-->
-                        <!--begin::Content-->
-
-                        <!--end::Content-->
                     </div>
                     <!--end::Layout-->
                 </div>
-
                 <div class="modal fade" id="kt_modal_update_salle" tabindex="-1"
                      aria-hidden="true">
                     <!--begin::Modal dialog-->
@@ -137,39 +124,25 @@
                             <!--begin::Modal header-->
                             <!--begin::Modal body-->
                             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-
-
                                 {{ form_start(form, {'attr': {'id': 'kt_modal_update_salle', 'class': 'form', 'action': path('app_salle_show', {'id': salle.id}) }}) }}
-
                                 <div class="mb-13 text-center">
-
                                     <h1 class="mb-3">Modifier Salle</h1>
                                     <!--end::Title-->
-                                    <!--begin::Description-->
-
-                                    <!--end::Description-->
                                 </div>
                                 {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de la salle'}}) }}
-                                {{ form_row(form.addresse, {'label': 'addresse', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de la salle'}}) }}
-                                {{ form_row(form.numTel, {'label': 'numero', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
-                                {{ form_row(form.capacite, {'label': 'capacité', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
-                                {{ form_row(form.nbrClient, {'label': 'nombre abonné', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
-                                {{ form_row(form.description, {'label': 'description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
+                                {{ form_row(form.addresse, {'label': 'Addresse', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de la salle'}}) }}
+                                {{ form_row(form.numTel, {'label': 'Numero Téléphone', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
+                                {{ form_row(form.capacite, {'label': 'Capacitée', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
+                                {{ form_row(form.nbrClient, {'label': 'Nombre abonné', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
+                                {{ form_row(form.description, {'label': 'Description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
                                 {{ form_row(form.logoSalle, {
-                                    'label': 'logoSalle',
+                                    'label': 'Logo Salle',
                                     'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'},
                                     'attr': {'class': 'form-control form-control-solid', 'accept': 'image/*'}
                                 }) }}
-
-
-
-
-
                                 <!--end::Heading-->
-
                                 <!--begin::Actions-->
                                 <div class="text-center mt-5 mb-3">
-
                                     <button type="submit" id="kt_modal_new_target_submit"
                                             class="btn btn-primary">
                                         <span class="indicator-label">Soumettre</span>
@@ -177,10 +150,7 @@
                                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                         </span>
                                     </button>
-
                                 </div>
-
-
                                 <!--end::Actions-->
                                 {{ form_end(form) }}
                                 <!--end:Form-->
@@ -198,102 +168,21 @@
                             <div class="card-header align-items-center border-0 mt-4">
                                 <h3 class="card-title align-items-start flex-column">
                                     <span class="fw-bolder mb-2 text-dark">Activities</span>
-                                    <span class="text-muted fw-bold fs-7">890,344 Sales</span>
+                                    <span class="text-muted fw-bold fs-7">Nombre totale des activités: {{ salle.getActivite|length }}</span>
                                 </h3>
-                                <div class="card-toolbar">
-                                    <!--begin::Menu-->
-                                    <button type="button" class="btn btn-sm btn-icon btn-color-primary btn-active-light-primary" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
-                                        <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
-                                        <span class="svg-icon svg-icon-2">
-															<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
-																<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-																	<rect x="5" y="5" width="5" height="5" rx="1" fill="#000000" />
-																	<rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
-																	<rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
-																	<rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
-																</g>
-															</svg>
-														</span>
-                                        <!--end::Svg Icon-->
-                                    </button>
-                                    <!--begin::Menu 1-->
-                                    <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true" id="kt_menu_614858aa4506a">
-                                        <!--begin::Header-->
-                                        <div class="px-7 py-5">
-                                            <div class="fs-5 text-dark fw-bolder">Filter Options</div>
-                                        </div>
-                                        <!--end::Header-->
-                                        <!--begin::Menu separator-->
-                                        <div class="separator border-gray-200"></div>
-                                        <!--end::Menu separator-->
-                                        <!--begin::Form-->
-                                        <div class="px-7 py-5">
-                                            <!--begin::Input group-->
-                                            <div class="mb-10">
-                                                <!--begin::Label-->
-                                                <label class="form-label fw-bold">Status:</label>
-                                                <!--end::Label-->
-                                                <!--begin::Input-->
-                                                <div>
-                                                    <select class="form-select form-select-solid" data-kt-select2="true" data-placeholder="Select option" data-dropdown-parent="#kt_menu_614858aa4506a" data-allow-clear="true">
-                                                        <option></option>
-                                                        <option value="1">Approved</option>
-                                                        <option value="2">Pending</option>
-                                                        <option value="2">In Process</option>
-                                                        <option value="2">Rejected</option>
-                                                    </select>
-                                                </div>
-                                                <!--end::Input-->
-                                            </div>
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
-                                            <div class="mb-10">
-                                                <!--begin::Label-->
-                                                <label class="form-label fw-bold">Member Type:</label>
-                                                <!--end::Label-->
-                                                <!--begin::Options-->
-                                                <div class="d-flex">
-                                                    <!--begin::Options-->
-                                                    <label class="form-check form-check-sm form-check-custom form-check-solid me-5">
-                                                        <input class="form-check-input" type="checkbox" value="1" />
-                                                        <span class="form-check-label">Author</span>
-                                                    </label>
-                                                    <!--end::Options-->
-                                                    <!--begin::Options-->
-                                                    <label class="form-check form-check-sm form-check-custom form-check-solid">
-                                                        <input class="form-check-input" type="checkbox" value="2" checked="checked" />
-                                                        <span class="form-check-label">Customer</span>
-                                                    </label>
-                                                    <!--end::Options-->
-                                                </div>
-                                                <!--end::Options-->
-                                            </div>
-                                            <!--end::Input group-->
-                                            <!--begin::Input group-->
-                                            <div class="mb-10">
-                                                <!--begin::Label-->
-                                                <label class="form-label fw-bold">Notifications:</label>
-                                                <!--end::Label-->
-                                                <!--begin::Switch-->
-                                                <div class="form-check form-switch form-switch-sm form-check-custom form-check-solid">
-                                                    <input class="form-check-input" type="checkbox" value="" name="notifications" checked="checked" />
-                                                    <label class="form-check-label">Enabled</label>
-                                                </div>
-                                                <!--end::Switch-->
-                                            </div>
-                                            <!--end::Input group-->
-                                            <!--begin::Actions-->
-                                            <div class="d-flex justify-content-end">
-                                                <button type="reset" class="btn btn-sm btn-light btn-active-light-primary me-2" data-kt-menu-dismiss="true">Reset</button>
-                                                <button type="submit" class="btn btn-sm btn-primary" data-kt-menu-dismiss="true">Apply</button>
-                                            </div>
-                                            <!--end::Actions-->
-                                        </div>
-                                        <!--end::Form-->
-                                    </div>
-                                    <!--end::Menu 1-->
-                                    <!--end::Menu-->
-                                </div>
+                                <a href="{{ path('app_activite_index') }}" class="btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-primary border-0 me-n3 bg-primary">
+                                    <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+                                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="5" y="5" width="5" height="5" rx="1" fill="#FF00FF"/>
+                                <rect x="14" y="5" width="5" height="5" rx="1" fill="#FF00FF" opacity="0.3"/>
+                                <rect x="5" y="14" width="5" height="5" rx="1" fill="#FF00FF" opacity="0.3"/>
+                                <rect x="14" y="14" width="5" height="5" rx="1" fill="#FF00FF" opacity="0.3"/>
+                            </g>
+                        </svg>
+                    </span>
+                                </a>
                             </div>
                             <!--end::Header-->
                             <!--begin::Body-->
@@ -306,34 +195,23 @@
                                             <div class="timeline-badge">
                                                 <i class="fa fa-genderless fs-1 {{ macros.random_color_class() }}"></i>
                                             </div>
-                                            <div class="fw-mormal timeline-content text-muted ps-3">{{ activite.nom }}</div>
+                                            <div  class="fw-mormal timeline-content text-muted ps-3">{{ activite.nom }}</div>
+                                            <a href="{{ path('app_activite_show', {'id': activite.id}) }}" class="btn btn-light-success btn-sm btn-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                         </div>
                                     {% endfor %}
-                                </div>                                <!--end::Timeline-->
+                                </div>
                             </div>
                             <!--end: Card Body-->
                         </div>
                         <!--end: List Widget 5-->
                     </div>
                     <!--end::Col-->
-
-
-
-
-                    <!--end::Modals-->
                 </div>
                 <!--end::Container-->
             </div>
             <!--end::Post-->
-
     </div>
-
-
-
-
-
-
-
-
 {% endblock %}
 

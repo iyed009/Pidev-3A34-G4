@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Activite;
+use App\Entity\Salle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,6 +25,14 @@ class ActiviteRepository extends ServiceEntityRepository
 //    /**
 //     * @return Activite[] Returns an array of Activite objects
 //     */
+    public function findBySalle(Salle $salle)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.salle = :salle')
+            ->setParameter('salle', $salle)
+            ->getQuery()
+            ->getResult();
+    }
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('a')

@@ -56,7 +56,7 @@
 																	<path d="M12.0624 13.0453C13.7193 13.0453 15.0624 11.7022 15.0624 10.0453C15.0624 8.38849 13.7193 7.04535 12.0624 7.04535C10.4056 7.04535 9.06241 8.38849 9.06241 10.0453C9.06241 11.7022 10.4056 13.0453 12.0624 13.0453Z" fill="black" />
 																</svg>
 															</span>
-                                    <!--end::Svg Icon-->SF, Bay Area</a>
+                                    <!--end::Svg Icon-->{{ activite.salle.nom }}</a>
                                 <a href="#" class="d-flex align-items-center text-gray-400 text-hover-primary mb-2">
                                     <!--begin::Svg Icon | path: icons/duotune/communication/com011.svg-->
                                     <span class="svg-icon svg-icon-4 me-1">
@@ -100,11 +100,12 @@
 																		</svg>
 																	</span>
                                         <!--end::Svg Icon-->
-                                        <div class="fs-2 fw-bolder" data-kt-countup="true" data-kt-countup-value="4500" data-kt-countup-prefix="$">0</div>
+                                        <div class="fs-2 fw-bolder" data-kt-countup="true" data-kt-countup-value="4500" data-kt-countup-prefix="">
+                                            {{ activite.nbrMax }}</div>
                                     </div>
                                     <!--end::Number-->
                                     <!--begin::Label-->
-                                    <div class="fw-bold fs-6 text-gray-400">Earnings</div>
+                                    <div class="fw-bold fs-6 text-gray-400">Capacitée</div>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Stat-->
@@ -124,7 +125,7 @@
                                     </div>
                                     <!--end::Number-->
                                     <!--begin::Label-->
-                                    <div class="fw-bold fs-6 text-gray-400">Projects</div>
+                                    <div class="fw-bold fs-6 text-gray-400">Nbr Participant</div>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Stat-->
@@ -140,11 +141,11 @@
 																		</svg>
 																	</span>
                                         <!--end::Svg Icon-->
-                                        <div class="fs-2 fw-bolder" data-kt-countup="true" data-kt-countup-value="60" data-kt-countup-prefix="%">0</div>
+                                        <div class="fs-2 fw-bolder" data-kt-countup="true" data-kt-countup-value="60" data-kt-countup-prefix="">0</div>
                                     </div>
                                     <!--end::Number-->
                                     <!--begin::Label-->
-                                    <div class="fw-bold fs-6 text-gray-400">Success Rate</div>
+                                    <div class="fw-bold fs-6 text-gray-400">Place restatnte</div>
                                     <!--end::Label-->
                                 </div>
                                 <!--end::Stat-->
@@ -154,6 +155,7 @@
                         <!--end::Wrapper-->
                     </div>
                     <!--end::Stats-->
+
                 </div>
                 <!--end::Info-->
             </div>
@@ -192,24 +194,21 @@
 
                             <div class="mb-13 text-center">
 
-                                <h1 class="mb-3">Modifier Salle</h1>
+                                <h1 class="mb-3">Modifier Activitée</h1>
                                 <!--end::Title-->
                                 <!--begin::Description-->
 
                                 <!--end::Description-->
                             </div>
-                            {{ form_row(form.nom, {'label':'nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
+                            {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de l\'activitée'}}) }}
+                            {{ form_row(form.date, {'label': 'Date', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la date de l\'activitée'}}) }}
+                            {{ form_row(form.nbrMax, {'label': 'Capacitée', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la capacitée de l\'activitée'}}) }}
+                            {{ form_row(form.coach, {'label': 'Coach', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom du coach de l\'activitée'}}) }}
+                            {{ form_row(form.description, {'label': 'Description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de l\'activitée'}}) }}
+                            {{ form_row(form.salle, {'label': 'Salle', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Identifier la salle de l\'activitée'}}) }}
 
-                            <div class="form-group">
-                                {{ form_label(form.date)}}
-                                {{ form_widget(form.date, { 'attr': {'class': 'form-control form-control-solid ps-12 ', 'placeholder': 'Sélectionnez une date', 'id': 'date_evenement_input'}}) }}
-                                {{ form_errors(form.date) }}
-                            </div>
-                            {{ form_row(form.nbrMax, {'label': 'nbr_max', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
-                            {{ form_row(form.coach, {'label': 'coach', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
-                            {{ form_row(form.description, {'label': 'description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
                             {{ form_row(form.imageActivte, {
-                                'label': 'image_activte',
+                                'label': 'Image de l\'activitée',
                                 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'},
                                 'attr': {'class': 'form-control form-control-solid', 'accept': 'image/*'}
                             }) }}

@@ -46,7 +46,7 @@
                                                           fill="black"/>
 												</svg>
 											</span>
-                                    <!--end::Svg Icon-->Add New Sale</a>
+                                    <!--end::Svg Icon-->Ajouter une activitée</a>
                                 <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
                                      aria-hidden="true">
                                     <!--begin::Modal dialog-->
@@ -87,17 +87,15 @@
                                                     <!--end::Description-->
                                                 </div>
                                                 <!--end::Heading-->
-                                                {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de l\'événement'}}) }}
-                                                <div class="form-group">
-                                                    {{ form_label(form.date)}}
-                                                    {{ form_widget(form.date, { 'attr': {'class': 'form-control form-control-solid ps-12 ', 'placeholder': 'Sélectionnez une date', 'id': 'date_evenement_input'}}) }}
-                                                    {{ form_errors(form.date) }}
-                                                </div>
-                                                {{ form_row(form.nbrMax, {'label': 'nbr_max', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
-                                                {{ form_row(form.coach, {'label': 'coach', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
-                                                {{ form_row(form.description, {'label': 'description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
+                                                {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de l\'activitée'}}) }}
+                                                {{ form_row(form.date, {'label': 'Date', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la date de l\'activitée'}}) }}
+                                                {{ form_row(form.nbrMax, {'label': 'Capacitée', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la capacitée de l\'activitée'}}) }}
+                                                {{ form_row(form.coach, {'label': 'Coach', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom du coach de l\'activitée'}}) }}
+                                                {{ form_row(form.description, {'label': 'Description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de l\'activitée'}}) }}
+                                                {{ form_row(form.salle, {'label': 'Salle', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Identifier la salle de l\'activitée'}}) }}
+
                                                 {{ form_row(form.imageActivte, {
-                                                    'label': 'image_activte',
+                                                    'label': 'Image de l\'activitée',
                                                     'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'},
                                                     'attr': {'class': 'form-control form-control-solid', 'accept': 'image/*'}
                                                 }) }}

@@ -6,6 +6,8 @@ use App\Repository\SalleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+USE Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: SalleRepository::class)]
 class Salle
@@ -16,30 +18,37 @@ class Salle
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?string $addresse = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?int $numTel = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?int $capacite = null;
 
     #[ORM\Column(type: "text")]
+    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?string $description = null;
 
-    #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'salle')]
+    #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'salle',cascade: ['remove'])]
     private Collection $activite;
 
     #[ORM\ManyToOne(inversedBy: 'salles')]
     private ?User $utilisateur = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?int $nbrClient = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?string $logoSalle = null;
 
     public function __construct()

@@ -1165,6 +1165,12 @@ License: For each use you must have a valid license purchased only from above li
 												</span>
                                         <span class="menu-title">Liste salles </span>
                                     </a>
+                                    <a class="menu-link" href="{{ path('app_activite_index')}}" >
+												<span class="menu-bullet">
+													<span class="bullet bullet-dot"></span>
+												</span>
+                                        <span class="menu-title">Liste activités </span>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -4533,6 +4539,20 @@ License: For each use you must have a valid license purchased only from above li
     </script>
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
+    <script>
+        // Attendre que le document soit chargé
+        document.addEventListener('DOMContentLoaded', function () {
+            // Sélectionner l'élément avec la classe 'datepicker'
+            var datepicker = document.querySelector('.datepicker');
+
+            // Activer le sélecteur de temps
+            flatpickr(datepicker, {
+                enableTime: true, // Activer le sélecteur de temps
+                dateFormat: "Y-m-d H:i", // Format de date et d'heure
+                time_24hr: true // Utiliser le format 24h pour les heures
+            });
+        });
+    </script>
 {% endblock %}
 </body>
 <!--end::Body-->
