@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\AddAdminSalleType;
 use App\Form\EditType;
+use App\Form\PasswordUpdateType;
+use App\Form\UserProfileType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -13,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -96,6 +99,38 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/my-profile', name: 'app_my_profile', methods: ['GET'])]
+    public function myProfile(): Response
+    {
+        $user = $this->getUser();
+        //dump($user);
+        return $this->render('user/profileData.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/edit-profile', name: 'app_edit_profile')]
+    public function editProfile(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        $form = $this->createForm(UserProfileType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+
+            return $this->redirectToRoute('app_my_profile');
+        }
+
+        return $this->render('user/editProfile.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function showClient(User $user): Response
     {
@@ -112,6 +147,9 @@ class UserController extends AbstractController
         ]);
     }
 
+
+
+
     #[Route('/{id}/editClient', name: 'app_user_edit_Client', methods: ['GET', 'POST'])]
     public function editClient(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
@@ -127,6 +165,34 @@ class UserController extends AbstractController
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/update-password', name: 'app_user_update_password', methods: ['GET', 'POST'])]
+    public function updatePassword(Request $request, User $user, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(PasswordUpdateType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $newPassword = $form->get('newPassword')->getData();
+            $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
+            $user->setPassword($hashedPassword);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Password updated successfully.');
+
+            // Determine redirection based on user roles
+            if (in_array('ROLE_ADMIN', $user->getRoles())) {
+                return $this->redirectToRoute('user_list_role_AdminSalle');
+            } else {
+                return $this->redirectToRoute('user_list_role_client');
+            }
+        }
+
+        return $this->render('user/update_password.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
         ]);
     }
 

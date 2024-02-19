@@ -43,10 +43,14 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         $password = $request->request->get('password');
         $csrfToken = $request->request->get('_csrf_token');
 
+        if (empty($email) || empty($password)) {
+
+            throw new CustomUserMessageAuthenticationException('Fields must not be empty.');
+        }
+
         $userBadge = new UserBadge($email, function ($userIdentifier) {
             $user = $this->userRepository->findOneByEmail($userIdentifier);
             if (!$user) {
-
                 throw new CustomUserMessageAuthenticationException('Email not registered yet.');
             }
             return $user;
@@ -61,9 +65,10 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         );
     }
 
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-        // Check for the role and redirect accordingly
+
         if (in_array('ROLE_ADMIN', $token->getRoleNames())) {
 
             return new RedirectResponse($this->urlGenerator->generate('app_salle_index'));

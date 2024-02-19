@@ -90,16 +90,12 @@ License: For each use you must have a valid license purchased only from above li
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-3">
                                         <div class="menu-content d-flex align-items-center px-3">
-                                            <!--begin::Avatar-->
-                                            <div class="symbol symbol-50px me-5">
-                                                <img alt="Logo" src="assets/media/avatars/150-26.jpg" />
-                                            </div>
-                                            <!--end::Avatar-->
+    
                                             <!--begin::Username-->
                                             <div class="d-flex flex-column">
-                                                <div class="fw-bolder d-flex align-items-center fs-5">Max Smith
-                                                    <span class="badge badge-light-success fw-bolder fs-8 px-2 py-1 ms-2">Pro</span></div>
-                                                <a href="#" class="fw-bold text-muted text-hover-primary fs-7">max@kt.com</a>
+                                                <div class="fw-bolder d-flex align-items-center fs-5">{{app.user.nom}} {{app.user.prenom}}
+                                                    </div>
+                                                <a href="#" class="fw-bold text-muted text-hover-primary fs-7">{{app.user.email}}</a>
                                             </div>
                                             <!--end::Username-->
                                         </div>
@@ -1022,6 +1018,24 @@ License: For each use you must have a valid license purchased only from above li
                                 <span class="menu-title">Default</span>
                             </a>
                         </div>
+
+                        <div class="menu-item">
+                        <a class="menu-link" href="{{ path('app_my_profile') }}">
+                                    <span class="menu-icon">
+                                        <!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
+                                        <span class="svg-icon svg-icon-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <rect x="2" y="2" width="9" height="9" rx="2" fill="black" />
+                                                <rect opacity="0.3" x="13" y="2" width="9" height="9" rx="2" fill="black" />
+                                                <rect opacity="0.3" x="13" y="13" width="9" height="9" rx="2" fill="black" />
+                                                <rect opacity="0.3" x="2" y="13" width="9" height="9" rx="2" fill="black" />
+                                            </svg>
+                                        </span>
+                                        <!--end::Svg Icon-->
+                                    </span>
+                            <span class="menu-title">My Profile</span>
+                        </a>
+                    </div>
 
 
 
@@ -2687,6 +2701,7 @@ License: For each use you must have a valid license purchased only from above li
                         </div>
                         <!--end::Menu item-->
                         <!--begin::Menu item-->
+                        
                         <div class="menu-item px-3">
                             <a href="#" class="menu-link flex-stack px-3" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">Invite Contacts
                                 <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip" title="Specify a contact email to send an invitation"></i></a>

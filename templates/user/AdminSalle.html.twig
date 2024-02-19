@@ -33,9 +33,12 @@
                                         <a class="btn btn-primary" href="{{ path('app_user_show_Admin_Salle', {'id': user.id}) }}">
                                             View
                                         </a>
-                                        <a class="btn btn-primary" href="{{ path('app_user_edit_admin', {'id': user.id}) }}">
+                                        <a class="btn btn-secondary" href="{{ path('app_user_edit_admin', {'id': user.id}) }}">
                                             Edit
                                         </a>
+                                        <a class="btn btn-dark" href="{{ path('app_user_update_password', {'id': user.id}) }}">
+									       Edit PWD
+								        </a>
                                     </div>
                                     <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ user.id }}">
                                         Delete
