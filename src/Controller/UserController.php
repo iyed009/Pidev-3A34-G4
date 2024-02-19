@@ -208,7 +208,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_list_role_AdminSalle', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/edit.html.twig', [
+        return $this->renderForm('user/editAdmin.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);

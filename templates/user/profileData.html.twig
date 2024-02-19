@@ -1,76 +1,89 @@
 {% extends 'base2.html.twig' %}
 
-{% block title %}My Profile
-{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block stylesheets %}
-	<style>
-		.avatar-circle {
-			width: 100px;
-			height: 100px;
-			border-radius: 50%;
-			object-fit: cover;
-			margin-bottom: 20px;
-			display: block; /* Center the avatar */
-			margin-left: auto;
-			margin-right: auto;
-		}
-		.profile-info {
-			margin-bottom: 15px; /* Space between sections */
-		}
-		.profile-info h2 {
-			display: inline-block; /* Keep the label on the same line */
-			width: 20%; /* Adjust based on your layout */
-			min-width: 150px; /* Ensure it doesn't get too small on narrow screens */
-			text-align: left;
-		}
-		.profile-info .form-control {
-			display: inline-block; /* Align with the label */
-			width: 75%; /* Adjust based on your label width */
-			background-color: #f8f9fa; /* Disabled background color */
-			border: 1px solid #ced4da; /* Match disabled input border */
-			color: #495057; /* Text color similar to normal input */
-		}
-	</style>
+{{ parent() }}
+<style>
+    .profile-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .avatar-circle {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin: auto;
+        display: block;
+    }
+
+    .profile-info {
+        margin-bottom: 30px;
+    }
+
+    .profile-label {
+        font-weight: bold;
+        margin-bottom: .5rem;
+    }
+
+    .profile-value {
+        background-color: #f8f9fa;
+        border: none;
+        color: #495057;
+        padding: .375rem .75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: .25rem;
+    }
+
+    .btn-edit-profile {
+        display: block;
+        width: 100%;
+        max-width: 200px;
+        margin: 20px auto 0;
+    }
+</style>
 {% endblock %}
 
 {% block body %}
-	<div class="container mt-5">
-		<div class="card">
-			<div class="card-header">
-				<div class="profile-header">
-					<img src="{{ asset('path/to/user/avatar/' ~ user.avatar) }}" class="avatar-circle" alt="Profile Avatar">
-					<div>
-						<h1>{{ user.nom }}
-							{{ user.prenom }}</h1>
-						<p class="text-muted">{{ user.email }}</p>
-					</div>
-				</div>
-			</div>
-			<div class="card-body">
-				<div class="profile-info">
-					<h2>Email</h2>
-					<input type="text" class="form-control" value="{{ user.email }}" disabled>
-				</div>
-				<div class="profile-info">
-					<h2>Phone Number</h2>
-					<input type="text" class="form-control" value="{{ user.numTele }}" disabled>
-				</div>
-				<div class="profile-info">
-					<h2>Address</h2>
-					<input type="text" class="form-control" value="{{ user.adresse }}" disabled>
-				</div>
-				<div class="profile-info">
-					<h2>Address</h2>
-					<input type="text" class="form-control" value="{{ user.adresse }}" disabled>
-				</div>
-				<div class="profile-info">
-					<h2>Address</h2>
-					<input type="text" class="form-control" value="{{ user.adresse }}" disabled>
-				</div>
-				<div class="mt-4">
-					<a href="{{ path('app_edit_profile') }}" class="btn btn-primary">Edit Profile</a>
-				</div>
-			</div>
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header">
+            <div class="profile-header">
+                <img src="{{ asset('path/to/user/avatar/' ~ user.avatar) }}" class="avatar-circle" alt="Profile Avatar">
+                <h1>{{ user.nom }} {{ user.prenom }}</h1>
+                <p class="text-muted">{{ user.email }}</p>
+            </div>
         </div>
-		{% endblock %}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 profile-info">
+                    <p class="profile-label">Nom</p>
+                    <input type="text" class="form-control profile-value" value="{{ user.nom }}" disabled>
+                </div>
+                <div class="col-md-6 profile-info">
+                    <p class="profile-label">Prenom</p>
+                    <input type="text" class="form-control profile-value" value="{{ user.prenom }}" disabled>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 profile-info">
+                    <p class="profile-label">Email</p>
+                    <input type="text" class="form-control profile-value" value="{{ user.email }}" disabled>
+                </div>
+                <div class="col-md-6 profile-info">
+                    <p class="profile-label">Phone Number</p>
+                    <input type="text" class="form-control profile-value" value="{{ user.numTele }}" disabled>
+                </div>
+            </div>
+            <div class="profile-info">
+                <p class="profile-label">Address</p>
+                <input type="text" class="form-control profile-value" value="{{ user.adresse }}" disabled>
+            </div></br>
+            <a href="{{ path('app_edit_profile') }}" class="btn btn-primary btn-edit-profile">Edit Profile</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

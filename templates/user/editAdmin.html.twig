@@ -1,92 +1,39 @@
 {% extends 'base2.html.twig' %}
-{% block title %}
-    New User
-{% endblock %}
+
+{% block title %}Edit User{% endblock %}
+
 {% block body %}
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <h1>
-                            Create new Client
-                        </h1>
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center"> 
+                    <h1>Edit Admin</h1>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                    {% for field in form %}
+                        {% if field.vars.name != '_token' %}
+                            <div class="mb-3">
+                                {{ form_label(field) }}
+                                {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                                {% if field.vars.errors %}
+                                    <div class="text-danger">{{ form_errors(field) }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">{{ button_label|default('Update') }}</button>
+                        <a href="{{ path('user_list_role_AdminSalle') }}" class="btn btn-secondary">Back to list</a>
                     </div>
-                    <div class="card-body">
-                        {{ form_start(form, {'attr': {'class': 'form-horizontal' }}
-                        ) }}
-                        
-                                            
-                        <div class="mb-3">
-                            {{ form_label(form.nom) }}
-                            {{ form_widget(form.nom, {'attr': {'class': 'form-control' }}
-                            ) }}
-                                        
-                            <div class="text-danger">
-                                {{ form_errors(form.nom) }}
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            {{ form_label(form.prenom) }}
-                            {{ form_widget(form.prenom, {'attr': {'class': 'form-control' }}
-                            ) }}
-                                            
-                            <div class="text-danger">
-                                {{ form_errors(form.prenom) }}
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            {{ form_label(form.email) }}
-                            {{ form_widget(form.email, {'attr': {'class': 'form-control' }}
-                            ) }}
-                                            
-                            <div class="text-danger">
-                                {{ form_errors(form.email) }}
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            {{ form_label(form.password) }}
-                            {{ form_widget(form.password, {'attr': {'class': 'form-control' }}
-                            ) }}
-                                            
-                            <div class="text-danger">
-                                {{ form_errors(form.password) }}
-                            </div>
-                        </div>
-                        {# <div class="mb-3">
-                                                {{ form_label(form.roles) }}
-                                                {{ form_widget(form.roles, {'attr': {'class': 'form-control'}}) }}
-                                            </div> #}
-                        <div class="mb-3">
-                            {{ form_label(form.numTele) }}
-                            {{ form_widget(form.numTele, {'attr': {'class': 'form-control' }}
-                            ) }}
-                                            
-                            <div class="text-danger">
-                                {{ form_errors(form.numTele) }}
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            {{ form_label(form.adresse) }}
-                            {{ form_widget(form.adresse, {'attr': {'class': 'form-control' }}
-                            ) }}
-                                            
-                            <div class="text-danger">
-                                {{ form_errors(form.adresse) }}
-                            </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary">
-                                {{ button_label|default('Save') }}
-                            </button>
-                            <a href="{{ path('user_list_role_AdminSalle') }}" class="btn btn-secondary">
-                                Back to list
-                            </a>
-                        </div>
-                        {{ form_end(form) }}
-                    </div>
+
+                    {{ form_end(form) }}
                 </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
