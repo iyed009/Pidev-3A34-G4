@@ -1315,7 +1315,7 @@ License: For each use you must have a valid license purchased only from above li
                                 <!--begin::Actions-->
                                 <div class="d-flex">
                                     <!--begin::Action-->
-                                    <a href="#" class="btn btn-sm btn-icon btn-icon-muted btn-active-icon-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
+                                    {# <a href="#" class="btn btn-sm btn-icon btn-icon-muted btn-active-icon-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_invite_friends">
                                         <!--begin::Svg Icon | path: icons/duotune/communication/com006.svg-->
                                         <span class="svg-icon svg-icon-1">
 													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -1324,7 +1324,7 @@ License: For each use you must have a valid license purchased only from above li
 													</svg>
 												</span>
                                         <!--end::Svg Icon-->
-                                    </a>
+                                    </a> #}
                                     <!--end::Action-->
                                     <!--begin::Notifications-->
                                     <div class="d-flex align-items-center">
@@ -1854,8 +1854,13 @@ License: For each use you must have a valid license purchased only from above li
                                     </div>
                                     <!--end::Notifications-->
                                     <!--begin::Quick links-->
+                                    <!-- Logout Button Only -->
+
+
                                     <div class="d-flex align-items-center">
                                         <!--begin::Menu wrapper-->
+                                    <a href="{{ path('app_logout') }}" class="btn btn-primary">Logout</a>
+
                                         <a href="#" class="btn btn-sm btn-icon btn-icon-muted btn-active-icon-primary" data-kt-menu-trigger="click" data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end" data-kt-menu-flip="bottom">
                                             <!--begin::Svg Icon | path: icons/duotune/general/gen008.svg-->
                                             <span class="svg-icon svg-icon-1">

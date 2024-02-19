@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 
 class UserType extends AbstractType
 {
@@ -18,7 +19,13 @@ class UserType extends AbstractType
             ->add('prenom')
             ->add('email')
             ->add('numTele')
-            ->add('password', PasswordType::class)
+            ->add('password', RepeatedType::class, [
+                'type' => PasswordType::class,
+                'first_options' => ['label' => 'Password'],
+                'second_options' => ['label' => 'Confirm Password'],
+                'invalid_message' => 'The password fields must match.',
+                'required' => true,
+            ])
             ->add('adresse');
     }
 
@@ -26,6 +33,7 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'attr' => ['novalidate' => 'novalidate'],
             'empty_data' => function () {
                 $user = new User();
                 $user->setRoles(['ROLE_CLIENT']);
