@@ -1,0 +1,33 @@
+<form method="post" action="{{ path('app_ticket_delete', {'id': ticket.id}) }}" id="deleteForm_{{ ticket.id }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ ticket.id) }}">
+    <button class="btn btn-light-danger align-self-center delete-button" data-id="{{ ticket.id }}">
+        <i class="bi bi-trash"></i>
+    </button>
+</form>
+
+<script>
+    // Add event listener to deletion buttons
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const ticketId = button.dataset.id;
+
+            // Display confirmation dialog using SweetAlert2
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'You will not be able to recover this ticket!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit the form if user confirms deletion
+                    document.getElementById('deleteForm_' + ticketId).submit();
+                }
+            });
+        });
+    });
+</script>

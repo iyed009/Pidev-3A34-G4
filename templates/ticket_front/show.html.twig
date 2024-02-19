@@ -1,0 +1,60 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Ticket{% endblock %}
+
+{% block body %}
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb-bg.jpg')}}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>Ticket</h2>
+                        <div class="bt-option">
+                            <a href="#">Home</a>
+                            <span>Ticket</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+
+
+
+    <!-- Pricing Section Begin -->
+    <section class="pricing-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-title">
+                        <span>VOICI</span>
+                        <h2>Votre ticket !</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-4 col-md-8">
+                    <div class="ps-item">
+                        <h3>TICKET</h3>
+                        <div class="pi-price">
+                            <h2>{{ ticket.prix }}   DT</h2>
+                            <span>{{ ticket.type }}</span>
+                        </div>
+                        <ul>
+                            <li>{{ ticket.nbreTicket }}</li>
+
+                        </ul>
+                        <a href="#" class="primary-btn pricing-btn">Enroll now</a>
+                        <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- Pricing Section End -->
+{% endblock %}

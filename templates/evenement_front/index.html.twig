@@ -1,0 +1,68 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Liste evenement{% endblock %}
+
+{% block body %}
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb-bg.jpg')}}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>Evenement</h2>
+                        <div class="bt-option">
+                            <a href="#">Home</a>
+                            <span>Evenement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Team Section Begin -->
+    <section class="team-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="team-title">
+                        <div class="section-title">
+                            <span>NOS EVENEMENTS</span>
+                            <h2>Défiez vos limites, rejoignez l'action!</h2>
+                        </div>
+                        <a href="#" class="primary-btn btn-normal appoinment-btn">Reserver</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="ts-slider owl-carousel">
+                    {% for evenement in evenements %}
+
+                    <div class="col-lg-4">
+
+                        <div  class="ts-item set-bg" >
+                            <a href="{{ path('app_evenement_front_show', {'id': evenement.id}) }}">
+                                <img src="{{ asset('uploads/' ~ evenement.imageEvenement) }}" alt="Evenement Image">
+                            </a>
+
+                            <div class="ts_text">
+                                <h4  style="color: #f36100;">{{ evenement.nom }}</h4>
+                                <span> {{ evenement.dateEvenement ? evenement.dateEvenement|date('D') : '' }}{{ evenement.dateEvenement ? evenement.dateEvenement|date('d') : '' }},{{ evenement.dateEvenement ? evenement.dateEvenement|date('M') : '' }}</span>
+                                <span>{{ evenement.dateEvenement ? evenement.dateEvenement|date('h:i') : '' }}</span>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+    <!-- Team Section End -->
+{% endblock %}

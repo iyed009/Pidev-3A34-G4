@@ -1,0 +1,68 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Liste evenement{% endblock %}
+
+{% block body %}
+<!-- Breadcrumb Section Begin -->
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-section set-bg" data-setbg={{ asset('img/breadcrumb-bg.jpg')}}>
+    <div class="container">
+        <div class="row"> 
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb-text">
+                    <h2>Our Blog</h2>
+                    <div class="bt-option"> 
+                        <a href="./index.html">Home</a>
+                        <a href="#">Produits</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Blog Section Begin -->
+<section class="team-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="team-title">
+                    <div class="section-title">
+                        <span>NOS PRODUITS</span>
+                        <h2>Elevate your game. Elevate your gains!</h2>
+                    </div>
+                    <button class="primary-btn btn-normal appoinment-btn" >Catégorie</button>
+                </div>
+            </div>
+        </div>
+        <!-- Liste des catégories cachée (initialement) -->
+
+        <section class="team-section team-page spad">
+            <div class="container">
+                <div class="row">
+                    {% for prod in products %}
+                        <div class="col-lg-4 col-sm-6">
+                            <div class="ts-item set-bg" >
+                                <a href="{{ path('app_porduct_front_show', {'id': prod.id}) }}">
+                                    <img src="{{ asset('uploads/' ~ prod.image) }}" alt="Product Image">
+                                </a>
+                                <div class="ts_text">
+                                    <h4>{{ prod.name }}</h4>
+                                    <span>{{ prod.categoriep.name }}</span>
+                                    <!-- Ajoutez d'autres informations de produit si nécessaire -->
+                                    <div class="tt_social">
+                                        <!-- Ajoutez des liens vers les réseaux sociaux ou d'autres actions si nécessaire -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </section>
+        <!-- Team Section End -->
+
+{% endblock %}

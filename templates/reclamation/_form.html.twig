@@ -1,0 +1,28 @@
+<div class="col-lg-8">
+    {{ form_start(form, {'attr': {'class': 'form-contact contact_form', 'id': 'contactForm', 'novalidate': 'novalidate'}}) }}
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                {{ form_widget(form.nom, {'attr': {'class': 'form-control valid', 'placeholder': 'Enter your name'}}) }}
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                {{ form_widget(form.sujet, {'attr': {'class': 'form-control', 'placeholder': 'Enter Subject'}}) }}
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group">
+                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter Description'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="form-group mt-3">
+        <button type="submit" class="button button-contactForm boxed-btn">Send</button>
+    </div>
+    {{ form_end(form) }}
+</div>
+<div class="col-lg-3 offset-lg-1">
+    <!-- Your contact information code goes here -->
+</div>

@@ -1,0 +1,69 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Evenement{% endblock %}
+
+{% block body %}
+
+
+
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/breadcrumb-bg.jpg')}}">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>Evenement</h2>
+                        <div class="bt-option">
+                            <a href="#">Home</a>
+                            <span>Evenement</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+
+
+    <!-- About US Section Begin -->
+    <section class="aboutus-section">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 p-0">
+                    <div style="background-image: url('{{ asset('uploads/' ~ evenement.imageEvenement) }}'); height: 640px; width: 760px;">
+                        <a href="{{ path('app_evenement_front_show', {'id': evenement.id}) }}">
+                            <img src="{{ asset('uploads/' ~ evenement.imageEvenement) }}" style="height: 100%; width: 100%;" alt="Evenement Image">
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-6 p-0">
+                    <div class="about-text">
+                        <div class="section-title">
+                            <h2 style="color: #f36100; font-size: 24px; margin-bottom: 10px;">{{ evenement.nom }}</h2>
+                            <div style="font-size: 18px; color: #555;">
+                                <h4 style="margin-bottom: 5px;"><span style="color:  #777;">Location:</span> <span style="color:  #ccc;">{{ evenement.lieu }}</span></h4>
+                                <p style="margin-bottom: 5px;">{{ evenement.dateEvenement ? evenement.dateEvenement|date('D') : '' }} {{ evenement.dateEvenement ? evenement.dateEvenement|date('d') : '' }}, {{ evenement.dateEvenement ? evenement.dateEvenement|date('M') : '' }} | {{ evenement.dateEvenement ? evenement.dateEvenement|date('h:i') : '' }}</p>
+                            </div>
+                        </div>
+                        <div class="at-desc" style="font-size: 16px; color: #333;">
+                            <p>{{ evenement.description }}</p>
+                        </div>
+                        <div class="about-bar">
+                            <a href="{{ path('app_ticket_front_show', {'id': evenement.id}) }}" class="primary-btn btn-normal appoinment-btn">Reserver</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- About US Section End -->
+
+
+{% endblock %}
