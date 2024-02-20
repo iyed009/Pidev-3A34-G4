@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ActiviteRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+USE Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ActiviteRepository::class)]
 class Activite
@@ -15,18 +16,24 @@ class Activite
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Nombre maximal manquant !")]
+    #[Assert\Type(type: 'integer', message: "Le nombre maximal doit être un entier !")]
+    #[Assert\GreaterThan(value: 0, message: "Le nombre maximal doit être supérieur à 0 !")]
     private ?int $nbrMax = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Nom du coach manquant !")]
     private ?string $coach = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Description manquante !")]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'activite')]
@@ -37,6 +44,12 @@ class Activite
 
     #[ORM\Column(length: 255)]
     private ?string $imageActivte = null;
+
+
+    public function __construct()
+    {
+        $this->date = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -138,4 +151,5 @@ class Activite
 
         return $this;
     }
+
 }

@@ -104,7 +104,7 @@
                         <div class="modal-content rounded" id="mainModal">
                             <!--begin::Modal header-->
                             <div class="modal-header pb-0 border-0 justify-content-end">
-                                <!--begin::Close-->
+                                <!--begin::kt_modal_new_target-->
                                 <div class="btn btn-sm btn-icon btn-active-color-primary"
                                      data-bs-dismiss="modal">
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
@@ -124,7 +124,7 @@
                             <!--begin::Modal header-->
                             <!--begin::Modal body-->
                             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                                {{ form_start(form, {'attr': {'id': 'kt_modal_update_salle', 'class': 'form', 'action': path('app_salle_show', {'id': salle.id}) }}) }}
+                                {{ form_start(form, {'attr': {'novalidate': 'novalidate','id': 'kt_modal_update_salle', 'class': 'form', 'action': path('app_salle_show', {'id': salle.id}) }}) }}
                                 <div class="mb-13 text-center">
                                     <h1 class="mb-3">Modifier Salle</h1>
                                     <!--end::Title-->
@@ -143,7 +143,7 @@
                                 <!--end::Heading-->
                                 <!--begin::Actions-->
                                 <div class="text-center mt-5 mb-3">
-                                    <button type="submit" id="kt_modal_new_target_submit"
+                                    <button type="submit" id="kt_modal_update_salle_submit"
                                             class="btn btn-primary">
                                         <span class="indicator-label">Soumettre</span>
                                         <span class="indicator-progress">Veuillez patienter...
@@ -213,5 +213,26 @@
             </div>
             <!--end::Post-->
     </div>
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modal = document.getElementById('kt_modal_update_salle');
+                if (modal) {
+                    modal.classList.add('show');
+                    modal.style.display = 'block';
+                    modal.setAttribute('aria-modal', true);
+                }
+                var closeModalButton = document.getElementById('close-modal');
+
+                if (closeModalButton && modal) {
+                    closeModalButton.addEventListener('click', function() {
+                        modal.classList.remove('show');
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-modal', false);
+                    });
+                }
+            });
+        </script>
+    {% endif %}
 {% endblock %}
 

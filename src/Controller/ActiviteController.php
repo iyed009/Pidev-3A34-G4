@@ -45,10 +45,11 @@ class ActiviteController extends AbstractController
         return $this->render('activite/index.html.twig', [
             'activites' => $activiteRepository->findAll(),
             'form' => $form->createView(),
+            'errors' => $form->getErrors(true, false),
         ]);
     }
 
-    #[Route('/new', name: 'app_activite_new', methods: ['GET', 'POST'])]
+  /*  #[Route('/new', name: 'app_activite_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $activite = new Activite();
@@ -67,7 +68,7 @@ class ActiviteController extends AbstractController
             'form' => $form,
         ]);
     }
-
+*/
 
 
 
@@ -103,10 +104,11 @@ class ActiviteController extends AbstractController
         return $this->render('activite/show.html.twig', [
             'activite' => $activite,
             'form' => $form->createView(),
+            'errors' => $form->getErrors(true, false),
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_activite_edit', methods: ['GET', 'POST'])]
+  /*  #[Route('/{id}/edit', name: 'app_activite_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Activite $activite, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ActiviteType::class, $activite);
@@ -122,7 +124,7 @@ class ActiviteController extends AbstractController
             'activite' => $activite,
             'form' => $form,
         ]);
-    }
+    }*/
 
     #[Route('/{id}/delete', name: 'app_activite_delete', methods: ['POST'])]
     public function delete(Request $request, Activite $activite, EntityManagerInterface $entityManager): Response

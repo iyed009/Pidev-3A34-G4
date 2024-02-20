@@ -104,6 +104,13 @@
                 <nav class="nav-menu">
                     <ul>
                         <li class="active"><a href="./index.html">Home</a></li>
+                        <li><a href="#">Salles</a>
+                            <ul class="dropdown">
+                                <li><a href="{{ path('app_front_salle_index') }}">Salles</a></li>
+                                <li><a href="{{ path('app_front_activite_index') }}">Activités</a></li>
+
+                            </ul>
+                        </li>
                         <li><a href="./about-us.html">About Us</a></li>
                         <li><a href="./class-details.html">Classes</a></li>
                         <li><a href="./services.html">Services</a></li>

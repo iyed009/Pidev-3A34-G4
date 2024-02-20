@@ -35,7 +35,7 @@
                             <div class="card-header border-0 pt-5">
 
                                 <div class="card-toolbar">
-                                    <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                                    <a href="" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
                                        data-bs-target="#kt_modal_new_target">
                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                         <span class="svg-icon svg-icon-2">
@@ -58,7 +58,7 @@
                                                 <div class="modal-header pb-0 border-0 justify-content-end">
                                                     <!--begin::Close-->
                                                     <div class="btn btn-sm btn-icon btn-active-color-primary"
-                                                         data-bs-dismiss="modal">
+                                                         data-bs-dismiss="modal" id="close-modal">
                                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                         <span class="svg-icon svg-icon-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -77,15 +77,12 @@
                                                 <!--begin::Modal body-->
                                                 <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                                                     <!--begin:Form-->
-                                                    {{ form_start(form, {'attr': {'id':'kt_modal_new_target_form', 'class': 'form', 'action': '#', 'novalidate': 'novalidate'  }}) }}
+                                                    {{ form_start(form, {'attr': {'id':'+', 'class': 'form', 'action': '#', 'novalidate': 'novalidate'  }}) }}
                                                     <!--begin::Heading-->
                                                     <div class="mb-13 text-center">
                                                         <!--begin::Title-->
                                                         <h1 class="mb-3">Ajouter Salle</h1>
                                                         <!--end::Title-->
-                                                        <!--begin::Description-->
-
-                                                        <!--end::Description-->
                                                     </div>
                                                     <!--end::Heading-->
                                                     {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de la Salle'}}) }}
@@ -129,12 +126,6 @@
                                 </div>
 
                             </div>
-
-
-                            <!--end::Search-->
-
-
-                            <!--end::Card toolbar-->
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
@@ -195,8 +186,6 @@
                                 <!--end::Table body-->
                             </table>
                             <!--end::Table-->
-
-
                         </div>
                         <!--end::Card body-->
                     </div>
@@ -206,4 +195,25 @@
             </div>
             <!--end::Post-->
         </div>
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modal = document.getElementById('kt_modal_new_target');
+                if (modal) {
+                    modal.classList.add('show');
+                    modal.style.display = 'block';
+                    modal.setAttribute('aria-modal', true);
+                }
+                var closeModalButton = document.getElementById('close-modal');
+
+                if (closeModalButton && modal) {
+                    closeModalButton.addEventListener('click', function() {
+                        modal.classList.remove('show');
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-modal', false);
+                    });
+                }
+            });
+        </script>
+    {% endif %}
 {% endblock %}

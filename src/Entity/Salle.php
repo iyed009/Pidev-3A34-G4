@@ -22,34 +22,40 @@ class Salle
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Nom manquant !")]
+    #[Assert\NotBlank(message: "Adresse manquante !")]
     private ?string $addresse = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: "Nom manquant !")]
+    #[Assert\NotBlank(message: "Numéro de téléphone manquant !")]
+    #[Assert\Type(type: 'integer', message: "Le numéro de téléphone doit être un entier !")]
+    #[Assert\Length(exactly:8,exactMessage: "Le numéro de téléphone doit contenir exactement 8 chiffres." )]
     private ?int $numTel = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: "Nom manquant !")]
+    #[Assert\NotBlank(message: "Capacité manquante !")]
+    #[Assert\Type(type: 'integer', message: "La capacité doit être un entier !")]
+    #[Assert\GreaterThan(value: 0, message: "La capacité doit être supérieure à 0 !")]
     private ?int $capacite = null;
 
     #[ORM\Column(type: "text")]
-    #[Assert\NotBlank(message: "Nom manquant !")]
+    #[Assert\NotBlank(message: "Description manquante !")]
     private ?string $description = null;
 
-    #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'salle',cascade: ['remove'])]
+    #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'salle', cascade: ['remove'])]
     private Collection $activite;
 
     #[ORM\ManyToOne(inversedBy: 'salles')]
     private ?User $utilisateur = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: "Nom manquant !")]
+    #[Assert\NotBlank(message: "Nombre d'abonné' manquant !")]
+    #[Assert\Type(type: 'integer', message: "Le nombre de clients doit être un entier !")]
+    #[Assert\GreaterThanOrEqual(value: 0, message: "Le nombre de clients doit être supérieur ou égal à 0 !")]
     private ?int $nbrClient = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?string $logoSalle = null;
+
 
     public function __construct()
     {

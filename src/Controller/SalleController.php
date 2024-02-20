@@ -108,6 +108,7 @@ class SalleController extends AbstractController
         return $this->render('salle/show.html.twig', [
             'salle' => $salle,
             'form' => $form->createView(),
+            'errors' => $form->getErrors(true, false),
             'activites' => $activiteRepository->findBySalle($salle)
         ]);
     }
