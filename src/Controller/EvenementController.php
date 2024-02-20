@@ -46,6 +46,8 @@ class EvenementController extends AbstractController
             return $this->render('evenement/index.html.twig', [
                 'evenements' => $evenementRepository->findAll(),
                 'form' => $form->createView(),
+                'errors' => $form->getErrors(true, false),
+
             ]);
         }
 

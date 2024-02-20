@@ -4457,7 +4457,8 @@ License: For each use you must have a valid license purchased only from above li
 </div>
 <!--end::Scrolltop-->
 <!--end::Main-->
-
+{% block js2 %}
+{% endblock %}
 
 {% block js %}
     <script>var hostUrl = "assets/";</script>
@@ -4474,6 +4475,8 @@ License: For each use you must have a valid license purchased only from above li
     <script src="{{ asset('assets/js/custom/apps/chat/chat.js')}}"></script>
     <script src="{{ asset('assets/js/custom/modals/create-app.js')}}"></script>
     <script src="{{ asset('assets/js/custom/modals/upgrade-plan.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <script>
         // Attendre que le document soit chargé
@@ -4487,8 +4490,9 @@ License: For each use you must have a valid license purchased only from above li
                 dateFormat: "Y-m-d H:i", // Format de date et d'heure
                 time_24hr: true // Utiliser le format 24h pour les heures
             });
-        });
+        %});
     </script>
+
 
 
     <!--end::Page Custom Javascript-->

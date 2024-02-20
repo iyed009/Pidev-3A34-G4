@@ -58,7 +58,7 @@
                                             <div class="modal-header pb-0 border-0 justify-content-end">
                                                 <!--begin::Close-->
                                                 <div class="btn btn-sm btn-icon btn-active-color-primary"
-                                                     data-bs-dismiss="modal">
+                                                     data-bs-dismiss="modal" id="close-modal">
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                     <span class="svg-icon svg-icon-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -77,7 +77,7 @@
                                             <!--begin::Modal body-->
                                             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                                                 <!--begin:Form-->
-                                                {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'class': 'form', 'action': '#' }}) }}
+                                                {{ form_start(form, {'attr': {'novalidate': 'novalidate','id': 'kt_modal_new_target_form', 'class': 'form', 'action': '#' }}) }}
                                                 <!--begin::Heading-->
                                                 <div class="mb-13 text-center">
                                                     <!--begin::Title-->
@@ -94,7 +94,7 @@
 
 
                                                 <div class="form-group">
-                                                {{ form_label(form.date_evenement) }}
+                                                {{ form_label(form.date_evenement,'Date :',{'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}}) }}
                                                 {{ form_widget(form.date_evenement, { 'attr': {'class': 'form-control form-control-solid ps-12 ', 'placeholder': 'Sélectionnez une date', 'id': 'date_evenement_input'}}) }}
                                                 {{ form_errors(form.date_evenement) }}
                                                 </div>
@@ -214,5 +214,27 @@
         </div>
         <!--end::Post-->
     </div>
+
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modal = document.getElementById('kt_modal_new_target');
+                if (modal) {
+                    modal.classList.add('show');
+                    modal.style.display = 'block';
+                    modal.setAttribute('aria-modal', true);
+                }
+                var closeModalButton = document.getElementById('close-modal');
+
+                if (closeModalButton && modal) {
+                    closeModalButton.addEventListener('click', function() {
+                        modal.classList.remove('show');
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-modal', false);
+                    });
+                }
+            });
+        </script>
+    {% endif %}
 
 {% endblock %}

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\TicketRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 class Ticket
@@ -14,15 +16,20 @@ class Ticket
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:"Le prix ne doit pas etre  null ")]
     private ?int $prix = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Le type  ne doit pas être vide.")]
+    #[Assert\Length(max:255, maxMessage:"Le type ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $type = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:"Le nbreTicket ne doit pas etre  null ")]
     private ?int $nbreTicket = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[Assert\NotBlank(message:"Merci de saisir un évenement ")]
     private ?Evenement $evenement = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]

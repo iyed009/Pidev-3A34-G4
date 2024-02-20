@@ -46,7 +46,7 @@
 
 
                                 <div class="card-toolbar">
-                                    <a href="#" class="btn btn-light-success" data-bs-toggle="modal"
+                                    <a   class="btn btn-light-success" data-bs-toggle="modal"
                                        data-bs-target="#kt_modal_new_target">
 
                                         Modifier
@@ -80,7 +80,7 @@
                                                 <!--begin::Modal body-->
                                                 <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
 
-                                                    {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'class': 'form', 'action': path('app_ticket_show', {'id': ticket.id}) }}) }}
+                                                    {{ form_start(form, {'attr': {'novalidate': 'novalidate','id': 'kt_modal_new_target_form', 'class': 'form', 'action': path('app_ticket_show', {'id': ticket.id}) }}) }}
                                                     <div class="mb-13 text-center">
 
                                                         <h1 class="mb-3">Modifier ticket</h1>
@@ -91,10 +91,21 @@
                                                     </div>
                                                     <!--end::Heading-->
                                                     {{ form_row(form.evenement, {'label': 'Evenement', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de l\'événement'}}) }}
+
+
+
+
+
                                                     {{ form_row(form.nbreTicket, {'label': 'Nombre Tickets', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de l\'événement'}}) }}
+
+
                                                     {{ form_row(form.type, {'label': 'Type', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
 
                                                     {{ form_row(form.prix, {'label': 'Prix', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de l\'événement'}}) }}
+
+                                                    {{ form_errors(form.prix) }}
+
+
 
                                                     <!--begin::Actions-->
                                                     <div class="text-center mt-5 mb-3">
@@ -195,6 +206,7 @@
             <!--end::Container-->
         </div>
         <!--end::Post-->
+
 
 
 

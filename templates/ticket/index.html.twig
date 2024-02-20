@@ -36,7 +36,7 @@
 
                         <div class="card-toolbar">
                             <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
-                               data-bs-target="#kt_modal_new_target">
+                               data-bs-target="#kt_modal_new_target" id="openModalButton">
                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                 <span class="svg-icon svg-icon-2">
 												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -50,7 +50,7 @@
                                 <!--end::Svg Icon-->
                                 Ajouter Ticket</a>
                             <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
-                                 aria-hidden="true">
+                                 aria-hidden="true" >
                                 <!--begin::Modal dialog-->
                                 <div class="modal-dialog modal-dialog-centered mw-650px" id="mainModal">
                                     <!--begin::Modal content-->
@@ -59,7 +59,7 @@
                                         <div class="modal-header pb-0 border-0 justify-content-end">
                                             <!--begin::Close-->
                                             <div class="btn btn-sm btn-icon btn-active-color-primary"
-                                                 data-bs-dismiss="modal">
+                                                 data-bs-dismiss="modal" id="close-modal">
                                                 <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                 <span class="svg-icon svg-icon-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -78,7 +78,7 @@
                                         <!--begin::Modal body-->
                                         <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                                             <!--begin:Form-->
-                                            {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'class': 'form', 'action': '#' }}) }}
+                                            {{ form_start(form, {'attr': {'novalidate': 'novalidate','id': 'kt_modal_new_target_form', 'class': 'form', 'action': '' }}) }}
                                             <!--begin::Heading-->
                                             <div class="mb-13 text-center">
                                                 <!--begin::Title-->
@@ -89,14 +89,21 @@
                                                 <!--end::Description-->
                                             </div>
                                             <!--end::Heading-->
-                                            {{ form_row(form.nbreTicket, {'label': 'Nbre Ticket', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nbr'}}) }}
-                                            {{ form_row(form.prix, {'label': 'Prix', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le prix'}}) }}
-
-                                            {{ form_row(form.type, {'label': 'Type', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le type de ticket'}}) }}
+                                            {{ form_row(form.nbreTicket, {'label': 'Nbre Ticket', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nbr','data-error': form_errors(form.nbreTicket) }}) }}
 
 
-                                            {{ form_row(form.evenement, {'label': 'Evenment', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
+                                            {{ form_row(form.prix, {'label': 'Prix', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le prix','data-error': form_errors(form.prix)  }}) }}
 
+
+
+                                            {{ form_row(form.type, {'label': 'Type', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le type de ticket','data-error': form_errors(form.type) }}) }}
+
+
+
+                                            {{ form_row(form.evenement, {'label': 'Evenment', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement','data-error': form_errors(form.evenement)}}) }}
+{#
+
+#}
 
 
 
@@ -105,9 +112,9 @@
                                             <!--begin::Actions-->
                                             <div class="text-center mt-5 mb-3">
 
-                                                <button type="submit" id="kt_modal_new_target_submit"
+                                                <button  type="submit" id="kt_modal_new_target_submit"
                                                         class="btn btn-primary">
-                                                    <span class="indicator-label">Soumettre</span>
+                                                    <span class="indicator-label">Soumettrrrrrre</span>
                                                     <span class="indicator-progress">Veuillez patienter...
                                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                         </span>
@@ -314,6 +321,27 @@
         </div>
     </div>
     </div>
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modal = document.getElementById('kt_modal_new_target');
+                if (modal) {
+                    modal.classList.add('show');
+                    modal.style.display = 'block';
+                    modal.setAttribute('aria-modal', true);
+                }
+                var closeModalButton = document.getElementById('close-modal');
+
+                if (closeModalButton && modal) {
+                    closeModalButton.addEventListener('click', function() {
+                        modal.classList.remove('show');
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-modal', false);
+                    });
+                }
+            });
+        </script>
+    {% endif %}
 
     <!--end::Container-->
 {% endblock %}

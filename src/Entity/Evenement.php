@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
@@ -17,12 +19,21 @@ class Evenement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Le nom ne doit pas être vide.")]
+    #[Assert\Length(max:255, maxMessage:"Le nom ne peut pas dépasser {{ limit }} caractères.")]
+    #[Assert\Type(type: "string", message: "Le nom doit être une chaîne de caractères.")]
+
     private ?string $nom = null;
 
     #[ORM\Column(type: "text")]
+    #[Assert\NotBlank(message:"La description ne doit pas être vide.")]
+    #[Assert\Length(min:10, maxMessage:"Description ne doit pas  dépasser {{ limit }} caractères.")]
+
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Faut préciser le lieu ")]
+    #[Assert\Length(max:255, maxMessage:"Lieu ne doit pas  dépasser {{ limit }} caractères.")]
     private ?string $lieu = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]

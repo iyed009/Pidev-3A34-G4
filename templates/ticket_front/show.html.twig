@@ -42,10 +42,14 @@
                         <h3>TICKET</h3>
                         <div class="pi-price">
                             <h2>{{ ticket.prix }}   DT</h2>
-                            <span>{{ ticket.type }}</span>
+                            <span>{{ ticket.evenement.nom }}</span>
                         </div>
                         <ul>
+                            <li>{{ ticket.type }}</li>
+
                             <li>{{ ticket.nbreTicket }}</li>
+                            <li>{{ ticket.evenement.dateEvenement ? ticket.evenement.dateEvenement|date('h:i') : '' }}</li>
+                            <li>{{ ticket.evenement.dateEvenement ? ticket.evenement.dateEvenement|date('D M Y') : '' }}</li>
 
                         </ul>
                         <a href="#" class="primary-btn pricing-btn">Enroll now</a>

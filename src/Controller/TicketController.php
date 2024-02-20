@@ -15,25 +15,28 @@ use Symfony\Component\Routing\Annotation\Route;
 class TicketController extends AbstractController
 {
     #[Route('/', name: 'app_ticket_index', methods: ['GET', 'POST'])]
-    public function index(Request $request,TicketRepository $ticketRepository, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, TicketRepository $ticketRepository, EntityManagerInterface $entityManager): Response
     {
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
 
-            $entityManager->persist($ticket);
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $entityManager->persist($ticket);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
-
+                return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
+
         return $this->render('ticket/index.html.twig', [
             'tickets' => $ticketRepository->findAll(),
             'form' => $form->createView(),
-
+            'errors' => $form->getErrors(true, false), // Pass errors to Twig (empty array if no errors)
         ]);
     }
+
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
