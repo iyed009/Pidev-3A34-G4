@@ -214,6 +214,15 @@
         </div>
         <!--end::Post-->
     </div>
+    <div class="d-flex flex-stack flex-wrap pt-10">
+        <div class="fs-6 fw-bold text-gray-700"></div>
+        <!--begin::Pages-->
+        <ul class="pagination">        {% do evenements.SetPageRange(3) %}
+            {{ knp_pagination_render(evenements, "pagination.html.twig") }}
+        </ul>
+    </div>
+
+
 
     {% if errors is defined and errors is not empty %}
         <script>
@@ -236,5 +245,4 @@
             });
         </script>
     {% endif %}
-
 {% endblock %}

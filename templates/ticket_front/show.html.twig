@@ -52,7 +52,7 @@
                             <li>{{ ticket.evenement.dateEvenement ? ticket.evenement.dateEvenement|date('D M Y') : '' }}</li>
 
                         </ul>
-                        <a href="#" class="primary-btn pricing-btn">Enroll now</a>
+                        <a href="{{ path('decrement_ticket', {'id': ticket.id}) }}" class="primary-btn pricing-btn">Enroll now</a>
                         <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
                     </div>
                 </div>

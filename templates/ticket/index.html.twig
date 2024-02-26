@@ -101,7 +101,10 @@
 
 
                                             {{ form_row(form.evenement, {'label': 'Evenment', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement','data-error': form_errors(form.evenement)}}) }}
-{#
+
+
+                                            {{ form_row(form.recaptcha) }}
+                                            {{ form_errors(form.recaptcha) }}{#
 
 #}
 
@@ -342,6 +345,12 @@
             });
         </script>
     {% endif %}
-
+    <div class="d-flex flex-stack flex-wrap pt-10">
+        <div class="fs-6 fw-bold text-gray-700"></div>
+        <!--begin::Pages-->
+        <ul class="pagination">        {% do tickets.SetPageRange(3) %}
+            {{ knp_pagination_render(tickets, "pagination.html.twig") }}
+        </ul>
+    </div>
     <!--end::Container-->
 {% endblock %}

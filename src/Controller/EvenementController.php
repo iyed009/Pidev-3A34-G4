@@ -6,6 +6,7 @@ use App\Entity\Evenement;
 use App\Form\EvenementType;
 use App\Repository\EvenementRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EvenementController extends AbstractController
 {
     #[Route('/', name: 'app_evenement_index', methods: ['GET', 'POST'])]
-    public function index(Request $request,EvenementRepository $evenementRepository, EntityManagerInterface $entityManager): Response
+    public function index(PaginatorInterface $paginator ,Request $request,EvenementRepository $evenementRepository, EntityManagerInterface $entityManager): Response
     {
         $evenement = new Evenement();
         $form = $this->createForm(EvenementType::class, $evenement);
@@ -42,15 +43,22 @@ class EvenementController extends AbstractController
 
                 return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
             }
-        }
-            return $this->render('evenement/index.html.twig', [
-                'evenements' => $evenementRepository->findAll(),
-                'form' => $form->createView(),
-                'errors' => $form->getErrors(true, false),
 
-            ]);
-        }
 
+        }
+        $evenements = $evenementRepository->findAll();
+        $evenements= $paginator->paginate(
+            $evenements,
+            $request->query->getInt('page', 1), // page number
+            3 // limit per page
+        );
+        return $this->render('evenement/index.html.twig', [
+            'evenements' => $evenements,
+            'form' => $form->createView(),
+            'errors' => $form->getErrors(true, false),
+
+        ]);
+    }
 
 
 

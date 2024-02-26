@@ -6,6 +6,7 @@ use App\Entity\Ticket;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use VictorPrdh\RecaptchaBundle\Form\ReCaptchaType;
 
 class Ticket1Type extends AbstractType
 {
@@ -17,6 +18,7 @@ class Ticket1Type extends AbstractType
             ->add('nbreTicket')
             ->add('evenement')
             ->add('utilisateur')
+
         ;
     }
 

@@ -78,4 +78,20 @@ class TicketFrontController extends AbstractController
 
         return $this->redirectToRoute('app_ticket_front_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/decrement-ticket/{id}', name: 'decrement_ticket')]
+
+    public function decrementTicket(Ticket $ticket, TicketRepository $ticketRepository , EntityManagerInterface $entityManager): Response
+    {
+        try {
+            $ticketRepository->decrementTicket($ticket);
+            $entityManager->flush();
+
+            return $this->render('ticket_front/show.html.twig', [
+                'ticket' => $ticket,
+            ]);
+        } catch (\Exception $e) {
+            return new Response($e->getMessage(), 400);
+        }
+    }
 }

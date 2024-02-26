@@ -27,7 +27,7 @@ class Evenement
 
     #[ORM\Column(type: "text")]
     #[Assert\NotBlank(message:"La description ne doit pas être vide.")]
-    #[Assert\Length(min:10, maxMessage:"Description ne doit pas  dépasser {{ limit }} caractères.")]
+    #[Assert\Length(min:10, maxMessage:"Description doit  dépasser {{ limit }} caractères.")]
 
     private ?string $description = null;
 
@@ -102,6 +102,11 @@ class Evenement
         $this->date_evenement = $date_evenement;
 
         return $this;
+    }
+
+    public function setTickets(Collection $tickets): void
+    {
+        $this->tickets = $tickets;
     }
 
     /**

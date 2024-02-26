@@ -53,8 +53,11 @@
                             <p>{{ evenement.description }}</p>
                         </div>
                         <div class="about-bar">
-                            <a href="{{ path('app_ticket_front_show', {'id': evenement.id}) }}" class="primary-btn btn-normal appoinment-btn">Reserver</a>
+                            {% for ticket in evenement.tickets %}
+                                <a href="{{ path('app_ticket_front_show', {'id': ticket.id}) }}" class="primary-btn btn-normal appoinment-btn">Reserver</a>
+                            {% endfor %}
                         </div>
+
                     </div>
                 </div>
 

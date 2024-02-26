@@ -6,6 +6,7 @@ use App\Entity\Ticket;
 use App\Form\TicketType;
 use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TicketController extends AbstractController
 {
     #[Route('/', name: 'app_ticket_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, TicketRepository $ticketRepository, EntityManagerInterface $entityManager): Response
+    public function index( PaginatorInterface $paginator,Request $request, TicketRepository $ticketRepository, EntityManagerInterface $entityManager): Response
     {
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
@@ -29,9 +30,16 @@ class TicketController extends AbstractController
                 return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
             }
         }
+        $tickets = $ticketRepository->findAll();
+        $tickets= $paginator->paginate(
+            $tickets,
+            $request->query->getInt('page', 1), // page number
+            3 // limit per page
+        );
+
 
         return $this->render('ticket/index.html.twig', [
-            'tickets' => $ticketRepository->findAll(),
+            'tickets' => $tickets,
             'form' => $form->createView(),
             'errors' => $form->getErrors(true, false), // Pass errors to Twig (empty array if no errors)
         ]);
@@ -106,4 +114,9 @@ class TicketController extends AbstractController
 
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+
+
 }

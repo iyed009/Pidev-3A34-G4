@@ -16,7 +16,8 @@ class Ticket
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message:"Le prix ne doit pas etre  null ")]
+    #[Assert\NotBlank(message:"Le prix ne doit pas être vide. ")]
+    #[Assert\GreaterThan(value: 0, message: "Le prix doit être supérieure à 0 !")]
     private ?int $prix = null;
 
     #[ORM\Column(length: 255)]
@@ -25,7 +26,8 @@ class Ticket
     private ?string $type = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message:"Le nbreTicket ne doit pas etre  null ")]
+    #[Assert\NotBlank(message:"Le nbreTicket ne  doit pas être vide. ")]
+    #[Assert\GreaterThan(value: 0, message: "Le nombre de ticket doit être supérieure à 0 !")]
     private ?int $nbreTicket = null;
 
     #[ORM\ManyToOne(inversedBy: 'tickets')]

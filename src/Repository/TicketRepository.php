@@ -45,4 +45,18 @@ class TicketRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+
+
+    // Your custom method to decrement the number of tickets
+    public function decrementTicket(Ticket $ticket): void
+    {
+        if ($ticket->getNbreTicket() > 0) {
+            $ticket->setNbreTicket($ticket->getNbreTicket() - 1);
+        } else {
+            // Handle the case when there are no tickets left
+            throw new \Exception('No tickets left to decrement');
+        }
+    }
 }
