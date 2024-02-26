@@ -9,6 +9,7 @@ use App\Repository\ReclamationRepository;
 use App\Repository\SalleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,8 +20,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class SalleController extends AbstractController
 {
     #[Route('/', name: 'app_salle_index', methods: ['GET','POST'])]
-    public function index(SalleRepository $salleRepository,Request $request,EntityManagerInterface $entityManager): Response
+    public function index( PaginatorInterface $paginator,SalleRepository $salleRepository,Request $request,EntityManagerInterface $entityManager): Response
     {
+
+
         $salle = new Salle();
         $form = $this->createForm(SalleType::class, $salle);
         $form->handleRequest($request);
@@ -35,7 +38,6 @@ class SalleController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
                 }
                 $salle->setLogoSalle($newFilename);
 
@@ -45,11 +47,20 @@ class SalleController extends AbstractController
                 return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
             }
         }
+        $salles = $salleRepository->findAll();
+
+
+        $salles= $paginator->paginate(
+            $salles,
+            $request->query->getInt('page', 1), // page number
+            2 // limit per page
+        );
 
             return $this->render('salle/index.html.twig', [
-                'salles' => $salleRepository->findAll(),
+                'salles' => $salles,
                 'form' => $form->createView(),
                 'errors' => $form->getErrors(true, false),
+
             ]);
         }
 

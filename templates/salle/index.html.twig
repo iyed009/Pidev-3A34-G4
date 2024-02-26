@@ -149,9 +149,6 @@
                                 <!--begin::Table body-->
                                 <tbody class="text-gray-600 fw-bold">
                                 <!--begin::Table row-->
-
-                                <!--end::Table row-->
-                                <!--begin::Table row-->
                                 {% for salle in salles %}
                                     <tr>
                                         <td>{{ salle.nom }}</td>
@@ -180,6 +177,9 @@
                                     <tr>
                                         <td colspan="7">no records found</td>
                                     </tr>
+                                {% if loop.index % 3 == 0 %}
+                        <div class="row"></div>
+                            {% endif %}
                                 {% endfor %}
                                 <!--end::Table row-->
                                 </tbody>
@@ -216,4 +216,11 @@
             });
         </script>
     {% endif %}
+    <div class="d-flex flex-stack flex-wrap pt-10">
+        <div class="fs-6 fw-bold text-gray-700"></div>
+        <!--begin::Pages-->
+        <ul class="pagination">        {% do salles.SetPageRange(3) %}
+            {{ knp_pagination_render(salles, "pagination.html.twig") }}
+        </ul>
+    </div>
 {% endblock %}

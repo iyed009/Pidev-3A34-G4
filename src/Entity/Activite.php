@@ -34,6 +34,7 @@ class Activite
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: "Description manquante !")]
+    #[Assert\Length(min: 15,exactMessage: "La description doit ètre supérieure à 15 caractère")]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'activite')]

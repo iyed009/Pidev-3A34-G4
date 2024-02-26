@@ -39,6 +39,7 @@ class Salle
 
     #[ORM\Column(type: "text")]
     #[Assert\NotBlank(message: "Description manquante !")]
+    #[Assert\Length(min: 15,exactMessage: "La description doit ètre supérieure à 15 caractère")]
     private ?string $description = null;
 
     #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'salle', cascade: ['remove'])]
