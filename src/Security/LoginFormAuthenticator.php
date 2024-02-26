@@ -44,7 +44,6 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
         $csrfToken = $request->request->get('_csrf_token');
 
         if (empty($email) || empty($password)) {
-
             throw new CustomUserMessageAuthenticationException('Fields must not be empty.');
         }
 
@@ -53,6 +52,12 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             if (!$user) {
                 throw new CustomUserMessageAuthenticationException('Email not registered yet.');
             }
+
+            // Check if the user is verified. If not, throw an exception.
+            if (!$user->isVerified()) {
+                throw new CustomUserMessageAuthenticationException('Your account is not verified. Please check your email to verify your account.');
+            }
+
             return $user;
         });
 
@@ -64,6 +69,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
             ]
         );
     }
+
 
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
