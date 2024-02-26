@@ -7,6 +7,7 @@ use App\Entity\Reponse;
 use App\Form\ReponseType;
 use App\Repository\ReponseRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,22 +17,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class ReponseController extends AbstractController
 {
     #[Route('/', name: 'app_reponse_index', methods: ['GET'])]
-    public function index(ReponseRepository $reponseRepository): Response
+    public function index(Request $request, ReponseRepository $reponseRepository, PaginatorInterface $paginator): Response
     {
+        $reponses = $reponseRepository->findAll();
+
+
+        $reponses = $paginator->paginate(
+            $reponses,
+            $request->query->getInt('page', 1), // page number
+            4 // limit per page
+        );
+
         return $this->render('reponse/index.html.twig', [
-            'reponses' => $reponseRepository->findAll(),
+            'reponses' => $reponses
         ]);
     }
+
 
     #[Route('/new', name: 'app_reponse_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        // Récupérer l'identifiant de la réclamation à partir de la requête
         $reclamationId = $request->query->get('id');
-        // Récupérer l'objet Reclamation correspondant depuis la base de données
         $reclamation = $entityManager->getRepository(Reclamation::class)->find($reclamationId);
         $reponse = new Reponse();
-        $reponse->setIdReclamation($reclamation); // Définir la réclamation pour la réponse
+        $reponse->setIdReclamation($reclamation);
 
 
 
@@ -62,31 +71,18 @@ class ReponseController extends AbstractController
     #[Route('/{id}', name: 'app_reponse_show', methods: ['GET' ,'POST'])]
     public function show(Reponse $reponse, Request $request, EntityManagerInterface $entityManager, Reclamation $reclamation): Response
     {
-        // Récupérez l'ID de la réponse
         $reclamation=$reponse->getIdReclamation();
-
         $reponseId = $reponse->getId();
-
-        // Créez le formulaire en utilisant la classe ReponseType
         $form = $this->createForm(ReponseType::class, $reponse);
-
-        // Traitez la requête HTTP
         $form->handleRequest($request);
-
-        // Vérifiez si le formulaire est soumis et valide
         if ($form->isSubmitted() && $form->isValid()) {
-            // Enregistrez les modifications dans la base de données
             $entityManager->flush();
-
-            // Redirigez l'utilisateur vers une autre page en fournissant l'ID de la réponse
             return $this->redirectToRoute('app_reponse_show', ['id' => $reponseId], Response::HTTP_SEE_OTHER);
         }
-
-        // Rendez le template Twig avec le formulaire
         return $this->render('reponse/show.html.twig', [
             'reponse' => $reponse,
             'form' => $form->createView(),
-            'reclamation'=>$reclamation// Créez une vue du formulaire
+            'reclamation'=>$reclamation
         ]);
     }
 

@@ -18,7 +18,7 @@ class Reclamation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message:"Le nom ne doit pas être vide.")]
     #[Assert\Length(max:255, maxMessage:"Le nom ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $nom = null;
@@ -41,7 +41,7 @@ class Reclamation
     #[ORM\Column(length: 255)]
     private ?string $sujet = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
    #[Assert\NotBlank(message: 'La description ne peut pas être vide.')]
     private ?string $description = null;
 
@@ -57,7 +57,7 @@ class Reclamation
     #[ORM\ManyToOne(inversedBy: 'reclamations')]
     private ?User $utilisateur = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     #[Assert\NotBlank(message:"Le prenom ne doit pas être vide.")]
     #[Assert\Length(max:255, maxMessage:"Le prenom ne peut pas dépasser {{ limit }} caractères.")]
     private ?string $prenom = null;

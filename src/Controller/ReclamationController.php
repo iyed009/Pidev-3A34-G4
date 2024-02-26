@@ -10,7 +10,9 @@ use App\Repository\ReclamationRepository;
 use App\Repository\ReponseRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,12 +23,38 @@ use Doctrine\Common\Util\ClassUtils;
 class ReclamationController extends AbstractController
 {
     #[Route('/', name: 'app_reclamation_index', methods: ['GET'])]
-    public function index(ReclamationRepository $reclamationRepository): Response
+    public function index(ReclamationRepository $reclamationRepository, Request $request,PaginatorInterface $paginator): Response
     {
+
+        $etat = $request->get('etat','all');
+        $term = $request->query->get('search');
+
+
+        $reclamations = [];
+
+        if ($etat === 'Traité') {
+            $reclamations = $reclamationRepository->findBy(['etat' => 'Traité']);
+        } elseif ($etat === 'NonTraité') {
+            $reclamations = $reclamationRepository->findBy(['etat' => 'NonTraité']);
+        } elseif ($etat === 'all') {
+            $reclamations = $reclamationRepository->findAll();
+        }
+     $count=count($reclamations);
+
+        $reclamations= $paginator->paginate(
+            $reclamations,
+            $request->query->getInt('page', 1), // page number
+            6 // limit per page
+        );
+
         return $this->render('reclamation/index.html.twig', [
-            'reclamations' => $reclamationRepository->findAll(),
+            'reclamations' => $reclamations,
+            'etat' => $etat,
+            'count'=>$count,
+
         ]);
     }
+
 
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager ,UserRepository $utilisateurRepository): Response
@@ -45,7 +73,7 @@ class ReclamationController extends AbstractController
             $entityManager->flush();
 
 
-            return $this->redirectToRoute('app_reclamation_showClient', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_reclamation_client', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('reclamation/new.html.twig', [
@@ -112,10 +140,37 @@ class ReclamationController extends AbstractController
         return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/search', name: 'reclamation_search' )]
+    public function searchAction(Request $request, EntityManagerInterface $em)
+    {
+        $requestString = $request->query->get('q');
+        $reclamations = $em->getRepository(Reclamation::class)->searchReclamations($requestString);
 
+        $result = [];
+        if(count($reclamations) === 0) {
+            $result['reclamations']['error'] = "Aucune réclamation trouvée";
+        } else {
+            $result['reclamations'] = $this->getRealEntities($reclamations);
+        }
 
+        return new Response(json_encode($result));
+    }
 
-
+    private function getRealEntities($reclamations) {
+        $realEntities = [];
+        foreach ($reclamations as $reclamation) {
+            $formattedDate = $reclamation->getDate()->format('Y-m-d');
+            $realEntities[] = [
+                $reclamation->getNom(),
+                $reclamation->getPrenom(),
+                $reclamation->getEmail(),
+                $reclamation->getSujet(),
+                $reclamation->getEtat(),
+                $reclamation->getId(),
+            ];
+        }
+        return $realEntities;
+    }
 
 
 }

@@ -30,7 +30,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            <label class="form-label fw-bolder text-dark fs-6">Name</label>
                             {{ form_widget(form.nom, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter your name'}}) }}
                             <div style="color: red;">{{ form_errors(form.nom) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
 
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            <label class="form-label fw-bolder text-dark fs-6">Username</label>
                             {{ form_widget(form.prenom, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter your name'}}) }}
                             <div style="color: red;">{{ form_errors(form.prenom) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
 
@@ -47,7 +47,7 @@
                     <div class="row fv-row mb-7">
                         <!--begin::Col-->
                         <div class="col-xl-6">
-                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            <label class="form-label fw-bolder text-dark fs-6">Date</label>
                             {{ form_widget(form.date, {'attr': {'placeholder': 'Date and time...', 'class': 'form-control form-control-lg form-control-solid datepicker'}}) }}
                             <div style="color: red;">{{ form_errors(form.date) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
 
@@ -56,7 +56,7 @@
                         <!--end::Col-->
                         <!--begin::Col-->
                         <div class="col-xl-6">
-                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            <label class="form-label fw-bolder text-dark fs-6">Sujet</label>
                             {{ form_widget(form.sujet, {'attr': {'class': 'form-select form-select-lg form-select-solid'}}) }}
                             <div style="color: red;">{{ form_errors(form.sujet) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
 
@@ -66,7 +66,7 @@
 
                     <div class="col-12">
                         <div class="form-group">
-                            <label class="form-label fw-bolder text-dark fs-6">First Name</label>
+                            <label class="form-label fw-bolder text-dark fs-6">Description</label>
                             {{ form_widget(form.description, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter Description'}}) }}
                             <div style="color: red;">{{ form_errors(form.description) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
 

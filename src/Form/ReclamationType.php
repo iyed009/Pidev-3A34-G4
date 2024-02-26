@@ -20,6 +20,7 @@ class ReclamationType extends AbstractType
     {
         $builder
             ->add('nom')
+
             ->add('prenom')
 
             ->add('sujet', ChoiceType::class, [

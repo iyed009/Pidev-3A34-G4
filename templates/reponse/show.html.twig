@@ -183,7 +183,7 @@
                                                             <!--begin::Modal header-->
                                                             <!--begin::Modal body-->
                                                             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                                                                {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'action': path('app_reponse_show', {'id': reponse.id})}, 'row_attr': {'class': 'justify-content-center'}}) }}
+                                                                {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'action': path('app_reponse_show', {'id': reponse.id})}, 'row_attr': {'class': 'justify-content-center'}, 'novalidate': 'novalidate'}) }}
                                                                 <div class="mb-13 text-center">
                                                                     <h1 class="mb-3">Modifier Reclamation</h1>
                                                                 </div>
@@ -191,9 +191,10 @@
                                                                     <div class="col">
                                                                         <label class="form-label fw-bolder text-dark fs-6">Reponse:</label>
                                                                         {{ form_widget(form.reponse, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter your name'}}) }}
+                                                                        <div style="color: red;">{{ form_errors(form.reponse) }}</div> {# Affiche les erreurs de validation pour le champ date #}
 
 
-{#
+                                                                        {#
                                                                         {{ form_row(form.reponse, {'label': 'Nom', 'attr': {'class': 'form-control'}}) }}
 #}
                                                                     </div>
@@ -202,8 +203,9 @@
                                                                     <div class="col">
                                                                         <label class="form-label fw-bolder text-dark fs-6">Date:</label>
                                                                         {{ form_widget(form.date, {'attr': {'class': 'form-control form-control-lg form-control-solid', 'placeholder': 'Enter your name'}}) }}
+                                                                        <div style="color: red;">{{ form_errors(form.date) }}</div> {# Affiche les erreurs de validation pour le champ date #}
 
-{#
+                                                                        {#
                                                                         {{ form_row(form.date, {'label': 'Date de l\'événement', 'attr': {'class': 'form-control'}}) }}
 #}
                                                                     </div>
@@ -319,10 +321,10 @@
         </tbody>
     </table>
 #}
-    <a href="{{ path('app_reponse_index') }}">back to list</a>
+    {#<a href="{{ path('app_reponse_index') }}">back to list</a>
 
     <a href="{{ path('app_reponse_edit', {'id': reponse.id}) }}">edit</a>
 
     {{ include('reponse/_delete_form.html.twig') }}
-
+#}
 {% endblock %}

@@ -4464,7 +4464,9 @@ License: For each use you must have a valid license purchased only from above li
     <!--begin::Javascript-->
     <!--begin::Global Javascript Bundle(used by all pages)-->
     <script src="{{ asset('assets/plugins/global/plugins.bundle.js')}}"></script>
+
     <script src="{{ asset('assets/js/scripts.bundle.js')}}"></script>
+
     <!--end::Global Javascript Bundle-->
     <!--begin::Page Vendors Javascript(used by this page)-->
     <script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js')}}"></script>
@@ -4489,6 +4491,25 @@ License: For each use you must have a valid license purchased only from above li
             });
         });
     </script>
+    <script>
+        document.querySelector('select[name="status1"]').addEventListener('change', function() {
+            var selectedValue = this.value;
+            if (selectedValue === 'all') {
+                window.location.href = "{{ path('app_reclamation_index', {'etat': 'all'}) }}";
+            } else if (selectedValue === 'Traité') {
+                window.location.href = "{{ path('app_reclamation_index', {'etat': 'Traité'}) }}";
+            } else if (selectedValue === 'NonTraité') {
+                window.location.href = "{{ path('app_reclamation_index', {'etat': 'NonTraité'}) }}";
+            }
+        });
+    </script>
+
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Assurez-vous d'inclure jQuery -->
+
+
 
 
     <!--end::Page Custom Javascript-->
