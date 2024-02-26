@@ -20,23 +20,34 @@ class EmailVerifier
     ) {
     }
 
-    public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $email): void
+    public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $email, array $additionalContext = []): void
     {
+        // Generate the signature components using the user's ID and email.
         $signatureComponents = $this->verifyEmailHelper->generateSignature(
             $verifyEmailRouteName,
             $user->getId(),
             $user->getEmail()
         );
 
+        // Retrieve any existing context from the email object.
         $context = $email->getContext();
-        $context['signedUrl'] = $signatureComponents->getSignedUrl();
-        $context['expiresAtMessageKey'] = $signatureComponents->getExpirationMessageKey();
-        $context['expiresAtMessageData'] = $signatureComponents->getExpirationMessageData();
 
+        // Add or update the context with the signature components and any additional context.
+        $context = array_merge($context, [
+            'signedUrl' => $signatureComponents->getSignedUrl(),
+            'expiresAtMessageKey' => $signatureComponents->getExpirationMessageKey(),
+            'expiresAtMessageData' => $signatureComponents->getExpirationMessageData(),
+            // Include the user's ID in the context for use in the template.
+            'id' => $user->getId(),
+        ], $additionalContext);
+
+        // Update the email object with the modified context.
         $email->context($context);
 
+        // Send the email.
         $this->mailer->send($email);
     }
+
 
     /**
      * @throws VerifyEmailExceptionInterface

@@ -63,7 +63,8 @@ class RegistrationController extends AbstractController
                     ->from(new Address('smichimajed@gmail.com', '6Core'))
                     ->to($user->getEmail())
                     ->subject($user->getEmail())
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->htmlTemplate('registration/confirmation_email.html.twig'),
+                ['id' => $user->getId()]
             );
             // do anything else you need here, like send an email
 
@@ -84,24 +85,31 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, TranslatorInterface $translator): Response
+    public function verifyUserEmail(Request $request, EntityManagerInterface $entityManager, TranslatorInterface $translator): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        // Extract the user's ID from the signed URL
+        $id = $request->query->get('id');
+        if (!$id) {
+            throw new \InvalidArgumentException('No ID provided');
+        }
 
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $this->emailVerifier->handleEmailConfirmation($request, $this->getUser());
-        } catch (VerifyEmailExceptionInterface $exception) {
-            $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
-
+        // Find the user by ID
+        $user = $entityManager->getRepository(User::class)->find($id);
+        if (!$user) {
+            $this->addFlash('verify_email_error', 'The verification link is invalid or expired.');
             return $this->redirectToRoute('app_register');
         }
 
-        // @TODO Change the redirect on success and handle or remove the flash message in your templates
-        $this->addFlash('success', 'Your email address has been verified.');
+        // Mark the user as verified
+        $user->setIsVerified(true);
+        $entityManager->persist($user);
+        $entityManager->flush();
 
+        $this->addFlash('success', 'Your email address has been verified.');
         return $this->redirectToRoute('app_login');
     }
+
+
 
     #[Route('/simple-test-email')]
     public function simpleTestEmail(MailerInterface $mailer): Response
