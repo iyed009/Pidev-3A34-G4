@@ -24,10 +24,12 @@ class UserController extends AbstractController
     #[Route('/users/role/client', name: 'user_list_role_client', methods: ['GET'])]
     public function listRoleClient(UserRepository $userRepository): Response
     {
+
         $users = $userRepository->findByRole('ROLE_CLIENT');
 
         return $this->render('user/ClientSalle.html.twig', [
             'users' => $users,
+
         ]);
     }
 
@@ -128,6 +130,7 @@ class UserController extends AbstractController
 
         return $this->render('user/editProfile.html.twig', [
             'form' => $form->createView(),
+            'user' => $user
         ]);
     }
 
@@ -195,6 +198,32 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    // #[Route('/update-passwordProfile', name: 'app_user_update_passwordProfile', methods: ['GET', 'POST'])]
+    // public function updatePasswordProfile(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    // {
+    //     $user = new User();
+    //     $user = $this->getUser();
+    //     $form = $this->createForm(PasswordUpdateType::class);
+    //     $form->handleRequest($request);
+
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $newPassword = $form->get('newPassword')->getData();
+    //         $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
+    //         $user->setPassword($hashedPassword);
+    //         $entityManager->persist($user);
+    //         $entityManager->flush();
+
+    //         $this->addFlash('success', 'Password updated successfully.');
+    //         return $this->redirectToRoute('app_edit_profile');
+    //     }
+
+    //     return $this->render('user/update_password.html.twig', [
+    //         'form' => $form->createView(),
+    //     ]);
+    // }
+
+
 
     #[Route('/{id}/editAdmin', name: 'app_user_edit_admin', methods: ['GET', 'POST'])]
     public function editAdmin(Request $request, User $user, EntityManagerInterface $entityManager): Response
