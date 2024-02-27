@@ -6,6 +6,7 @@ use App\Entity\Activite;
 use App\Form\ActiviteType;
 use App\Repository\ActiviteRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ActiviteController extends AbstractController
 {
     #[Route('/', name: 'app_activite_index', methods: ['GET', 'POST'])]
-    public function index(ActiviteRepository $activiteRepository, Request $request,EntityManagerInterface $entityManager): Response
+    public function index(PaginatorInterface $paginator,ActiviteRepository $activiteRepository, Request $request,EntityManagerInterface $entityManager): Response
     {
         $activite = new Activite();
         $form = $this->createForm(ActiviteType::class, $activite);
@@ -42,8 +43,16 @@ class ActiviteController extends AbstractController
                 return $this->redirectToRoute('app_activite_index', [], Response::HTTP_SEE_OTHER);
             }
         }
+        $activites = $activiteRepository->findAll();
+
+
+        $activites= $paginator->paginate(
+            $activites,
+            $request->query->getInt('page', 1), // page number
+            3 // limit per page
+        );
         return $this->render('activite/index.html.twig', [
-            'activites' => $activiteRepository->findAll(),
+            'activites' => $activites,
             'form' => $form->createView(),
             'errors' => $form->getErrors(true, false),
         ]);
@@ -135,5 +144,129 @@ class ActiviteController extends AbstractController
         }
 
         return $this->redirectToRoute('app_activite_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/tri/nbrmax', name: 'activite_tri' )]
+    public function tri(ActiviteRepository $repo, PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
+    {
+
+        $activite = new Activite();
+        $form = $this->createForm(ActiviteType::class, $activite);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('imageActivte')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $activite->setImageActivte($newFilename);
+
+                $entityManager->persist($activite);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_activite_index', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+        $data =  $repo->findActiviteByNbrAbonnes();
+        $activites = $paginator->paginate(
+            $data, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+        return $this->render('activite/index.html.twig', [
+
+            'form' => $form->createView(),
+            'activites' =>  $activites,
+            'errors' => $form->getErrors(true, false),
+        ]);
+    }
+
+    #[Route('/tri/desc', name: 'activite_desc' )]
+    public function tridesc(ActiviteRepository $repo, PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $activite = new Activite();
+        $form = $this->createForm(ActiviteType::class, $activite);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('imageActivte')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $activite->setImageActivte($newFilename);
+
+                $entityManager->persist($activite);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_activite_index', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+        $data =  $repo->findActiviteByNbrAbonnesDESC();
+        $activites = $paginator->paginate(
+            $data, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+        return $this->render('activite/index.html.twig', [
+
+            'form' => $form->createView(),
+            'activites' =>  $activites,
+            'errors' => $form->getErrors(true, false),
+        ]);
+    }
+
+    #[Route('/tri/nom', name: 'activite_tri_nom' )]
+    public function trinom(ActiviteRepository $repo, PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $activite = new Activite();
+        $form = $this->createForm(ActiviteType::class, $activite);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('imageActivte')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $activite->setImageActivte($newFilename);
+
+                $entityManager->persist($activite);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_activite_index', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+        $data =  $repo->findactiviteByName();
+        $activites = $paginator->paginate(
+            $data, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+        return $this->render('activite/index.html.twig', [
+
+            'form' => $form->createView(),
+            'activites' =>  $activites,
+            'errors' => $form->getErrors(true, false),
+        ]);
     }
 }

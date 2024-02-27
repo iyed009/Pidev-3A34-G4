@@ -1,4 +1,4 @@
 {% macro random_color_class() %}
-    {% set colors = ['text-primary', 'text-secondary', 'text-success', 'text-danger', 'text-warning', 'text-info'] %}
+    {% set colors = ['text-primary', 'text-success', 'text-danger', 'text-warning'] %}
     {{ colors[random(0, colors|length - 1)] }}
 {% endmacro %}

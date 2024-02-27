@@ -20,6 +20,36 @@ class SalleRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Salle::class);
     }
+    public function findSalleByNbrAbonnes()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s FROM App\Entity\Salle s ORDER BY s.nbrClient ASC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findSalleByNbrAbonnesDESC()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s FROM App\Entity\Salle s ORDER BY s.nbrClient DESC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findSallesByName()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT s FROM App\Entity\Salle s ORDER BY s.nom ASC'
+        );
+        return $query->getResult();
+    }
 
 //    /**
 //     * @return Salle[] Returns an array of Salle objects

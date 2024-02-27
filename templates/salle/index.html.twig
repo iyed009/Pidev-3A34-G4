@@ -123,11 +123,27 @@
                                         </div>
                                         <!--end::Modal dialog-->
                                     </div>
-                                </div>
+                                    <div class="toolbox-right" >
+                                        <div class="toolbox-sort"  >
+                                            <div class="select-custom" >
+                                                <select name="sortby" id="sortby" onchange="window.location.href=this.value;" data-control="select" class="form-select form-select-sm form-select-solid w-100px w-xxl-125px" style="padding-right: 10px; margin-right: 10px;">
+                                                    <option value="#" selected="selected">Trier par</option>
+                                                    <option value="{{path('salle_tri_nom')}}">Nom</option>
+                                                    <option value="{{path('salle_tri')}}">NbrAbonnés&#9650;</option>
+                                                    <option value="{{path('salle_desc')}}">NbrAbonnés&#9660;</option>
+                                                    <option value="{{path('app_salle_index')}}" >Non triée</option>
+                                                </select>
+                                                {#<option value="#">Date</option>#}
+                                            </div>
+                                        </div>
+                                    </div>
+
 
                             </div>
                         </div>
                         <!--end::Card header-->
+                        </div>
+
                         <!--begin::Card body-->
                         <div class="card-body pt-0">
                             <!--begin::Table-->
@@ -186,15 +202,25 @@
                                 <!--end::Table body-->
                             </table>
                             <!--end::Table-->
+
+                                <div class="d-flex justify-content-center pt-10">
+                                    <ul class="pagination">
+                                        {% do salles.SetPageRange(3) %}
+                                        {{ knp_pagination_render(salles, "pagination.html.twig") }}
+                                    </ul>
+                                </div>
                         </div>
                         <!--end::Card body-->
+
                     </div>
                     <!--end::Card-->
                 </div>
                 <!--end::Container-->
+                </div>
             </div>
+
             <!--end::Post-->
-        </div>
+
     {% if errors is defined and errors is not empty %}
         <script>
             document.addEventListener("DOMContentLoaded", function() {
@@ -216,11 +242,5 @@
             });
         </script>
     {% endif %}
-    <div class="d-flex flex-stack flex-wrap pt-10">
-        <div class="fs-6 fw-bold text-gray-700"></div>
-        <!--begin::Pages-->
-        <ul class="pagination">        {% do salles.SetPageRange(3) %}
-            {{ knp_pagination_render(salles, "pagination.html.twig") }}
-        </ul>
-    </div>
+
 {% endblock %}

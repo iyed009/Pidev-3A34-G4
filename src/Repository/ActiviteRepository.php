@@ -33,6 +33,36 @@ class ActiviteRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findActiviteByNbrAbonnes()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a FROM App\Entity\Activite a ORDER BY a.nbrMax ASC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findActiviteByNbrAbonnesDESC()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a FROM App\Entity\activite a ORDER BY a.nbrMax DESC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findactiviteByName()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT a FROM App\Entity\activite a ORDER BY a.nom ASC'
+        );
+        return $query->getResult();
+    }
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('a')

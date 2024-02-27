@@ -137,6 +137,20 @@
                                     </div>
                                     <!--end::Modal dialog-->
                                 </div>
+                                <div class="toolbox-right" >
+                                    <div class="toolbox-sort"  >
+                                        <div class="select-custom" >
+                                            <select name="sortby" id="sortby" onchange="window.location.href=this.value;" data-control="select" class="form-select form-select-sm form-select-solid w-100px w-xxl-125px" style="padding-right: 10px; margin-right: 10px;">
+                                                <option value="#" selected="selected">Trier par</option>
+                                                <option value="{{path('activite_tri_nom')}}">Nom</option>
+                                                <option value="{{path('activite_tri')}}">NbrMax&#9650;</option>
+                                                <option value="{{path('activite_desc')}}">NbrMax&#9660;</option>
+                                                <option value="{{path('app_salle_index')}}" >Non triée</option>
+                                            </select>
+                                            {#<option value="#">Date</option>#}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                         </div>
@@ -198,6 +212,12 @@
                             <!--end::Table body-->
                         </table>
                         <!--end::Table-->
+                        <div class="d-flex justify-content-center pt-10">
+                            <ul class="pagination">
+                                {% do activites.SetPageRange(3) %}
+                                {{ knp_pagination_render(activites, "pagination.html.twig") }}
+                            </ul>
+                        </div>
                     </div>
                     <!--end::Card body-->
                 </div>
@@ -228,4 +248,5 @@
             });
         </script>
     {% endif %}
+
 {% endblock %}
