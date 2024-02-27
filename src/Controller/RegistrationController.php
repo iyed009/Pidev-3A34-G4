@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Mailer;
@@ -51,7 +52,20 @@ class RegistrationController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
-
+            $imageFile = $form->get('avatar')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+            }
+            $user->setAvatar($newFilename);
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -66,13 +80,6 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig'),
                 ['id' => $user->getId()]
             );
-            // do anything else you need here, like send an email
-
-            // return $userAuthenticator->authenticateUser(
-            //     $user,
-            //     $authenticator,
-            //     $request
-            // );
             return $this->redirectToRoute('app_login');
         }
 

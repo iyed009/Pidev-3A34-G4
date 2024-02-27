@@ -77,13 +77,22 @@
 									{{ form_widget(registrationForm.roles, {'attr': {'class': 'form-control'}}) }}
 									<div class="text-danger">{{ form_errors(registrationForm.roles) }}</div>
 								</div>
+								<div class="col-md-6 mb-3">
+									{{ form_label(registrationForm.avatar) }}
+									{{ form_widget(registrationForm.avatar, {'attr': {'class': 'form-control'}}) }}
+									<div class="text-danger">{{ form_errors(registrationForm.avatar) }}</div>
+								</div>
+
+
+							</div>
+							<div class="row">
+								<div class="mb-3">
+									{{ form_row(registrationForm.recaptcha) }}
+									{{ form_errors(registrationForm.recaptcha) }}
+								</div>
 								<div class="col-md-6 mb-3"></br>
 								{{ form_row(registrationForm.agreeTerms) }}
-								{# Only manually render errors if necessary, otherwise `form_row` handles it. #}
-							</div>
-							<div class="mb-3">
-								{{ form_row(registrationForm.recaptcha) }}
-								{{ form_errors(registrationForm.recaptcha) }}
+
 							</div>
 						</div>
 					</div>

@@ -65,8 +65,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank(message: "Adresse is required")]
     private ?string $adresse = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $avatar;
+    #[ORM\Column]
+    private ?string $avatar;
 
     #[ORM\Column(type: 'datetime_immutable')]
     #[Assert\NotNull()]
@@ -111,18 +111,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-    #[ORM\PrePersist]
-    public function prePersist(): void
-    {
-        $this->avatar = 'https://avatars.dicebear.com/api/avataaars/' . urlencode($this->email) . '.svg';
-    }
+    // #[ORM\PrePersist]
+    // public function prePersist(): void
+    // {
+    //     $this->avatar = 'https://avatars.dicebear.com/api/avataaars/' . urlencode($this->email) . '.svg';
+    // }
 
-    #[ORM\PreUpdate]
-    public function preUpdate(): void
-    {
-        $this->avatar = 'https://avatars.dicebear.com/api/avataaars/' . urlencode($this->email) . '.svg';
-        $this->updatedAt = new \DateTimeImmutable();
-    }
+    // #[ORM\PreUpdate]
+    // public function preUpdate(): void
+    // {
+    //     $this->avatar = 'https://avatars.dicebear.com/api/avataaars/' . urlencode($this->email) . '.svg';
+    //     $this->updatedAt = new \DateTimeImmutable();
+    // }
 
 
     public function getId(): ?string
