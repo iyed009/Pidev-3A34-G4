@@ -21,14 +21,14 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function findByRole($role)
+    public function findByRoleSortedByCreationDate($role, $sortDirection = 'ASC')
     {
         $em = $this->getEntityManager();
         $conn = $em->getConnection();
         $sql = '
             SELECT * FROM user 
             WHERE JSON_CONTAINS(roles, :role) = 1
-        ';
+            ORDER BY created_at ' . $sortDirection;
         $stmt = $conn->prepare($sql);
         $result = $stmt->executeQuery(['role' => '"' . $role . '"']);
 

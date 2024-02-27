@@ -24,19 +24,19 @@ class UserController extends AbstractController
     #[Route('/users/role/client', name: 'user_list_role_client', methods: ['GET'])]
     public function listRoleClient(UserRepository $userRepository): Response
     {
-
-        $users = $userRepository->findByRole('ROLE_CLIENT');
+        // Utilisation de la méthode mise à jour pour inclure le tri par date de création
+        $users = $userRepository->findByRoleSortedByCreationDate('ROLE_CLIENT', 'ASC');
 
         return $this->render('user/ClientSalle.html.twig', [
             'users' => $users,
-
         ]);
     }
 
     #[Route('/users/role/AdminSalle', name: 'user_list_role_AdminSalle', methods: ['GET'])]
     public function listRoleAdminSalle(UserRepository $userRepository): Response
     {
-        $users = $userRepository->findByRole('ROLE_ADMIN');
+        // Utilisation de la méthode mise à jour pour inclure le tri par date de création
+        $users = $userRepository->findByRoleSortedByCreationDate('ROLE_ADMIN', 'ASC');
 
         return $this->render('user/AdminSalle.html.twig', [
             'users' => $users,
