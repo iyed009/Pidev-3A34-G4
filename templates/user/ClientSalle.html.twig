@@ -4,7 +4,7 @@
 {% endblock %}
 {% block body %}
 	<div class="row" style="margin-top: 10px">
-	
+
 		{% for user in users %}
 			<div class="col-md-4">
 				<div class="card mb-4 shadow-sm">
@@ -40,6 +40,12 @@
 								<a class="btn btn-dark" href="{{ path('app_user_update_password', {'id': user.id}) }}">
 									Edit PWD
 								</a>
+
+								<button type="button" class="btn {{ user.is_verified ? 'btn-success' : 'btn-warning' }}" onclick="toggleVerification('{{ user.id }}', '{{ csrf_token('toggle-verification' ~ user.id) }}')">
+									{{ user.is_verified ? 'Desactivate' : 'Activate' }}
+								</button>
+
+
 							</div>
 							<button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ user.id }}">
 								Delete
@@ -82,6 +88,28 @@
 				</p>
 			</div>
 		{% endfor %}
-		
+
+
 	</div>
+
+	<script>
+		function toggleVerification(userId, csrfToken) {
+console.log('userID', userId);
+console.log('csrfToken', csrfToken);
+fetch (`/user/${userId}/toggle-verification`, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/x-www-form-urlencoded'
+},
+body: `_token=${csrfToken}`
+}).then(response => {
+if (response.ok) {
+window.location.reload(); // Reload the page to reflect changes
+} else {
+alert('Failed to toggle verification status.');
+}
+}).catch(error => console.error('Error:', error));
+}
+	</script>
+
 {% endblock %}

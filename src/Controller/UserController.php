@@ -264,4 +264,30 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('user_list_role_AdminSalle', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/toggle-verification', name: 'app_user_toggle_verification', methods: ['POST'])]
+    public function toggleVerification(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('toggle-verification' . $user->getId(), $request->request->get('_token'))) {
+            // Toggle the verification status
+            $user->setIsVerified(!$user->isVerified());
+
+            // Save changes
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // Add a flash message to notify the user of the change
+            $this->addFlash(
+                'success',
+                sprintf('User "%s" verification status has been %s.', $user->getEmail(), $user->isVerified() ? 'activated' : 'deactivated')
+            );
+        } else {
+            // Add a flash message for CSRF token failure
+            $this->addFlash('error', 'Invalid CSRF token.');
+        }
+
+        // Redirect back to the previous page, or a default page if referrer not available
+        $referrer = $request->headers->get('referer');
+        return $this->redirect($referrer ?? $this->generateUrl('user_list_role_client'));
+    }
 }
