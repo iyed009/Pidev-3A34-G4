@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Check Your Email{% endblock %}
+
+{% block body %}
+    <div class="container-fluid" style="height: 100vh; background-color: #120907; "> <!-- Changed the background color to white for contrast with black text -->
+
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="card shadow-lg" style="width: 70%; min-height: 80vh; max-width: none; border:none;"> <!-- Matched the min-height to the login page -->
+                <div class="row g-0" style="min-height: 80vh;"> <!-- Matched the min-height to ensure photo size is consistent -->
+                    <!-- Image Section -->
+                    <div class="col-md-6 d-none d-md-flex" style="background-image: url('{{ asset('img/gym.jpg') }}'); background-size: cover; background-position: center;"></div>
+
+                    <!-- Check Email Message Section -->
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="card-body w-100">
+                            <h5 class="card-title text-center">Check Your Email</h5>
+                            <div class="text-center" style="padding: 20px; color: black;"> <!-- Set text color to black -->
+                                <p>An email has been sent to the email address you provided. Please check your inbox and click on the "Reset Password" link to reset your password.</p>
+                                <p>Note: The link in the email will expire in 60 minutes.</p>
+                                <p>If you don't receive an email, please check your spam folder or <a href="{{ path('app_forgot_password_request') }}" style="color: #ff8c13;">try again</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

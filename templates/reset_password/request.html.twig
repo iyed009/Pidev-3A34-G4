@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block body %}
+    <div class="container-fluid" style="height: 100vh; background-color: #120907; ">
+
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="card shadow-lg" style="width: 70%; min-height: 80vh; max-width: none; border:none;">
+                <div class="row g-0" style="min-height: 80vh;">
+                    <!-- Image Section -->
+                    <div class="col-md-6 d-none d-md-flex" style="background-image: url('{{ asset('img/gym.jpg')}}'); background-size: cover; background-position: center;"></div>
+
+                    <!-- Reset Form Section -->
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="card-body w-100">
+                            <h5 class="card-title text-center">Reset your password</h5>
+                            {{ form_start(requestForm, {'attr': {'class': 'd-flex flex-column justify-content-center align-items-center'}}) }}
+
+                                <!-- Displaying form errors -->
+                                {% if form_errors(requestForm) %}
+                                    <div class="alert alert-danger w-75">{{ form_errors(requestForm) }}</div>
+                                {% endif %}
+
+                                <div class="form-group w-75">
+                                    {{ form_label(requestForm.email, 'Email address') }}
+                                    {{ form_widget(requestForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email Address'}}) }}
+                                </div>
+                                
+                                <div class="text-center mt-4">
+                                    <button type="submit" class="btn" style="width: 100%; background-color: #ff8c13; border: none; color: white;">Send password reset email</button>
+                                </div>
+                            {{ form_end(requestForm) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

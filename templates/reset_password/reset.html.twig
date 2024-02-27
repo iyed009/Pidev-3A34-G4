@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block body %}
+<div class="container-fluid" style="height: 100vh; background-color: #120907;"> <!-- Background color adjustment for contrast -->
+
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="card shadow-lg" style="width: 70%; min-height: 80vh; max-width: none; border:none;"> <!-- Matched the size to the login page -->
+            
+            <div class="row g-0" style="min-height: 80vh;"> <!-- Ensured photo size consistency -->
+                <!-- Image Section -->
+                <div class="col-md-6 d-none d-md-flex" style="background-image: url('{{ asset('img/gym.jpg') }}'); background-size: cover; background-position: center;"></div>
+                
+                <!-- Reset Password Form Section -->
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="card-body w-100">
+                        <h5 class="card-title text-center" style="color: black;">Reset Your Password</h5>
+                        <form method="post" class="d-flex flex-column justify-content-center align-items-center" style="color: black;"> <!-- Text color set to black for readability -->
+                            {{ form_start(resetForm, {'attr': {'class': 'w-75'}}) }}
+                                <div class="form-group mb-3">
+                                    <label for="{{ resetForm.newPassword.first.vars.id }}" class="form-label" style="color: black;">New Password</label>
+                                    {{ form_widget(resetForm.newPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'New Password'}}) }}
+                                </div>
+                                <div class="form-group mb-3">
+                                    <label for="{{ resetForm.newPassword.second.vars.id }}" class="form-label" style="color: black;">Repeat New Password</label>
+                                    {{ form_widget(resetForm.newPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirm Password'}}) }}
+                                </div>
+                                <button type="submit" class="btn" style="width: 50%; background-color: #ff8c13; border: none; color: black;">Reset password</button>
+                            {{ form_end(resetForm) }}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
