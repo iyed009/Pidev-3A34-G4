@@ -9,6 +9,7 @@ use App\Form\ReponseType;
 use App\Repository\ReclamationRepository;
 use App\Repository\ReponseRepository;
 use App\Repository\UserRepository;
+use App\Service\TwilioService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,10 +27,9 @@ class ReclamationController extends AbstractController
     public function index(ReclamationRepository $reclamationRepository, Request $request,PaginatorInterface $paginator): Response
     {
 
+
+
         $etat = $request->get('etat','all');
-        $term = $request->query->get('search');
-
-
         $reclamations = [];
 
         if ($etat === 'Traité') {
@@ -47,6 +47,7 @@ class ReclamationController extends AbstractController
             6 // limit per page
         );
 
+
         return $this->render('reclamation/index.html.twig', [
             'reclamations' => $reclamations,
             'etat' => $etat,
@@ -57,13 +58,13 @@ class ReclamationController extends AbstractController
 
 
     #[Route('/new', name: 'app_reclamation_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager ,UserRepository $utilisateurRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager ,UserRepository $utilisateurRepository,TwilioService $twilioService): Response
     {
         $reclamation = new Reclamation();
         $user=$utilisateurRepository->find(1);
         $reclamation->setUtilisateur($user);
         $reclamation->setNumTele(7777777);
-        $reclamation->setEmail('aaaaaaaa');
+        $reclamation->setEmail('belhouchet.koussay@esprit.tn');
 
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);
@@ -71,6 +72,10 @@ class ReclamationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($reclamation);
             $entityManager->flush();
+            $to="+21650889983";
+            $body="Une nouvelle reclamation a etait ajouter";
+            $twilioService->sendSms($to,$body);
+            $this->addFlash('success', 'Your reclamation has been added successfully.');
 
 
             return $this->redirectToRoute('app_reclamation_client', [], Response::HTTP_SEE_OTHER);
@@ -140,37 +145,26 @@ class ReclamationController extends AbstractController
         return $this->redirectToRoute('app_reclamation_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/search', name: 'reclamation_search' )]
-    public function searchAction(Request $request, EntityManagerInterface $em)
+    #[Route('/search', name: 'reclamation_search')]
+    public function search(Request $request, ReclamationRepository $reclamationRepository)
     {
-        $requestString = $request->query->get('q');
-        $reclamations = $em->getRepository(Reclamation::class)->searchReclamations($requestString);
+        $searchTerm = $request->query->get('q');
 
-        $result = [];
-        if(count($reclamations) === 0) {
-            $result['reclamations']['error'] = "Aucune réclamation trouvée";
-        } else {
-            $result['reclamations'] = $this->getRealEntities($reclamations);
-        }
+        $reclamations = $reclamationRepository->findEntitiesByString($searchTerm);
 
-        return new Response(json_encode($result));
-    }
-
-    private function getRealEntities($reclamations) {
-        $realEntities = [];
+        // Formatage des résultats pour le renvoi au format JSON
+        $formattedReclamations = [];
         foreach ($reclamations as $reclamation) {
-            $formattedDate = $reclamation->getDate()->format('Y-m-d');
-            $realEntities[] = [
-                $reclamation->getNom(),
-                $reclamation->getPrenom(),
-                $reclamation->getEmail(),
-                $reclamation->getSujet(),
-                $reclamation->getEtat(),
-                $reclamation->getId(),
+            $formattedReclamations[] = [
+                'nom' => $reclamation->getNom(),
+                'prenom' => $reclamation->getPrenom(),
+                'etat' => $reclamation->getEtat(),
+                'email' => $reclamation->getEmail(),
+                'sujet' => $reclamation->getSujet(),
+                'id' => $reclamation->getId(), // Ajoutez d'autres champs si nécessaire
             ];
         }
-        return $realEntities;
+
+        return new JsonResponse(['reclamations' => $formattedReclamations]);
     }
-
-
 }

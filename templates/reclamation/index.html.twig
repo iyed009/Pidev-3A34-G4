@@ -3,23 +3,23 @@
 {% block title %}Reclamation index{% endblock %}
 
 {% block body %}
-    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <div class="content d-flex flex-column flex-column-fluid" >
         <!--begin::Post-->
-        <div class="post d-flex flex-column-fluid" id="kt_post">
+        <div class="post d-flex flex-column-fluid">
             <!--begin::Container-->
-            <div id="kt_content_container" class="container-xxl">
+            <div  class="container-xxl">
                 <!--begin::Heading-->
                 <div class="d-flex flex-wrap flex-stack mb-6">
                     <!--begin::Title-->
                     <h3 class="fw-bolder my-2" >Reclamations
-                        <span class="fs-6 fw-bold ms-1">( {{ count }} )</span></h3>
+                        <span class="fs-6 fw-bold ms-1">( {{ (count) }} )</span></h3>
                     <!--end::Title-->
                     <!--begin::Controls-->
                     <div class="aside-search py-5">
                         <!--begin::Search-->
-                        <div id="kt_header_search" class="d-flex align-items-center" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter" data-kt-search-layout="menu" data-kt-menu-trigger="auto" data-kt-menu-permanent="true" data-kt-menu-placement="bottom-start" data-kt-menu-flip="bottom">
+                        <div  class="d-flex align-items-center" >
                             <!-- begin::Form -->
-                            <form data-kt-search-element="form" class="w-100 position-relative" autocomplete="off">
+                            <form  class="w-100 position-relative" autocomplete="off">
                                 <!-- begin::Hidden input(Added to disable form autocomplete) -->
                                 <input type="hidden" />
                                 <!-- end::Hidden input -->
@@ -29,7 +29,7 @@
                             </span>
                                 <!-- end::Icon -->
                                 <!-- begin::Input -->
-                                <input type="text" id="searchInput" class="form-control ps-13 fs-7 h-40px" name="search" value="" placeholder="Rechercher" data-kt-search-element="input" />
+                                <input type="text" class="form-control ps-13 fs-7 h-40px" id="search1" value="" placeholder="Rechercher"/>
                                 <!-- end::Input -->
                             </form>
                             <!-- end::Form -->
@@ -130,8 +130,86 @@
     </ul>
 </div>
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var searchRequest = null;
+            var originalReclamations = jQuery('.row.g-6.g-xl-9').html(); // Store original reclamation items
+            var reclamations = []; // Define reclamations array here
 
 
+            jQuery("#search1").keyup(function() {
+                var minlength = 1;
+                var that = this;
+                var value = jQuery(this).val();
+
+                if (value.length >= minlength) {
+                    // Abort previous request if it exists
+                    if (searchRequest != null) {
+                        searchRequest.abort();
+                    }
+
+                    searchRequest = jQuery.ajax({
+                        type: "GET",
+                        url: "{{ path('reclamation_search') }}",
+                        data: {
+                            'q': value
+                        },
+                        dataType: "json",
+                        success: function(result) {
+                            var reclamationContainer = jQuery('.row.g-6.g-xl-9');
+                            reclamationContainer.empty();
+                            if (result.reclamations.length === 0) {
+                                var messageHtml = '<div class="col-12">' +
+                                    '<div class="card text-center">' +
+                                    '<div class="card-body d-flex align-items-center justify-content-center" style="min-height: 200px;">' +
+                                    '<p class="fs-5 text-muted">Aucune réclamation n\'a été trouvée.</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                                reclamationContainer.append(messageHtml);
+                            } else {
+                                // Append search results to reclamation container
+                                jQuery.each(result.reclamations, function(index, reclamation) {
+                                    var reclamationHtml = '<div class="col-md-6 col-xxl-4">' +
+                                        '<div class="card">' +
+                                        '<div class="card-body d-flex flex-center flex-column p-9">' +
+                                        '<div class="mb-5">' +
+                                        '<div class="symbol symbol-75px symbol-circle">' +
+                                        '<img alt="Pic" src="{{ asset('assets/media/avatars/12.jpg') }}"/>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<a href="#" class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">' + reclamation.nom + ' ' + reclamation.prenom + '</a>' +
+                                        '<div class="fw-bold text-gray-400 mb-6"><span class="' + (reclamation.etat == 'Traité' ? 'badge badge-light-success fs-7 fw-bold' : 'badge badge-light-danger fs-7 fw-bold') + '">' + reclamation.etat + '</span></div>' +
+                                        '<div class="d-flex flex-center flex-wrap mb-5">' +
+                                        '<div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mx-3 mb-3">' +
+                                        '<div class="fs-6 fw-bolder text-gray-700">Email</div>' +
+                                        '<div class="fw-bold text-gray-400">' + reclamation.email + '</div>' +
+                                        '</div>' +
+                                        '<div class="border border-gray-300 border-dashed rounded min-w-125px py-3 mx-3 px-4 mb-3">' +
+                                        '<div class="fs-6 fw-bolder text-gray-700">Sujet</div>' +
+                                        '<div class="fw-bold text-gray-400">' + reclamation.sujet + '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<a href="/reclamation/show/' + reclamation.id + '" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">' +
+                                        '<button class="btn btn-sm btn-light-primary fw-bolder" data-kt-drawer-show="true">Detail</button>' +
+                                        '</a>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>';
+                                    reclamationContainer.append(reclamationHtml);
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    // Restore original reclamation items if search input is empty
+                    jQuery('.row.g-6.g-xl-9').html(originalReclamations);
+                }
+            });
+        });
+    </script>
 
 {% endblock %}
 

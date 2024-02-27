@@ -45,12 +45,18 @@ class ReclamationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function searchReclamations($query)
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.nom LIKE :query OR r.prenom LIKE :query OR r.sujet LIKE :query OR r.email LIKE :query')
-            ->setParameter('query', '%' . $query . '%')
-            ->getQuery()
+    public function findEntitiesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT r
+            FROM App\Entity\Reclamation r
+            WHERE r.sujet LIKE :str 
+            OR r.nom LIKE :str
+            OR r.email LIKE :str 
+            OR r.description LIKE :str
+            OR r.etat LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
             ->getResult();
     }
 

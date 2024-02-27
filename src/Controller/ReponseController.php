@@ -6,11 +6,15 @@ use App\Entity\Reclamation;
 use App\Entity\Reponse;
 use App\Form\ReponseType;
 use App\Repository\ReponseRepository;
+use App\Service\TwilioService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/reponse')]
@@ -20,6 +24,7 @@ class ReponseController extends AbstractController
     public function index(Request $request, ReponseRepository $reponseRepository, PaginatorInterface $paginator): Response
     {
         $reponses = $reponseRepository->findAll();
+        $count=count($reponses);
 
 
         $reponses = $paginator->paginate(
@@ -29,13 +34,14 @@ class ReponseController extends AbstractController
         );
 
         return $this->render('reponse/index.html.twig', [
-            'reponses' => $reponses
+            'reponses' => $reponses,
+            'count'=>$count,
         ]);
     }
 
 
     #[Route('/new', name: 'app_reponse_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager ): Response
     {
         $reclamationId = $request->query->get('id');
         $reclamation = $entityManager->getRepository(Reclamation::class)->find($reclamationId);
@@ -51,9 +57,30 @@ class ReponseController extends AbstractController
             $entityManager->persist($reponse);
             $entityManager->flush();
 
+
             $reclamation->setEtat("Traité");
             $entityManager->persist($reclamation);
             $entityManager->flush();
+            $to=$reclamation->getEmail();
+            $content = '<p>See Twig integration for better HTML integration!</p>';
+            $subject='It work!';
+            $transport = Transport::fromDsn('gmail+smtp://iyed.ouederni@esprit.tn:jzagybphgctjripq@smtp.gmail.com:587');
+
+            // Create a Mailer instance with the specified transport
+            $mailerWithTransport = new Mailer($transport);
+            $email = (new Email())
+                ->from('iyed.ouederni@esprit.tn')
+                ->to($to)
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject($subject)
+                // ->text('Sending emails is fun again!')
+                ->html($content);
+
+
+            $mailerWithTransport->send($email);
 
 
             return $this->redirectToRoute('app_reponse_index', [], Response::HTTP_SEE_OTHER);

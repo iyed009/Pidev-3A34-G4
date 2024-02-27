@@ -1,55 +1,63 @@
 {% extends 'base1.html.twig' %}
 
-
-
 {% block title %}New Reclamation{% endblock %}
 
 {% block body %}
-{# <section class="contact-section">
-        <div class="container">
-
-
-
-
-    <h1>Create new Reclamation</h1>
-
-    <div class="col-lg-8">
-        {{ form_start(form, {'attr': {'class': 'form-contact contact_form', 'id': 'contactForm', 'novalidate': 'novalidate'}}) }}
-        <div class="row">
-
-            <div class="col-sm-6">
-                <div class="form-group">
-                    {{ form_widget(form.nom, {'attr': {'class': 'form-control valid', 'placeholder': 'Enter your name'}}) }}
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group">
-                    {{ form_widget(form.sujet, {'attr': {'class': 'form-control', 'placeholder': 'Enter Subject'}}) }}
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-group">
-                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter Description'}}) }}
-                </div>
-            </div>
-        </div>
-        <div class="form-group mt-3">
-            <button type="submit" class="button button-contactForm boxed-btn">Send</button>
-        </div>
-        {{ form_end(form) }}
-    </div>
-    <div class="col-lg-3 offset-lg-1">
-        <!-- Your contact information code goes here -->
-    </div>
-
-
-    <a href="{{ path('app_reclamation_index') }}">back to list</a>
-        </div>
-    </section>#}
-{#
     <section class="contact-section spad">
-        <div class="container">
-            <div class="row">
+        <button id="toggleButton" onclick="toggleDivs()" style="border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; transition: background-color 0.3s ease;background-color: #f36100; color: #fff; margin-top: 10px; display: block; margin: 10px auto;">
+            <i class="fas fa-microphone-alt" style="margin-right: 5px;"></i> Voice
+        </button>
+
+
+        <div class="container" id="div2" style="display:none;">
+            <div class="row "  >
+                <div class="col-lg-6">
+                    <div class="section-title contact-title">
+                        <span>Contact Us</span>
+                        <h2>GET IN TOUCH</h2>
+                    </div>
+                    <div class="contact-widget">
+                        <div class="cw-text">
+                            <i class="fa fa-map-marker"></i>
+                            <p>333 Middle Winchendon Rd, Rindge,<br/> NH 03461</p>
+                        </div>
+                        <div class="cw-text">
+                            <i class="fa fa-mobile"></i>
+                            <ul>
+                                <li>125-711-811</li>
+                                <li>125-668-886</li>
+                            </ul>
+                        </div>
+                        <div class="cw-text email">
+                            <i class="fa fa-envelope"></i>
+                            <p>Support.gymcenter@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div  class="text-center card transcription-card"  >
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h1 style="color: white;">OpenAI Transcription</h1>
+                                <form method="post" action="{{ path('transcribe') }}" enctype="multipart/form-data">
+                                    <label for="audioFile" style="color: white;">Upload Audio File:</label>
+                                    <input type="file" name="audioFile" id="audioFile"  capture="microphone">
+                                    <button type="submit" class="btn btn-primary">Transcribe</button>
+                                </form>
+                                {% if transcription is defined %}
+                                    <p style="color: black;"><strong>Transcription:</strong> {{ transcription }}</p>
+                                {% else %}
+                                    <p style="color: black;">No transcription available.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="container" id="div1" >
+            <div class="row "  >
                 <div class="col-lg-6">
                     <div class="section-title contact-title">
                         <span>Contact Us</span>
@@ -74,95 +82,66 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="leave-comment">
-                        <form action="#">
-                            <input type="text" placeholder="Name">
-                            <input type="text" placeholder="Email">
-                            <input type="text" placeholder="Website">
-                            <textarea placeholder="Comment"></textarea>
-                            <button type="submit">Submit</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="map">
-                <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12087.069761554938!2d-74.2175599360452!3d40.767139456514954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c254b5958982c3%3A0xb6ab3931055a2612!2sEast%20Orange%2C%20NJ%2C%20USA!5e0!3m2!1sen!2sbd!4v1581710470843!5m2!1sen!2sbd"
-                        height="550" style="border:0;" allowfullscreen=""></iframe>
-            </div>
-        </div>
-    </section>
-#}
-    {# Assuming this is the beginning of your template #}
-
-    <section class="contact-section spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="section-title contact-title">
-                        <span>Contact Us</span>
-                        <h2>GET IN TOUCH</h2>
-                    </div>
-                    <div class="contact-widget">
-                        <div class="cw-text">
-                            <i class="fa fa-map-marker"></i>
-                            <p>333 Middle Winchendon Rd, Rindge,<br/> NH 03461</p>
-                        </div>
-                        <div class="cw-text">
-                            <i class="fa fa-mobile"></i>
-                            <ul>
-                                <li>125-711-811</li>
-                                <li>125-668-886</li>
-                            </ul>
-                        </div>
-                        <div class="cw-text email">
-                            <i class="fa fa-envelope"></i>
-                            <p>Support.gymcenter@gmail.com</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class= "text-center">
+                    <div  class="text-center">
                         {{ form_start(form, {'attr': {'action': '#', 'class': 'form-contact contact_form', 'id': 'contactForm', 'novalidate': 'novalidate'}}) }}
                         <div class="form-group row">
                             <div class="col">
                                 {{ form_widget(form.nom, {'attr': {'class': 'form-control', 'placeholder': 'Enter your name'}}) }}
-                                <div style="color: red;">{{ form_errors(form.nom) }}</div> {# Affiche les erreurs de validation pour le champ nom #}
+                                <div style="color: red;">{{ form_errors(form.nom) }}</div>
                             </div>
                             <div class="col">
                                 {{ form_widget(form.prenom, {'attr': {'class': 'form-control', 'placeholder': 'Enter your surname'}}) }}
-                                <div style="color: red;">{{ form_errors(form.prenom) }}</div> {# Affiche les erreurs de validation pour le champ prénom #}
+                                <div style="color: red;">{{ form_errors(form.prenom) }}</div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             {{ form_widget(form.sujet, {'attr': {'class': 'leave-comment form-control form-select form-select-lg', 'placeholder': 'Enter Subject'}}) }}
-                            <div style="color: red;">{{ form_errors(form.sujet) }}</div> {# Affiche les erreurs de validation pour le champ sujet #}
+                            <div style="color: red;">{{ form_errors(form.sujet) }}</div>
                         </div>
 
                         <div class="form-group">
                             {{ form_widget(form.date, {'attr': {'class': 'form-control custom-input', 'placeholder': 'Enter your date'}}) }}
-                            <div style="color: red;">{{ form_errors(form.date) }}</div> {# Affiche les erreurs de validation pour le champ date #}
+                            <div style="color: red;">{{ form_errors(form.date) }}</div>
                         </div>
                         <div class="form-group">
                             {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Enter Description'}}) }}
-                            <div style="color: red;">{{ form_errors(form.description) }}</div> {# Affiche les erreurs de validation pour le champ description #}
+                            <div style="color: red;">{{ form_errors(form.description) }}</div>
                         </div>
 
                         <button type="submit" class="button button-contactForm boxed-btn" style="background-color: #f36100; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; cursor: pointer; transition: background-color 0.3s ease;">Submit</button>
 
                         {{ form_end(form) }}
                     </div>
+
+
                 </div>
+
             </div>
-            <div class="map">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12087.069761554938!2d-74.2175599360452!3d40.767139456514954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c254b5958982c3%3A0xb6ab3931055a2612!2sEast%20Orange%2C%20NJ%2C%20USA!5e0!3m2!1sen!2sbd!4v1581710470843!5m2!1sen!2sbd" height="550" style="border:0;" allowfullscreen=""></iframe>
             </div>
+
+
+        <div class="map">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12087.069761554938!2d-74.2175599360452!3d40.767139456514954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c254b5958982c3%3A0xb6ab3931055a2612!2sEast%20Orange%2C%20NJ%2C%20USA!5e0!3m2!1sen!2sbd!4v1581710470843!5m2!1sen!2sbd" height="550" style="border:0;" allowfullscreen=""></iframe>
         </div>
     </section>
 
+    <script>
+        function toggleDivs() {
+            var div1 = document.getElementById('div1');
+            var div2 = document.getElementById('div2');
+            var toggleButton = document.getElementById('toggleButton');
+
+            if (div1.style.display !== 'none') {
+                div1.style.display = 'none';
+                div2.style.display = 'block';
+                toggleButton.innerHTML = '<i class="fas fa-edit"></i> Ecrire';
+            } else {
+                div1.style.display = 'block';
+                div2.style.display = 'none';
+                toggleButton.innerHTML = '<i class="fas fa-microphone-alt"></i> Voice';
+            }
+        }
+    </script>
 
 {% endblock %}
-
-
-
