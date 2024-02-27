@@ -150,4 +150,77 @@ class EvenementController extends AbstractController
 
         return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/tri/prix', name: 'produit_tri' )]
+    public function tri(ProduitRepository $repo,SousCategorieRepository $sousCategorieRepository, PaginatorInterface $paginator,Request $request): Response
+    {   $data =  $repo->findProductsByPrice();
+        $produits = $paginator->paginate(
+            $data, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+
+
+        return $this->render('produit/front.html.twig', [
+            'sous_categories' => $sousCategorieRepository->findAll(),
+            'produits' => $produits,
+        ]);
+    }
+
+    #[Route('/tri/desc', name: 'produit_desc' )]
+    public function tridesc(ProduitRepository $repo,SousCategorieRepository $sousCategorieRepository, PaginatorInterface $paginator,Request $request): Response
+    {
+        $data =  $repo->findProductsByPriceDESC();
+        $produits = $paginator->paginate(
+            $data, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+
+        return $this->render('produit/front.html.twig', [
+            'sous_categories' => $sousCategorieRepository->findAll(),
+            'produits' => $produits,
+        ]);
+    }
+
+    #[Route('/tri/nom', name: 'produit_tri_nom' )]
+    public function trinom(EvenementRepository $repo, PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $evenement = new Evenement();
+        $form = $this->createForm(EvenementType::class, $evenement);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $imageFile */
+            $imageFile = $form->get('image_evenement')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $evenement->setImageEvenement($newFilename);
+                $entityManager->persist($evenement);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+        $data =  $repo->findProductsByName();
+        $produits = $paginator->paginate(
+            $data, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+
+        return $this->render('evenement/index.html.twig', [
+
+            'form' => $form->createView(),
+            'evenements' => $produits,
+
+        ]);
+    }
 }

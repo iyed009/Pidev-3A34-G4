@@ -6,6 +6,7 @@ use App\Entity\Ticket;
 use App\Form\Ticket1Type;
 use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Endroid\QrCode\QrCode;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -92,6 +93,29 @@ class TicketFrontController extends AbstractController
             ]);
         } catch (\Exception $e) {
             return new Response($e->getMessage(), 400);
+        }
+    }
+
+    public function generateQRCode(int $ticketId): Response
+    {
+        // Get the Ticket entity from the database
+        $entityManager = $this->getDoctrine()->getManager();
+        $ticket = $entityManager->getRepository(Ticket::class)->find($ticketId);
+
+        // If the Ticket entity is found, generate the QR code
+        if ($ticket) {
+            // Create a new QR code instance with the ID of the Ticket entity
+            $qrCode = new QrCode($ticket->getId());
+
+            // Set additional options (optional)
+            $qrCode->setSize(300);
+            $qrCode->setMargin(10);
+
+            // Return a response with the QR code image
+            return new Response($qrCode->writeString(), 200, ['Content-Type' => 'image/png']);
+        } else {
+            // Return a 404 Not Found response if the Ticket entity is not found
+            return new Response('Not Found', 404);
         }
     }
 }

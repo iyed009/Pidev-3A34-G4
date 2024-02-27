@@ -12,6 +12,7 @@
                 <div class="card">
                     <!--begin::Card header-->
                     <div class="card-header ">
+
                         <!--begin::Card title-->
 
                         <!--begin::Search-->
@@ -32,7 +33,6 @@
                                    class="form-control form-control-solid w-250px ps-14" placeholder="Search user"/>
                         </div>
                         <div class="card-header border-0 pt-5">
-
                             <div class="card-toolbar">
                                 <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
                                    data-bs-target="#kt_modal_new_target">
@@ -94,9 +94,9 @@
 
 
                                                 <div class="form-group">
-                                                {{ form_label(form.date_evenement,'Date :',{'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}}) }}
-                                                {{ form_widget(form.date_evenement, { 'attr': {'class': 'form-control form-control-solid ps-12 ', 'placeholder': 'Sélectionnez une date', 'id': 'date_evenement_input'}}) }}
-                                                {{ form_errors(form.date_evenement) }}
+                                                    {{ form_label(form.date_evenement,'Date :',{'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}}) }}
+                                                    {{ form_widget(form.date_evenement, { 'attr': {'class': 'form-control form-control-solid ps-12 ', 'placeholder': 'Sélectionnez une date', 'id': 'date_evenement_input'}}) }}
+                                                    {{ form_errors(form.date_evenement) }}
                                                 </div>
 
                                                 {{ form_row(form.image_evenement, {
@@ -128,7 +128,22 @@
                                     </div>
                                     <!--end::Modal dialog-->
                                 </div>
+                                <div class="toolbox-right" >
+                                    <div class="toolbox-sort"  >
+                                        <div class="select-custom" >
+                                            <select name="sortby" id="sortby" class="form-control" onchange="window.location.href=this.value;">
+                                                <option value="#" selected="selected">Trier par</option>
+
+                                                <option value="{{path('produit_tri_nom')}}">Nom</option>
+                                                <option value="{{path('app_evenement_index')}}" >Non triée</option>
+                                            </select>
+                                            {#<option value="#">Date</option>#}
+                                        </div>
+                                    </div><!-- End .toolbox-sort -->
+                                </div>
                             </div>
+
+
 
                         </div>
 

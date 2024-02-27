@@ -1,3 +1,8 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+generate_qr_code:
+  path: /generate_qr_code/{ticketId}
+  controller: App\Controller\QRCodeController::generateQRCode
+  methods: ['GET']

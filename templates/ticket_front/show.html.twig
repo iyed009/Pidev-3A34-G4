@@ -52,11 +52,10 @@
                             <li>{{ ticket.evenement.dateEvenement ? ticket.evenement.dateEvenement|date('D M Y') : '' }}</li>
 
                         </ul>
-                        <a href="{{ path('decrement_ticket', {'id': ticket.id}) }}" class="primary-btn pricing-btn">Enroll now</a>
-                        <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
+                        <a href="{{ path('decrement_ticket', {'id': ticket.id}) }}" class="primary-btn pricing-btn">Enroll now</a></a>
                     </div>
                 </div>
-
+                <img src="{{ path('generate_qr_code', {'ticketId': ticket.id}) }}" alt="QR Code">
             </div>
         </div>
     </section>

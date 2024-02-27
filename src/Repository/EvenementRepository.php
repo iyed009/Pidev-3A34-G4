@@ -21,6 +21,38 @@ class EvenementRepository extends ServiceEntityRepository
         parent::__construct($registry, Evenement::class);
     }
 
+    public function findProductsByPrice()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p FROM App\Entity\Produit p ORDER BY p.prix ASC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findProductsByPriceDESC()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p FROM App\Entity\Produit p ORDER BY p.prix DESC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findProductsByName()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p FROM App\Entity\Evenement p ORDER BY p.nom ASC'
+        );
+
+        return $query->getResult();
+    }
 //    /**
 //     * @return Evenement[] Returns an array of Evenement objects
 //     */
