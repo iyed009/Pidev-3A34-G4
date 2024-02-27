@@ -81,6 +81,10 @@
 								{{ form_row(registrationForm.agreeTerms) }}
 								{# Only manually render errors if necessary, otherwise `form_row` handles it. #}
 							</div>
+							<div class="mb-3">
+								{{ form_row(registrationForm.recaptcha) }}
+								{{ form_errors(registrationForm.recaptcha) }}
+							</div>
 						</div>
 					</div>
 					{% if app.flashes('registration_error') %}

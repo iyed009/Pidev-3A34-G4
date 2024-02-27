@@ -51,7 +51,8 @@
         "symfonycasts/reset-password-bundle": "^1.14",
         "symfonycasts/verify-email-bundle": "^1.16",
         "twig/extra-bundle": "^2.12|^3.0",
-        "twig/twig": "^2.12|^3.0"
+        "twig/twig": "^2.12|^3.0",
+        "victor-prdh/recaptcha-bundle": "^1.8"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.5",

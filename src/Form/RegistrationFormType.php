@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
+use VictorPrdh\RecaptchaBundle\Form\ReCaptchaType; // Ensure you have this use statement
 
 class RegistrationFormType extends AbstractType
 {
@@ -26,7 +27,6 @@ class RegistrationFormType extends AbstractType
             ->add('email', null, [
                 'required' => false,
             ])
-            // Modifier ici pour ajouter le champ de confirmation
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'first_options' => ['label' => 'Password'],
@@ -60,6 +60,10 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
                 'label' => 'I agree to the terms and conditions',
+            ])
+            ->add('recaptcha', ReCaptchaType::class, [ // Add the reCAPTCHA field here
+                'mapped' => false, // reCAPTCHA field is usually not mapped to any entity property
+                // You can add additional options if needed
             ]);
     }
 
@@ -67,7 +71,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'attr' => ['novalidate' => 'novalidate']
+            'attr' => ['novalidate' => 'novalidate'], // Assuming you're disabling HTML5 validation for testing
         ]);
     }
 }
