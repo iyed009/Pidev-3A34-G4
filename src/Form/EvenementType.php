@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use VictorPrdh\RecaptchaBundle\Form\ReCaptchaType;
+
 class EvenementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -28,6 +30,7 @@ class EvenementType extends AbstractType
                     new Assert\GreaterThanOrEqual('today'),
                 ],
             ])
+
             ->add('image_evenement',FileType::class,[
                 'label' => 'image_evenement',
                 'mapped' => false,
@@ -38,6 +41,8 @@ class EvenementType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image file',
                     ])
                 ],])
+            ->add('recaptcha', ReCaptchaType::class)
+
         ;
 
     }

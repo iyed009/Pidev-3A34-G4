@@ -75,4 +75,27 @@ class TicketRepository extends ServiceEntityRepository
             ->setParameter('str', '%'.$str.'%')
             ->getResult();
     }
+
+
+    public function findTicketsByPrice()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT t FROM App\Entity\Ticket t ORDER BY t.prix ASC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findTicketsByPriceDESC()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT t FROM App\Entity\Ticket t ORDER BY t.prix DESC'
+        );
+
+        return $query->getResult();
+    }
 }

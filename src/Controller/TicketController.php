@@ -146,6 +146,53 @@ class TicketController extends AbstractController
 
 
 
+    #[Route('/tri/asc', name: 'ticket_tri_asc' )]
+    public function tri(TicketRepository $repo, PaginatorInterface $paginator,Request $request): Response
+    {
+        $ticket = new Ticket();
+
+        $form = $this->createForm(TicketType::class, $ticket);
+        $form->handleRequest($request);
+
+        $data =  $repo->findTicketsByPrice();
+        $tickets = $paginator->paginate(
+            $data, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+
+
+        return $this->render('ticket/index.html.twig', [
+            'tickets' => $tickets,
+            'form' => $form->createView(),
+
+        ]);
+    }
+
+    #[Route('/tri/desc', name: 'ticket_tri_desc' )]
+    public function tridesc(TicketRepository $repo, PaginatorInterface $paginator,Request $request): Response
+    {
+
+        $ticket = new Ticket();
+
+        $form = $this->createForm(TicketType::class, $ticket);
+        $form->handleRequest($request);
+
+        $data =  $repo->findTicketsByPriceDESC();
+        $tickets = $paginator->paginate(
+            $data, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+
+        return $this->render('ticket/index.html.twig', [
+            'form' => $form->createView(),
+
+            'tickets' => $tickets,
+        ]);
+    }
+
+
 
 
 }

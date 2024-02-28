@@ -10,6 +10,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -150,67 +151,16 @@ class EvenementController extends AbstractController
 
         return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
     }
-    #[Route('/tri/prix', name: 'produit_tri' )]
-    public function tri(ProduitRepository $repo,SousCategorieRepository $sousCategorieRepository, PaginatorInterface $paginator,Request $request): Response
-    {   $data =  $repo->findProductsByPrice();
-        $produits = $paginator->paginate(
-            $data, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            3 /*limit per page*/
-        );
 
-
-        return $this->render('produit/front.html.twig', [
-            'sous_categories' => $sousCategorieRepository->findAll(),
-            'produits' => $produits,
-        ]);
-    }
-
-    #[Route('/tri/desc', name: 'produit_desc' )]
-    public function tridesc(ProduitRepository $repo,SousCategorieRepository $sousCategorieRepository, PaginatorInterface $paginator,Request $request): Response
-    {
-        $data =  $repo->findProductsByPriceDESC();
-        $produits = $paginator->paginate(
-            $data, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            3 /*limit per page*/
-        );
-
-        return $this->render('produit/front.html.twig', [
-            'sous_categories' => $sousCategorieRepository->findAll(),
-            'produits' => $produits,
-        ]);
-    }
-
-    #[Route('/tri/nom', name: 'produit_tri_nom' )]
+    #[Route('/tri/nom', name: 'evenement_tri_nom' )]
     public function trinom(EvenementRepository $repo, PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
     {
         $evenement = new Evenement();
         $form = $this->createForm(EvenementType::class, $evenement);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            /** @var UploadedFile $imageFile */
-            $imageFile = $form->get('image_evenement')->getData();
-            if ($imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-                try {
-                    $imageFile->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                $evenement->setImageEvenement($newFilename);
-                $entityManager->persist($evenement);
-                $entityManager->flush();
 
-                return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
-            }
-        }
         $data =  $repo->findProductsByName();
-        $produits = $paginator->paginate(
+        $evenements = $paginator->paginate(
             $data, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
             3 /*limit per page*/
@@ -219,8 +169,35 @@ class EvenementController extends AbstractController
         return $this->render('evenement/index.html.twig', [
 
             'form' => $form->createView(),
-            'evenements' => $produits,
+            'evenements' => $evenements,
 
         ]);
     }
+
+    #[Route('/search1', name: 'evenement_search1')]
+    public function search1(Request $request, EvenementRepository $evenementRepository)
+    {
+        $searchTerm = $request->query->get('q');
+
+        $evenements = $evenementRepository->findEntitiesByString1($searchTerm);
+
+        // Formatage des résultats pour le renvoi au format JSON
+        $formattedEvenements = [];
+        foreach ($evenements as $evenement) {
+            $formattedEvenements[] = [
+                'nom' => $evenement->getNom(),
+                'date' => $evenement->getDateEvenement() ? $evenement->getDateEvenement()->format('Y-m-d ') : null,// Utiliser getDateEvenement au lieu de setDateEvenement
+                'heure' => $evenement->getDateEvenement() ? $evenement->getDateEvenement()->format('H:i ') : null,// Utiliser getDateEvenement au lieu de setDateEvenement
+                'lieu' => $evenement->getLieu(),
+                'description' => $evenement->getDescription(),
+                'imageEvenement' => $evenement->getImageEvenement(),
+                'id' => $evenement->getId(),
+                // Add other fields as needed
+            ];
+        }
+
+        return new JsonResponse(['evenements' => $formattedEvenements]);
+    }
+
+
 }
