@@ -9,17 +9,29 @@ use App\Form\PasswordUpdateType;
 use App\Form\UserProfileType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Mime\Address;
 
 
 #[Route('/user')]
 class UserController extends AbstractController
 {
+
+    private EmailVerifier $emailVerifier;
+
+    public function __construct(EmailVerifier $emailVerifier)
+    {
+        $this->emailVerifier = $emailVerifier;
+    }
 
     #[Route('/users/role/client', name: 'user_list_role_client', methods: ['GET'])]
     public function listRoleClient(UserRepository $userRepository): Response
@@ -59,8 +71,33 @@ class UserController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+            $imageFile = $form->get('avatar')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+            }
+            $user->setAvatar($newFilename);
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
+                (new TemplatedEmail())
+                    ->from(new Address('smichimajed@gmail.com', '6Core'))
+                    ->to($user->getEmail())
+                    ->subject($user->getEmail())
+                    ->htmlTemplate('registration/confirmation_email.html.twig'),
+                ['id' => $user->getId()]
+            );
 
             return $this->redirectToRoute('user_list_role_client', [], Response::HTTP_SEE_OTHER);
         }
@@ -88,12 +125,40 @@ class UserController extends AbstractController
                     $form->get('password')->getData()
                 )
             );
+            $imageFile = $form->get('avatar')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+            }
+            $user->setAvatar($newFilename);
 
             $entityManager->persist($user);
             $entityManager->flush();
 
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
+                (new TemplatedEmail())
+                    ->from(new Address('smichimajed@gmail.com', '6Core'))
+                    ->to($user->getEmail())
+                    ->subject($user->getEmail())
+                    ->htmlTemplate('registration/confirmation_email.html.twig'),
+                ['id' => $user->getId()]
+            );
+
+
             return $this->redirectToRoute('user_list_role_AdminSalle', [], Response::HTTP_SEE_OTHER);
         }
+
+
 
         return $this->renderForm('user/newAdminSalle.html.twig', [
             'user' => $user,
@@ -115,20 +180,47 @@ class UserController extends AbstractController
     public function editProfile(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-
         $form = $this->createForm(UserProfileType::class, $user);
         $form->handleRequest($request);
+
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $entityManager->persist($user);
             $entityManager->flush();
-
-
             return $this->redirectToRoute('app_my_profile');
         }
-
         return $this->render('user/editProfile.html.twig', [
+            'form' => $form->createView(),
+            'user' => $user
+        ]);
+    }
+
+    #[Route('/Userprofile', name: 'userProfile', methods: ['GET'])]
+    public function userProfile(): Response
+    {
+        $user = $this->getUser();
+        //dump($user);
+        return $this->render('user/userData.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/editUserProfile', name: 'editProfileUser')]
+    public function editProfileUser(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(UserProfileType::class, $user);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('userProfile');
+        }
+        return $this->render('user/editUserProfile.html.twig', [
             'form' => $form->createView(),
             'user' => $user
         ]);
@@ -289,5 +381,57 @@ class UserController extends AbstractController
         // Redirect back to the previous page, or a default page if referrer not available
         $referrer = $request->headers->get('referer');
         return $this->redirect($referrer ?? $this->generateUrl('user_list_role_client'));
+    }
+
+    #[Route('/search', name: 'user_search')]
+    public function search(Request $request, UserRepository $userRepository)
+    {
+        $searchTerm = $request->query->get('q');
+
+        $users = $userRepository->findUsersByStringAndRoleAdmin($searchTerm);
+
+        // Formatage des résultats pour le renvoi au format JSON
+        $formattedusers = [];
+        foreach ($users as $user) {
+            $formattedusers[] = [
+                'avatar' => $user->getAvatar(),
+                'nom' => $user->getNom(),
+                'prenom' => $user->getPrenom(),
+                'email' => $user->getEmail(),
+                'adresse' => $user->getAdresse(),
+                'num_tele' => $user->getNumTele(),
+                'id' => $user->getId(),
+                'deleteUrl' => $this->generateUrl('app_user_delete_AdminSalle', ['id' => $user->getId()]),
+                'csrfToken' => $this->container->get('security.csrf.token_manager')->getToken('delete' . $user->getId())->getValue(),
+            ];
+        }
+
+        return new JsonResponse(['users' => $formattedusers]);
+    }
+
+    #[Route('/search1', name: 'client_search')]
+    public function search1(Request $request, UserRepository $userRepository)
+    {
+        $searchTerm = $request->query->get('q');
+
+        $users = $userRepository->findUsersByStringAndRoleClient($searchTerm);
+
+        // Formatage des résultats pour le renvoi au format JSON
+        $formattedusers = [];
+        foreach ($users as $user) {
+            $formattedusers[] = [
+                'avatar' => $user->getAvatar(),
+                'nom' => $user->getNom(),
+                'prenom' => $user->getPrenom(),
+                'email' => $user->getEmail(),
+                'adresse' => $user->getAdresse(),
+                'num_tele' => $user->getNumTele(),
+                'id' => $user->getId(),
+                'deleteUrl' => $this->generateUrl('app_user_delete_Client', ['id' => $user->getId()]),
+                'csrfToken' => $this->container->get('security.csrf.token_manager')->getToken('delete' . $user->getId())->getValue(),
+            ];
+        }
+
+        return new JsonResponse(['users' => $formattedusers]);
     }
 }

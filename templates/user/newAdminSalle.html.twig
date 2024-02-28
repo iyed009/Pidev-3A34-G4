@@ -73,6 +73,11 @@
 								{{ form_errors(form.adresse) }}
 							</div>
 						</div>
+						<div class="mb-3">
+							{{ form_label(form.avatar) }}
+							{{ form_widget(form.avatar, {'attr': {'class': 'form-control'}}) }}
+							<div class="text-danger">{{ form_errors(form.avatar) }}</div>
+						</div>
 
 						<div class="text-center">
 							<button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>

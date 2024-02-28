@@ -1,3 +1,12 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+user_search:
+  path: /search
+  controller: App\Controller\UserController::search
+
+# client_search:
+#   path: /search1
+#   controller: App\Controller\UserController::search1
+

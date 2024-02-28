@@ -31,7 +31,8 @@ class UserFixtures extends Fixture
             )
             ->setNumTele(12345678)
             ->setAdresse('ariana')
-            ->setRoles(['ROLE_SUPER_ADMIN']);
+            ->setRoles(['ROLE_SUPER_ADMIN'])
+            ->setAvatar('ssss');
 
 
         $manager->persist($user);

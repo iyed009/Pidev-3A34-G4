@@ -36,6 +36,51 @@ class UserRepository extends ServiceEntityRepository
         return $result->fetchAllAssociative();
     }
 
+    public function findUsersByStringAndRoleAdmin($str)
+    {
+        $queryResult = $this->getEntityManager()
+            ->createQuery(
+                'SELECT u
+                FROM App\Entity\User u
+                WHERE u.email LIKE :str 
+                OR u.nom LIKE :str
+                OR u.prenom LIKE :str'
+            )
+            ->setParameter('str', '%' . $str . '%')
+            ->getResult();
+
+        // Filtrer en PHP
+        $admins = array_filter($queryResult, function ($user) {
+            return in_array('ROLE_ADMIN', $user->getRoles()); // Assurez-vous que getRoles() retourne un tableau des rôles de l'utilisateur
+        });
+
+        return $admins;
+    }
+
+    public function findUsersByStringAndRoleClient($str)
+    {
+        $queryResult = $this->getEntityManager()
+            ->createQuery(
+                'SELECT u
+                FROM App\Entity\User u
+                WHERE u.email LIKE :str 
+                OR u.nom LIKE :str
+                OR u.prenom LIKE :str'
+            )
+            ->setParameter('str', '%' . $str . '%')
+            ->getResult();
+
+        // Filtrer en PHP
+        $clients = array_filter($queryResult, function ($user) {
+            return in_array('ROLE_CLIENT', $user->getRoles());
+        });
+
+        return $clients;
+    }
+
+
+
+
 
 
     //    /**

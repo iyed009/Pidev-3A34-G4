@@ -17,6 +17,7 @@ security:
       entry_point: App\Security\LoginFormAuthenticator
       custom_authenticator:
         - App\Security\LoginFormAuthenticator
+        - App\Security\GoogleAuthenticator
   
       logout:
         path: app_logout

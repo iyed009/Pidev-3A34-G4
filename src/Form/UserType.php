@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class UserType extends AbstractType
 {
@@ -25,6 +27,17 @@ class UserType extends AbstractType
                 'second_options' => ['label' => 'Confirm Password'],
                 'invalid_message' => 'The password fields must match.',
                 'required' => true,
+            ])
+            ->add('avatar', FileType::class, [
+                'label' => 'avatar',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new Assert\File([
+                        'maxSize' => '2Mi',
+                        'mimeTypesMessage' => 'Please upload a valid image file',
+                    ])
+                ],
             ])
             ->add('adresse');
     }

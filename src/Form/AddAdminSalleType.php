@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class AddAdminSalleType extends AbstractType
 {
@@ -24,6 +26,17 @@ class AddAdminSalleType extends AbstractType
                 'second_options' => ['label' => 'Confirm Password'],
                 'invalid_message' => 'The password fields must match.',
                 'required' => true,
+            ])
+            ->add('avatar', FileType::class, [
+                'label' => 'avatar',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new Assert\File([
+                        'maxSize' => '2Mi',
+                        'mimeTypesMessage' => 'Please upload a valid image file',
+                    ])
+                ],
             ])
             ->add('adresse');
     }
