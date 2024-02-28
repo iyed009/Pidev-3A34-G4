@@ -8,6 +8,7 @@ use App\Repository\TicketRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -114,6 +115,34 @@ class TicketController extends AbstractController
 
         return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+
+    #[Route('/search', name: 'ticket_search')]
+    public function search(Request $request, TicketRepository $ticketRepository)
+    {
+        $searchTerm = $request->query->get('q');
+
+        $tickets = $ticketRepository->findEntitiesByString($searchTerm);
+
+        // Formatage des résultats pour le renvoi au format JSON
+        $formattedTickets = []; // <----- Initialisez le tableau ici
+        foreach ($tickets as $ticket) {
+            $formattedTickets[] = [
+                'prix' => $ticket->getPrix(),
+                'type' => $ticket->getType(),
+                'nbreTicket' => $ticket->getNbreTicket(),
+                'evenement' => $ticket->getEvenement()->getNom(),
+
+
+                'id' => $ticket->getId(), // Ajoutez d'autres champs si nécessaire
+            ];
+        }
+
+        return new JsonResponse(['tickets' => $formattedTickets]);
+
+    }
+
 
 
 

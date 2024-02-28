@@ -59,4 +59,20 @@ class TicketRepository extends ServiceEntityRepository
             throw new \Exception('No tickets left to decrement');
         }
     }
+
+
+    public function findEntitiesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+            FROM App\Entity\Ticket t
+            JOIN t.evenement e
+            WHERE t.prix LIKE :str 
+            OR t.type LIKE :str
+            OR t.nbreTicket LIKE :str
+            OR e.nom LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+    }
 }
