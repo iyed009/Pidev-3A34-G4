@@ -63,6 +63,22 @@ class ActiviteRepository extends ServiceEntityRepository
         );
         return $query->getResult();
     }
+    public function findEntitiesByString($str) {
+        try {
+            return $this->getEntityManager()
+                ->createQuery('SELECT a
+                FROM App\Entity\Activite a
+                WHERE a.nom LIKE :str 
+                OR a.coach LIKE :str'
+                )
+                ->setParameter('str', '%'.$str.'%')
+                ->getResult();
+        } catch (\Exception $e) {
+            // Gérer l'erreur ici, par exemple, journaliser l'erreur ou renvoyer une réponse d'erreur
+            return [];
+        }
+    }
+
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('a')
@@ -84,4 +100,18 @@ class ActiviteRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findActivitiesByUserId(int $userId): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a
+             FROM App\Entity\Activite a
+             JOIN a.reservation u
+             WHERE u.id = :userId'
+        )->setParameter('userId', $userId);
+
+        return $query->getResult();
+    }
+
 }

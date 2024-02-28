@@ -3,6 +3,8 @@
 {% block title %}Hello NomController!{% endblock %}
 
 {% block body %}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
         <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
             <!--begin::Post-->
@@ -87,6 +89,8 @@
                                                     <!--end::Heading-->
                                                     {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de la Salle'}}) }}
                                                     {{ form_row(form.addresse, {'label': 'Addresse', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez l\'addresse de la Salle'}}) }}
+                                                    <div id="map-container" style="padding-top: 15px; padding-bottom: 15px;">
+                                                        <div id="map"></div>
                                                     {{ form_row(form.numTel, {'label': 'Numero du téléphone', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le numero de la Salle'}}) }}
                                                     {{ form_row(form.capacite, {'label': 'Capacitée', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la capacitée de la Salle'}}) }}
                                                     {{ form_row(form.nbrClient, {'label': 'Nombre abonné', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nombre d\'abbonn\é de la Salle'}}) }}
@@ -242,5 +246,36 @@
             });
         </script>
     {% endif %}
+    <style>
+        #map {
+            flex: 1; /* Utiliser tout l'espace disponible */
+            height: 300px;
+
+
+        }
+    </style>
+    <script>
+        var map = L.map('map').setView([36.8091, 10.1491], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        /// hetha markeur l haja l t98amer bih penaise wle chsmo ahahha
+        var marker;
+        map.on('click', function(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(map);
+
+
+            // Envoyer une requête pour obtenir les informations du lieu
+            fetch('https://nominatim.openstreetmap.org/reverse?lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&format=json')
+                .then(response => response.json())
+                .then(data => { document.getElementById('salle_addresse').value =  data.display_name;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
+
 
 {% endblock %}

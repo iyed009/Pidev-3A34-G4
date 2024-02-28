@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Activite;
 use App\Form\Activite1Type;
 use App\Repository\ActiviteRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,10 +18,31 @@ class FrontActiviteController extends AbstractController
     #[Route('/', name: 'app_front_activite_index', methods: ['GET'])]
     public function index(ActiviteRepository $activiteRepository): Response
     {
+
         return $this->render('front_activite/index.html.twig', [
             'activites' => $activiteRepository->findAll(),
         ]);
-    }
+    }#[Route('/mesReservation', name: 'app_front_activite_reservation', methods: ['GET'])]
+public function reservation(ActiviteRepository $activiteRepository): Response
+{
+
+    return $this->render('front_activite/mesReservations.html.twig', [
+        'activites' => $activiteRepository->findActivitiesByUserId(1),
+    ]);
+}
+    #[Route('/res/{id}', name: 'test', methods: ['GET','POST'])]
+public function réserver(ActiviteRepository $activiteRepository,UserRepository $userRepository,$id, EntityManagerInterface $entityManager): Response
+{
+    $user = $userRepository->find(3);
+    $act = $activiteRepository->find($id);
+        $act->addReservation($user);
+        $user->addActivite( $act);
+    $entityManager->persist($act);
+    $entityManager->persist($user);
+    $entityManager->flush();
+    return $this->redirectToRoute('app_front_activite_reservation', [], Response::HTTP_SEE_OTHER);
+
+}
 
     #[Route('/new', name: 'app_front_activite_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response

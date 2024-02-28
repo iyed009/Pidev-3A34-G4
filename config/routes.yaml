@@ -1,3 +1,6 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+activite_search:
+  path: /search
+  controller: App\Controller\ActiviteController::search

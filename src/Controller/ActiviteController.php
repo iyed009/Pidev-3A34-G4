@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Activite;
 use App\Form\ActiviteType;
 use App\Repository\ActiviteRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -84,6 +87,7 @@ class ActiviteController extends AbstractController
     #[Route('/{id}', name: 'app_activite_show', methods: ['GET', 'POST'])]
     public function show(Activite $activite,Request $request,EntityManagerInterface $entityManager): Response
     {
+
         $form = $this->createForm(ActiviteType::class, $activite);
         $form->handleRequest($request);
 
@@ -106,14 +110,15 @@ class ActiviteController extends AbstractController
 
                 $entityManager->flush();
 
-
                 return $this->redirectToRoute('app_activite_show', ['id'=>$activite->getId()], Response::HTTP_SEE_OTHER);
             }
         }
+
         return $this->render('activite/show.html.twig', [
             'activite' => $activite,
             'form' => $form->createView(),
             'errors' => $form->getErrors(true, false),
+
         ]);
     }
 
@@ -269,4 +274,33 @@ class ActiviteController extends AbstractController
             'errors' => $form->getErrors(true, false),
         ]);
     }
+    #[Route('/search', name: 'activite_search' )]
+    public function searchAction(Request $request, EntityManagerInterface $em)
+    {
+        $requestString = $request->query->get('q');
+
+        $activites =  $em->getRepository(Activite::class)->findEntitiesByString($requestString);
+
+        if (!count($activites)) {
+            $result['activites']['error'] = "Aucune activité trouvée";
+        } else {
+            $result['activites'] = $this->getRealEntities($activites);
+        }
+
+        return new Response(json_encode($result));
+    }
+
+    public function getRealEntities($activites) {
+        $realEntities = [];
+
+        foreach ($activites as $activite) {
+            $realEntities[$activite->getId()] = [
+                'nom' => $activite->getNom(),
+                'coach' => $activite->getCoach(),
+            ];
+        }
+
+        return $realEntities;
+    }
+
 }

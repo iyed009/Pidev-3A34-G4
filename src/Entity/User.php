@@ -49,7 +49,7 @@ class User
     #[ORM\OneToMany(targetEntity: Salle::class, mappedBy: 'utilisateur')]
     private Collection $salles;
 
-    #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'utilisateur')]
+    #[ORM\ManyToMany(targetEntity: Activite::class, mappedBy: 'reservation')]
     private Collection $activites;
 
 
@@ -275,6 +275,10 @@ class User
     /**
      * @return Collection<int, Activite>
      */
+
+    /**
+     * @return Collection<int, Activite>
+     */
     public function getActivites(): Collection
     {
         return $this->activites;
@@ -284,7 +288,7 @@ class User
     {
         if (!$this->activites->contains($activite)) {
             $this->activites->add($activite);
-            $activite->setUtilisateur($this);
+            $activite->addReservation($this);
         }
 
         return $this;
@@ -293,14 +297,14 @@ class User
     public function removeActivite(Activite $activite): static
     {
         if ($this->activites->removeElement($activite)) {
-            // set the owning side to null (unless already changed)
-            if ($activite->getUtilisateur() === $this) {
-                $activite->setUtilisateur(null);
-            }
+            $activite->removeReservation($this);
         }
 
         return $this;
     }
+
+
+
 
 
 }
