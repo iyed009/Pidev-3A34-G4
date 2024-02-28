@@ -274,33 +274,29 @@ class ActiviteController extends AbstractController
             'errors' => $form->getErrors(true, false),
         ]);
     }
-    #[Route('/search', name: 'activite_search' )]
-    public function searchAction(Request $request, EntityManagerInterface $em)
+    #[Route('/search', name: 'reclamation_search')]
+    public function search(Request $request, ActiviteRepository $activiteRepository)
     {
-        $requestString = $request->query->get('q');
+        $searchTerm = $request->query->get('q');
 
-        $activites =  $em->getRepository(Activite::class)->findEntitiesByString($requestString);
+        $activites = $activiteRepository->findEntitiesByString($searchTerm);
 
-        if (!count($activites)) {
-            $result['activites']['error'] = "Aucune activité trouvée";
-        } else {
-            $result['activites'] = $this->getRealEntities($activites);
-        }
-
-        return new Response(json_encode($result));
-    }
-
-    public function getRealEntities($activites) {
-        $realEntities = [];
-
+        // Formatage des résultats pour le renvoi au format JSON
+        $formattedActivites = [];
         foreach ($activites as $activite) {
-            $realEntities[$activite->getId()] = [
+            $formattedActivites[] = [
                 'nom' => $activite->getNom(),
+                'date' => $activite->getDate() ? $activite->getDate()->format('Y-m-d H:i') : null,
+                'nbrMax' => $activite->getNbrMax(),
                 'coach' => $activite->getCoach(),
+                'description' => $activite->getDescription(),
+                'imageActivte' => $activite->getImageActivte(), // Adjust this according to your property name
+                'id' => $activite->getId(),
+                // Add other fields as needed
             ];
         }
 
-        return $realEntities;
+        return new JsonResponse(['activites' => $formattedActivites]);
     }
 
 }

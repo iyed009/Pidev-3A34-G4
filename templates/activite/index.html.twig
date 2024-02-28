@@ -249,51 +249,85 @@
         </script>
     {% endif %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    // Déclarer la variable searchRequest au niveau global
-    var searchRequest;
+    <script>
+        // Déclarer la variable searchRequest au niveau global
+        var searchRequest;
+        var originalTableBody;
 
-    // Attacher un gestionnaire d'événements à l'événement keyup de l'input de recherche
-    $("#search").keyup(function() {
-        var minlength = 1;
-        var that = this;
-        var value = $(this).val();
-        var tableBody = $(".table tbody");
+        // Attacher un gestionnaire d'événements à l'événement keyup de l'input de recherche
+        $("#search").keyup(function() {
+            var minlength = 1;
+            var that = this;
+            var value = $(this).val();
+            var tableBody = $(".table tbody");
 
-        if (value.length >= minlength) {
-            // Abort the previous request if it exists
-            if (searchRequest != null) {
-                searchRequest.abort();
-            }
-
-            // Start a new AJAX request
-            searchRequest = $.ajax({
-                type: "GET",
-                url: "{{ path('activite_search') }}", // Change to your correct route
-                data: {
-                    'q': value
-                },
-                dataType: "json", // Assuming your response is JSON
-                success: function(result) {
-                    // Check if the value is still the same
-                    if (value === $(that).val()) {
-                        // Clear the table body
-                        tableBody.empty();
-
-                        // Append the search results to the table
-                        $.each(result.activites, function(index, activite) {
-                            console.log(activite);
-                            // Append your table rows here
-                        });
-                    }
+            if (value.length >= minlength) {
+                // Abort the previous request if it exists
+                if (searchRequest != null) {
+                    searchRequest.abort();
                 }
-            });
-        } else {
-            // If the search input is empty, restore the original table content
-            tableBody.html(originalTableBody);
-        }
-    });
+
+                // Start a new AJAX request
+                searchRequest = $.ajax({
+                    type: "GET",
+                    url: "{{ path('activite_search') }}", // Change to your correct route
+                    data: {
+                        'q': value
+                    },
+                    dataType: "json", // Assuming your response is JSON
+                    success: function(result) {
+                        // Check if the value is still the same
+                        if (value === $(that).val()) {
+                            // Clear the table body
+                            tableBody.empty();
+
+                            if (result.activites.length === 0) {
+                                // If no activities found, display a message
+                                tableBody.html("<tr><td colspan='6'>Aucune activité n'a été trouvée.</td></tr>");
+                            } else {
+                                // Append the search results to the table
+                                $.each(result.activites, function(index, activite) {
+                                    console.log(activite);
+                                    var newRow = "<tr>" +
+                                        "<td>" + activite.nom + "</td>" +
+                                        "<td>" + (activite.date ? activite.date : '') + "</td>" +
+                                        "<td>" + activite.nbrMax + "</td>" +
+                                        "<td>" + activite.coach + "</td>" +
+                                        "<td>" +
+                                        "<div class='w-100 rounded mb-2 mb-lg-0 mt-2'>" +
+                                        (activite.imageActivte.length > 0 ?
+                                            "<img src='{{ asset('uploads/') }}" + activite.imageActivte + "' class='img-fluid' alt='Evenement Image' width='150' height='100'>" :
+                                            "<img src='{{ asset('uploads/Not found.jpg') }}' class='img-fluid' alt='Image Not Found' width='150' height='100'>") +
+                                        "</div>" +
+                                        "</td>" +
+                                        "<td>" +
+                                        "<i class='fas fa-eye'></i>" +
+                                        "</a>" +
+                                        "</td>" +
+                                        "</tr>";
+
+                                    // Append the new row to the table
+                                    tableBody.append(newRow);
+                                });
+                            }
+                        }
+                    }
+                });
+
+                // Sauvegarder le contenu original du tableau si c'est la première fois
+                if (!originalTableBody) {
+                    originalTableBody = tableBody.html();
+                }
+            } else {
+                // If the search input is empty, restore the original table content
+                tableBody.html(originalTableBody);
+                originalTableBody = null; // Reset the originalTableBody variable
+                return; // Exit the function early to prevent further execution
+            }
+        });
 
     </script>
+
+
 
 {% endblock %}

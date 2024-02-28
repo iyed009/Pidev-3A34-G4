@@ -66,7 +66,8 @@ class ActiviteRepository extends ServiceEntityRepository
     public function findEntitiesByString($str) {
         try {
             return $this->getEntityManager()
-                ->createQuery('SELECT a
+                ->createQuery(
+                    'SELECT a
                 FROM App\Entity\Activite a
                 WHERE a.nom LIKE :str 
                 OR a.coach LIKE :str'
