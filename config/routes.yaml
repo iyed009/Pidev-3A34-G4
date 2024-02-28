@@ -6,7 +6,7 @@ user_search:
   path: /search
   controller: App\Controller\UserController::search
 
-# client_search:
-#   path: /search1
-#   controller: App\Controller\UserController::search1
+client_search1:
+  path: /search1
+  controller: App\Controller\UserController::search1
 

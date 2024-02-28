@@ -226,7 +226,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    #[Route('/showClient/{id}', name: 'app_user_show', methods: ['GET'])]
     public function showClient(User $user): Response
     {
         return $this->render('user/showClient.html.twig', [
@@ -234,7 +234,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_show_Admin_Salle', methods: ['GET'])]
+    #[Route('/showAdminSalle/{id}', name: 'app_user_show_Admin_Salle', methods: ['GET'])]
     public function showAdminSalle(User $user): Response
     {
         return $this->render('user/showAdminSalle.html.twig', [
@@ -284,10 +284,11 @@ class UserController extends AbstractController
                 return $this->redirectToRoute('user_list_role_client');
             }
         }
-
+        $isClientRole = in_array('ROLE_CLIENT', $user->getRoles());
         return $this->render('user/update_password.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
+            'isClientRole' => $isClientRole,
         ]);
     }
 
@@ -357,8 +358,58 @@ class UserController extends AbstractController
         return $this->redirectToRoute('user_list_role_AdminSalle', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/remove/{id}', name: 'app_user_delete2', methods: ['GET', 'POST'])]
+    public function delete2($id, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+
+        $rec = $userRepository->find($id);
+        $entityManager->remove($rec);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('user_list_role_AdminSalle', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/remove1/{id}', name: 'app_user_delete3', methods: ['GET', 'POST'])]
+    public function delete3($id, UserRepository $userRepository, EntityManagerInterface $entityManager): Response
+    {
+
+        $rec = $userRepository->find($id);
+        $entityManager->remove($rec);
+        $entityManager->flush();
+
+
+        return $this->redirectToRoute('user_list_role_client', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/{id}/toggle-verification', name: 'app_user_toggle_verification', methods: ['POST'])]
     public function toggleVerification(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('toggle-verification' . $user->getId(), $request->request->get('_token'))) {
+            // Toggle the verification status
+            $user->setIsVerified(!$user->isVerified());
+
+            // Save changes
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // Add a flash message to notify the user of the change
+            $this->addFlash(
+                'success',
+                sprintf('User "%s" verification status has been %s.', $user->getEmail(), $user->isVerified() ? 'activated' : 'deactivated')
+            );
+        } else {
+            // Add a flash message for CSRF token failure
+            $this->addFlash('error', 'Invalid CSRF token.');
+        }
+
+        // Redirect back to the previous page, or a default page if referrer not available
+        $referrer = $request->headers->get('referer');
+        return $this->redirect($referrer ?? $this->generateUrl('user_list_role_AdminSalle'));
+    }
+
+    #[Route('/{id}/toggle-verification1', name: 'app_user_toggle_verification1', methods: ['POST'])]
+    public function toggleVerification1(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('toggle-verification' . $user->getId(), $request->request->get('_token'))) {
             // Toggle the verification status
@@ -383,6 +434,8 @@ class UserController extends AbstractController
         return $this->redirect($referrer ?? $this->generateUrl('user_list_role_client'));
     }
 
+
+
     #[Route('/search', name: 'user_search')]
     public function search(Request $request, UserRepository $userRepository)
     {
@@ -403,13 +456,14 @@ class UserController extends AbstractController
                 'id' => $user->getId(),
                 'deleteUrl' => $this->generateUrl('app_user_delete_AdminSalle', ['id' => $user->getId()]),
                 'csrfToken' => $this->container->get('security.csrf.token_manager')->getToken('delete' . $user->getId())->getValue(),
+                'is_verified' => $user->isVerified(),
             ];
         }
 
         return new JsonResponse(['users' => $formattedusers]);
     }
 
-    #[Route('/search1', name: 'client_search')]
+    #[Route('/search1', name: 'client_search1')]
     public function search1(Request $request, UserRepository $userRepository)
     {
         $searchTerm = $request->query->get('q');
@@ -427,8 +481,6 @@ class UserController extends AbstractController
                 'adresse' => $user->getAdresse(),
                 'num_tele' => $user->getNumTele(),
                 'id' => $user->getId(),
-                'deleteUrl' => $this->generateUrl('app_user_delete_Client', ['id' => $user->getId()]),
-                'csrfToken' => $this->container->get('security.csrf.token_manager')->getToken('delete' . $user->getId())->getValue(),
             ];
         }
 

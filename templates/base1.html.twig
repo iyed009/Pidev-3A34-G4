@@ -209,8 +209,18 @@
 									</ul>
 								</li>
 								<li>
-									<a href="{{ path('userProfile') }}" class="btn ">Profile</a>
-								</li>
+								<a href="#">Profile</a>
+								<ul class="dropdown">
+									<li>
+										<a href="{{ path('userProfile') }}">Edit Profile</a>
+									</li>
+									<li>
+										{# <a href="{{path('app_user_update_password', {'id': user.id})}}">password</a> #}
+									</li>
+
+								</ul>
+							</li>
+								
 								<li>
 									<a href="{{ path('app_logout') }}" class="btn ">Logout</a>
 								</li>
@@ -253,13 +263,13 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-12 text-center">
-						<div class="breadcrumb-text">
+						{# <div class="breadcrumb-text">
 							<h2>About us</h2>
 							<div class="bt-option">
 								<a href="./index.html">Home</a>
 								<span>About</span>
 							</div>
-						</div>
+						</div> #}
 					</div>
 				</div>
 			</div>
@@ -268,6 +278,8 @@
 
 		{% block body %}{% endblock %}
 
+
+		{% block footer %}
 		<!-- Footer Section Begin -->
 		<section class="footer-section">
 			<div class="container">
@@ -375,6 +387,7 @@
 			</div>
 		</div>
 		<!-- Search model end -->
+	{% endblock %}
 
 		<!-- Js Plugins -->
 		{% block js %}

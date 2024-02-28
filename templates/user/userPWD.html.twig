@@ -1,4 +1,4 @@
-{% extends 'base2.html.twig' %}
+{% extends 'base1.html.twig' %}
 {% block title %}
 	Update Password
 {% endblock %}
@@ -39,9 +39,9 @@
 							<div class="col-sm-8">
 								{{ form_widget(form.newPassword.second, {'attr': {'class': 'form-control'}}) }}
 							</br>
-							<div class="error-message" style="color:red;">
-								{{ form_errors(form.newPassword.first) }}
-							</div>
+                            <div class="error-message" style="color:red;">
+                            {{ form_errors(form.newPassword.first) }}
+                        </div>
 						</div>
 
 					</div>
@@ -50,11 +50,7 @@
 
 					<div class="text-center mt-4">
 						<button type="submit" class="btn btn-primary">Update</button>
-						{% if isClientRole %}
-							<a href="{{ path('user_list_role_client') }}" class="btn btn-secondary">Back to list</a>
-						{% else %}
-							<a href="{{ path('user_list_role_AdminSalle') }}" class="btn btn-secondary">Back to list</a>
-						{% endif %}
+						<a href="{{ path('userProfile') }}" class="btn btn-secondary">Back to list</a>
 					</div>
 					{{ form_end(form) }}
 				</div>
