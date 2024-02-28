@@ -2,20 +2,29 @@
 
 namespace App\Controller;
 
+use App\Entity\Evenement;
 use App\Entity\Ticket;
 use App\Form\Ticket1Type;
 use App\Repository\TicketRepository;
 use App\Services\QrcodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Endroid\QrCode\QrCode;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 #[Route('/front/ticket')]
 class TicketFrontController extends AbstractController
 {
+
+
     #[Route('/', name: 'app_ticket_front_index', methods: ['GET'])]
     public function index(TicketRepository $ticketRepository): Response
     {
@@ -91,7 +100,33 @@ class TicketFrontController extends AbstractController
             $ticketRepository->decrementTicket($ticket);
             $entityManager->flush();
 
-            return $this->render('ticket_front/show.html.twig', [
+
+
+            $content = '<p>Vous avez participer à l Evenement " ' .  $ticket->getEvenement()->getNom(). '" </p>';
+            $content .= '<p>Aura lieu au : ' .  $ticket->getEvenement()->getLieu(). '</p>';
+            $content .= '<p>Date : ' . $ticket->getEvenement()->getDateEvenement()->format('d M Y | H:i') . '</p>';
+            $content .= '<p>Ticket Type: ' . $ticket->getType() . '</p>';
+            $content .= '<p>Ticket Prix: ' . $ticket->getPrix() . '</p>';
+
+            $subject='Paricipation!';
+            $transport = Transport::fromDsn('gmail+smtp://belhouchet.koussay@esprit.tn:mqbzmifqiyinzfux@smtp.gmail.com:587');
+
+            $mailerWithTransport = new Mailer($transport);
+            $email = (new Email())
+                ->from('belhouchet.koussay@esprit.tn')
+                ->to('majed.smichi@esprit.tn')
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject($subject)
+                // ->text('Sending emails is fun again!')
+                ->html($content);
+
+
+            $mailerWithTransport->send($email);
+
+            return $this->render('ticket_front/_form.html.twig', [
                 'ticket' => $ticket,
             ]);
         } catch (\Exception $e) {
