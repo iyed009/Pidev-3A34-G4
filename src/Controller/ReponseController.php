@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Reclamation;
 use App\Entity\Reponse;
 use App\Form\ReponseType;
+use App\Repository\ReclamationRepository;
 use App\Repository\ReponseRepository;
 use App\Service\TwilioService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Mailer;
@@ -152,4 +154,24 @@ class ReponseController extends AbstractController
 
         return $this->redirectToRoute('app_reponse_index', [], Response::HTTP_SEE_OTHER);
     }
+    #[Route('/search1', name: 'reponse_search')]
+    public function search1(Request $request, ReponseRepository $reponseRepository)
+    {
+        $searchTerm = $request->query->get('q');
+
+        $reponses = $reponseRepository->findEntitiesByString($searchTerm);
+
+        // Formatage des résultats pour le renvoi au format JSON
+        $formattedReponses = [];
+        foreach ($reponses as $reponse) {
+            $formattedReponses[] = [
+                'reponse' => $reponse->getReponse(),
+                'date' => $reponse->getDate()->format('Y-m-d H:i:s'), // Assurez-vous que getDate() renvoie un objet DateTime
+                'id' => $reponse->getId(), // Ajoutez d'autres champs si nécessaire
+            ];
+        }
+
+        return new JsonResponse(['reponses' => $formattedReponses]);
+    }
+
 }

@@ -27,6 +27,11 @@ class ReclamationController extends AbstractController
     public function index(ReclamationRepository $reclamationRepository, Request $request,PaginatorInterface $paginator): Response
     {
 
+        $reclamationsCount = $reclamationRepository->countReclamations();
+        $countNonTraiteReclamations = $reclamationRepository->countNonTraiteReclamations();
+        $countTraiteReclamations = $reclamationRepository->countTraiteReclamations();
+        $percentageNonTraite = number_format(($countNonTraiteReclamations / $reclamationsCount) * 100, 2);
+        $percentageTraite = number_format(($countTraiteReclamations / $reclamationsCount) * 100, 2);
 
 
         $etat = $request->get('etat','all');
@@ -52,6 +57,8 @@ class ReclamationController extends AbstractController
             'reclamations' => $reclamations,
             'etat' => $etat,
             'count'=>$count,
+            'percentageNonTraite' => $percentageNonTraite,
+            'percentageTraite' => $percentageTraite,
 
         ]);
     }

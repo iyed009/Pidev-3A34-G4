@@ -45,4 +45,17 @@ class ReponseRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findEntitiesByString($str)
+    {
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT r
+            FROM App\Entity\Reponse r
+            WHERE r.reponse LIKE :str'
+            )
+            ->setParameter('str', '%' . $str . '%')
+            ->getResult();
+    }
+
 }

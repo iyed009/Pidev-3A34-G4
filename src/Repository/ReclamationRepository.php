@@ -60,4 +60,31 @@ class ReclamationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+    public function countReclamations(): int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function countNonTraiteReclamations(): int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->where('r.etat = :etat')
+            ->setParameter('etat', 'NonTraité')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function countTraiteReclamations(): int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->where('r.etat = :etat')
+            ->setParameter('etat', 'Traité')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

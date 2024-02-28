@@ -4,3 +4,7 @@
 reclamation_search:
   path: /search
   controller: App\Controller\ReclamationController::search
+
+reponse_search:
+  path: /search1
+  controller: App\Controller\ReponseController::search1
