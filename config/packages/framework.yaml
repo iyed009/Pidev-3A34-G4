@@ -16,6 +16,11 @@ framework:
     #fragments: true
     php_errors:
         log: true
+    
+    
+    csrf_protection:
+        enabled: true
+
 
 when@test:
     framework:

@@ -1,5 +1,4 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Reset your password{% endblock %}
 
 {% block body %}
@@ -26,7 +25,7 @@
                                     {{ form_label(requestForm.email, 'Email address') }}
                                     {{ form_widget(requestForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email Address'}}) }}
                                 </div>
-                                
+
                                 <div class="text-center mt-4">
                                     <button type="submit" class="btn" style="width: 100%; background-color: #ff8c13; border: none; color: white;">Send password reset email</button>
                                 </div>
