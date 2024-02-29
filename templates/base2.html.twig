@@ -243,7 +243,7 @@ License: For each use you must have a valid license purchased only from above li
                                     <div class="menu-item px-5">
                                         <div class="menu-content px-5">
                                             <label class="form-check form-switch form-check-custom form-check-solid pulse pulse-success" for="kt_user_menu_dark_mode_toggle">
-                                                <input class="form-check-input w-30px h-20px" type="checkbox" value="1" name="mode" id="kt_user_menu_dark_mode_toggle" data-kt-url="../../demo8/dist/index.html" />
+                                                <input class="form-check-input w-30px h-20px" type="checkbox" value="1" name="mode" id="kt_user_menu_dark_mode_toggle" data-kt-url="../../user_stats" />
                                                 <span class="pulse-ring ms-n1"></span>
                                                 <span class="form-check-label text-gray-600 fs-7">Dark Mode</span>
                                             </label>
@@ -1002,7 +1002,7 @@ License: For each use you must have a valid license purchased only from above li
                             </div>
                         </div>
                         <div class="menu-item">
-                            <a class="menu-link active" href="../../demo8/dist/index.html">
+                            <a class="menu-link active" href="{{ path('user_stats') }}">
 										<span class="menu-icon">
 											<!--begin::Svg Icon | path: icons/duotune/general/gen025.svg-->
 											<span class="svg-icon svg-icon-2">
@@ -1235,7 +1235,7 @@ License: For each use you must have a valid license purchased only from above li
                 <!--begin::Brand-->
                 <div class="header-brand">
                     <!--begin::Logo-->
-                    <a href="../../demo8/dist/index.html">
+                    <a href="">
                         <img alt="Logo" src="assets/media/logos/logo-1-dark.svg" class="h-25px h-lg-25px" />
                     </a>
                     <!--end::Logo-->
@@ -1289,7 +1289,7 @@ License: For each use you must have a valid license purchased only from above li
                             <ul class="breadcrumb breadcrumb-separatorless fw-bold fs-7 pt-1">
                                 <!--begin::Item-->
                                 <li class="breadcrumb-item text-muted">
-                                    <a href="../../demo8/dist/index.html" class="text-muted text-hover-primary">Home</a>
+                                    <a href="{{ path('user_stats') }}" class="text-muted text-hover-primary">Home</a>
                                 </li>
                                 <!--end::Item-->
                                 <!--begin::Item-->
@@ -4477,6 +4477,7 @@ License: For each use you must have a valid license purchased only from above li
 
 
     <!--end::Page Custom Javascript-->
+
     <!--end::Javascript-->
 {% endblock %}
 </body>

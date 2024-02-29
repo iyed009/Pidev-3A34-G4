@@ -486,4 +486,34 @@ class UserController extends AbstractController
 
         return new JsonResponse(['users' => $formattedusers]);
     }
+
+
+
+    #[Route('/stats', name: 'user_stats')]
+    public function index(UserRepository $userRepository): Response
+    {
+        $userStats = $userRepository->getUserStatisticsForChart();
+        $totalUsersCount = array_sum(array_map(function ($roleStats) {
+            return $roleStats['verified'] + $roleStats['nonVerified'];
+        }, $userStats));
+
+        // Sum verified and non-verified counts across all roles
+        $totalVerifiedCount = array_sum(array_column($userStats, 'verified'));
+        $totalNonVerifiedCount = array_sum(array_column($userStats, 'nonVerified'));
+
+        // Calculate percentages and round to 2 decimal places
+        $percentageTraite = $totalUsersCount > 0 ? round(($totalVerifiedCount / $totalUsersCount) * 100, 2) : 0;
+        $percentageNonTraite = $totalUsersCount > 0 ? round(($totalNonVerifiedCount / $totalUsersCount) * 100, 2) : 0;
+
+        // Count clients and admins
+        $totalClientsCount = $userRepository->countUsersByRole('ROLE_CLIENT');
+        $totalAdminsCount = $userRepository->countUsersByRole('ROLE_ADMIN');
+
+        return $this->render('user/statsUser.html.twig', [
+            'percentageTraite' => $percentageTraite,
+            'percentageNonTraite' => $percentageNonTraite,
+            'totalClientsCount' => $totalClientsCount,
+            'totalAdminsCount' => $totalAdminsCount,
+        ]);
+    }
 }

@@ -78,33 +78,53 @@ class UserRepository extends ServiceEntityRepository
         return $clients;
     }
 
+    public function countVerifiedUsersByRole($role)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->where('u.roles LIKE :role')
+            ->andWhere('u.isVerified = true')
+            ->setParameter('role', '%"' . $role . '"%')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
+    public function countNonVerifiedUsersByRole($role)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->where('u.roles LIKE :role')
+            ->andWhere('u.isVerified = false')
+            ->setParameter('role', '%"' . $role . '"%')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
+    public function countUsersByRole($role)
+    {
+        return $this->createQueryBuilder('u')
+            ->select('count(u.id)')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%"' . $role . '"%')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
+    public function getUserStatisticsForChart()
+    {
+        $roles = ['ROLE_CLIENT', 'ROLE_ADMIN'];
+        $statistics = [];
 
+        foreach ($roles as $role) {
+            $verifiedCount = $this->countVerifiedUsersByRole($role);
+            $nonVerifiedCount = $this->countNonVerifiedUsersByRole($role);
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+            $statistics[$role] = [
+                'verified' => (int) $verifiedCount,
+                'nonVerified' => (int) $nonVerifiedCount,
+            ];
+        }
 
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        return $statistics;
+    }
 }
