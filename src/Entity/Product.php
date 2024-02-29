@@ -26,17 +26,23 @@ class Product
         maxMessage: 'Le titre ne doit pas faire plus de {{ limit }} caractères'
     )]
     private $name;
-    #[ORM\Column(type: 'integer')]
-    #[Assert\PositiveOrZero(message: 'Le stock ne peut pas être négatif')]
+    #[ORM\Column(type: "integer")]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
+    #[Assert\Positive(message: "The quantity must be positive.")]
+    #[Assert\LessThanOrEqual(10, message: "The quantity cannot be greater than 10.")]
     private $quantite;
 
     #[ORM\Column(type: Types::TEXT)]
+
+
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: "integer")]
+
     private ?int $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'product')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
     private ?CategorieP $categorieP = null;
 
     #[ORM\Column(length: 255)]

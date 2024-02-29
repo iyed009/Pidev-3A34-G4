@@ -25,7 +25,10 @@ License: For each use you must have a valid license purchased only from above li
     <meta property="og:site_name" content="Keenthemes | Metronic" />
     {% block css%}
     <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
-    <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico')}}" />
+        <!-- SweetAlert2 CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+        <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico')}}" />
         <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -1101,7 +1104,7 @@ License: For each use you must have a valid license purchased only from above li
                                     </a>
                                 </div>
                                 <div class="menu-item">
-                                    <a class="menu-link" href="{{ path ('app_product_index') }}">
+                                    <a class="menu-link" href="{{ path ('app_product_new') }}">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -4547,6 +4550,7 @@ License: For each use you must have a valid license purchased only from above li
     <script src="{{ asset('assets/js/custom/apps/chat/chat.js')}}"></script>
     <script src="{{ asset('assets/js/custom/modals/create-app.js')}}"></script>
     <script src="{{ asset('assets/js/custom/modals/upgrade-plan.js')}}"></script>
+    <!-- SweetAlert2 JS -->
 
     <script>
         // Attendre que le document soit chargé

@@ -16,8 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/product')]
 class ProductController extends AbstractController
 {
-    #[Route('/', name: 'app_product_index', methods: ['GET', 'POST'])]
-    public function index(Request $request, ProductRepository $productRepository, EntityManagerInterface $entityManager): Response
+    #[Route('/', name: 'app_product_index', methods: ['GET'])]
+    public function index(ProductRepository $productRepository): Response
+    {
+        return $this->render('product/index.html.twig', [
+            'products' => $productRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager ): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product);
@@ -35,39 +43,19 @@ class ProductController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    // Gérer l'exception si quelque chose se passe mal lors du téléchargement du fichier
                 }
                 $product->setImage($newFilename);
-                $entityManager->persist($product);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
             }
-        }
-
-        return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $product = new Product();
-        $form = $this->createForm(ProductType::class, $product);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($product);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('product/index.html.twig', [
-            'product' => $product,
-            'form' => $form,
+
+        return $this->render('product/new.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

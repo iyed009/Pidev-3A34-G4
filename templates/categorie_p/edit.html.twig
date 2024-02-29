@@ -1,13 +1,43 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Edit CategorieP{% endblock %}
+{% block title %}Modifier la catégorie{% endblock %}
 
 {% block body %}
-    <h1>Edit CategorieP</h1>
-
-    {{ include('categorie_p/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('app_categorie_p_index') }}">back to list</a>
-
-    {{ include('categorie_p/_delete_form.html.twig') }}
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <!--begin::Container-->
+            <div id="kt_content_container" class="container-xxl">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card header-->
+                    <div class="card-header ">
+                        <!--begin::Card title-->
+                        <div class="card-title m-0">
+                            <h3 class="fw-bolder m-0">Modifier la catégorie </h3>
+                        </div>
+                        <!--end::Card title-->
+                    </div>
+                    <!--begin::Card body-->
+                    <div class="card-body">
+                        <!--begin:Form-->
+                        {{ form_start(form, {'attr': {'id': 'edit_categorie_form', 'class': 'form', 'action': path('app_categoriep_edit', {'id': categories.id}) }}) }}
+                        <div class="mb-3">
+                            {{ form_row(form.name, {'label': 'Nouveau nom', 'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Enregistrer les modifications</button>
+                            <a href="{{ path('app_categoriep_show', {'id': categories.id}) }}" class="btn btn-light">Annuler</a>
+                        </div>
+                        {{ form_end(form) }}
+                        <!--end:Form-->
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Post-->
+    </div>
 {% endblock %}

@@ -75,7 +75,7 @@ class CategoriePController extends AbstractController
         }
 
         return $this->renderForm('categorie_p/edit.html.twig', [
-            'categorieP' => $categorieP,
+            'categories' => $categorieP,
             'form' => $form,
         ]);
     }

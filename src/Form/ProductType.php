@@ -15,6 +15,10 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
+use Symfony\Component\Validator\Constraints\Regex;
 
 
 class ProductType extends AbstractType
@@ -22,11 +26,28 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
+            ->add('name', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
+            ])
             ->add('quantite')
-            ->add('description')
-            ->add('price')
+            ->add('description', TextType::class, [
+                'constraints' => [
+                    new NotBlank(),
+
+                ],
+            ])
+            ->add('price', MoneyType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                    new GreaterThanOrEqual(0), // Prix positif
+                ],
+            ])
             ->add('categorieP', EntityType::class, [
+                'constraints' => [
+                    new NotBlank(),
+                ],
                 'class' => 'App\Entity\CategorieP',
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
