@@ -45,12 +45,14 @@
         "symfony/string": "5.4.*",
         "symfony/translation": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
+        "symfony/twilio-notifier": "5.4.*",
         "symfony/ux-turbo": "^2.14",
         "symfony/validator": "5.4.*",
         "symfony/web-link": "5.4.*",
         "symfony/yaml": "5.4.*",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
+        "twilio/sdk": "^7.16",
         "victor-prdh/recaptcha-bundle": "^1.8"
     },
     "require-dev": {

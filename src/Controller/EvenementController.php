@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Evenement;
 use App\Form\EvenementType;
 use App\Repository\EvenementRepository;
+use App\Services\TwilioEvenement;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EvenementController extends AbstractController
 {
     #[Route('/', name: 'app_evenement_index', methods: ['GET', 'POST'])]
-    public function index(PaginatorInterface $paginator ,Request $request,EvenementRepository $evenementRepository, EntityManagerInterface $entityManager): Response
+    public function index(TwilioEvenement $twilioEvenement,PaginatorInterface $paginator ,Request $request,EvenementRepository $evenementRepository, EntityManagerInterface $entityManager): Response
     {
         $evenement = new Evenement();
         $form = $this->createForm(EvenementType::class, $evenement);
@@ -41,7 +42,9 @@ class EvenementController extends AbstractController
                 $evenement->setImageEvenement($newFilename);
                 $entityManager->persist($evenement);
                 $entityManager->flush();
-
+                $to="+21628913441";
+                $body="Une nouvelle evenement a etait ajouter";
+                $twilioEvenement->sendSms($to,$body);
                 return $this->redirectToRoute('app_evenement_index', [], Response::HTTP_SEE_OTHER);
             }
 
