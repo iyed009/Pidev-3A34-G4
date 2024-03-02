@@ -1,46 +1,288 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
 {% block title %}Reclamation{% endblock %}
 
 {% block body %}
-    <h1>Reclamation</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ reclamation.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ reclamation.nom }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ reclamation.email }}</td>
-            </tr>
-            <tr>
-                <th>NumTele</th>
-                <td>{{ reclamation.numTele }}</td>
-            </tr>
-            <tr>
-                <th>Etat</th>
-                <td>{{ reclamation.etat }}</td>
-            </tr>
-            <tr>
-                <th>Sujet</th>
-                <td>{{ reclamation.sujet }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ reclamation.description }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_reclamation_index') }}">back to list</a>
 
-    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">edit</a>
 
-    {{ include('reclamation/_delete_form.html.twig') }}
+
+
+
+
+
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <!--begin::Container-->
+            <div id="kt_content_container" class="container-xxl">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card body-->
+                    <div class="card-body pb-0">
+    <div class="card mb-5 mb-xl-10" id="kt_profile_details_view">
+        <!--begin::Card header-->
+        <div class="card-header d-flex align-items-center justify-content-between">
+
+            <button class="btn btn-gradient-info btn-rounded btn-fw"><!--begin::Card title-->
+
+                <a href="{{ path('app_reclamation_index') }}" class="btn btn-light btn-active-light-primary btn-sm" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                    <i class="fas fa-arrow-left"></i> Back to list
+            </a>
+            </button>
+            <div class="card-title m-0">
+
+                <h3 class="fw-bolder m-0">Details</h3>
+            </div>
+            <!--end::Card title-->
+            <!--begin::Action-->
+                            <!--begin::Menu item-->
+            <div style="display: flex; justify-content: space-between;">
+                <div class="menu-item px-3">
+                    {{ include('reclamation/_delete_form.html.twig') }}
+                </div>
+
+
+
+                <div class="menu-item px-3" style="margin-left: 10px;">
+                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}" class="btn btn-light-success">
+                        <i class="fas fa-edit"></i> Edit <!-- Ajout de l'icône Edit -->
+                    </a>
+                </div>
+                <div class="menu-item px-3">
+                    <a href="{{ path('app_reponse_new', {'id': reclamation.id}) }}" class="btn btn-light-primary">
+                        <i class="fas fa-reply"></i> Reponse <!-- Ajout de l'icône Reply -->
+                    </a>
+                </div>
+
+
+            </div>
+
+
+            <!--end::Action-->
+        </div>
+        <!--begin::Card header-->
+        <!--begin::Card body-->
+        <div class="card-body p-9 ">
+            <!--begin::Row-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Full Name</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8">
+                    <span class="fw-bolder fs-6 text-gray-800">{{ reclamation.nom|capitalize }} {{ reclamation.prenom|capitalize }}</span>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Row-->
+            <!--begin::Input group-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Email</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8 fv-row">
+                    <span class="fw-bold text-gray-800 fs-6">{{ reclamation.email}}</span>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Phone</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8 fv-row">
+                    <span class="fw-bold text-gray-800 fs-6">{{ reclamation.numTele}}</span>
+                </div>
+                <!--end::Col-->
+            </div>
+                <!--end::Col-->
+
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Etat</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8">
+                      <span class="{{ reclamation.etat == 'Traité' ? 'badge badge-light-success fs-7 fw-bold' : 'badge badge-light-danger fs-7 fw-bold' }}">
+                                {{ reclamation.etat }}
+                                </span>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Sujet</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8">
+                    <span class="fw-bolder fs-6 text-gray-800">{{ reclamation.sujet }}</span>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Input group-->
+            <!--begin::Input group-->
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Description</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8"  >
+                    <span class="fw-bolder fs-6 text-gray-800">{{ reclamation.description }}</span>
+                </div>
+                <!--end::Col-->
+            </div>
+            <div class="row mb-7">
+                <!--begin::Label-->
+                <label class="col-lg-4 fw-bold text-muted">Date</label>
+                <!--end::Label-->
+                <!--begin::Col-->
+                <div class="col-lg-8"  >
+                    <span class="fw-bolder fs-6 text-gray-800">{{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}</span>
+                </div>
+                <!--end::Col-->
+            </div>
+            <!--end::Input group-->
+            <!--end::Notice-->
+        </div>
+        <!--end::Card body-->
+    </div>
+
+
+                        <!--begin::Heading-->
+                        {#<div class="card-px text-center pt-20 pb-5">
+
+                            <!--begin::Action-->
+                            <a href="#" class="btn btn-primary er fs-6 px-8 py-4" data-bs-toggle="modal" data-bs-target="#kt_modal_new_target">Reponse</a>
+                            <!--end::Action-->
+                        </div>#}
+                        <!--end::Heading-->
+                        <!--begin::Illustration-->
+                        <div class="text-center px-5">
+                            <img src="{{ asset('assets/media/illustrations/sketchy-1/17.png') }}" alt="" class="mw-100 h-200px h-sm-325px" />
+                        </div>
+                        <!--end::Illustration-->
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card-->
+                <!--begin::Modal - New Target-->
+                {# {{ form_start(form) }}
+
+    <div class="d-flex flex-column mb-8">
+        <label class="fs-6 fw-bold mb-2">Date and Time</label>
+        {{ form_widget(form.date, {'attr': {'placeholder': 'Date and time...', 'class': 'form-control datepicker'}}) }}
+    </div>
+
+    <div class="d-flex flex-column mb-8">
+        <label class="fs-6 fw-bold mb-2">Response</label>
+        {{ form_widget(form.reponse, {'attr': {'class': 'form-control form-control-solid', 'style': 'height: 150px'}}) }}
+    </div>
+
+    {{ form_end(form) }}#}
+                <div class="modal fade" id="kt_modal_new_target" tabindex="-1" aria-hidden="true">
+                    <!--begin::Modal dialog-->
+                    <div class="modal-dialog modal-dialog-centered mw-650px">
+                        <!--begin::Modal content-->
+                        <div class="modal-content rounded">
+                            <!--begin::Modal header-->
+                            <div class="modal-header pb-0 border-0 justify-content-end">
+                                <!--begin::Close-->
+                                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                    <span class="svg-icon svg-icon-1">
+														<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+															<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+															<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+														</svg>
+													</span>
+                                    <!--end::Svg Icon-->
+                                </div>
+                                <!--end::Close-->
+                            </div>
+                            <!--begin::Modal header-->
+                            <!--begin::Modal body-->
+                            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                <!--begin:Form-->
+                                {{ form_start(form) }}
+                                <form id="kt_modal_new_target_form" class="form" action="#">
+                                    <!--begin::Heading-->
+                                    <div class="mb-13 text-center">
+                                        <!--begin::Title-->
+                                        <h1 class="mb-3">Reponse</h1>
+                                        <!--end::Title-->
+                                    </div>
+                                    <!--end::Heading-->
+                                    <!--begin::Input group-->
+                                    <div class="d-flex flex-column mb-8">
+                                        <label class="fs-6 fw-bold mb-2">Reponse</label>
+                                        {{ form_widget(form.reponse, {'attr': {'class': 'form-control form-control-solid', 'style': 'height: 150px'}}) }}
+                                    </div>
+                                    <div class="d-flex flex-column mb-8">
+                                        <label class="fs-6 fw-bold mb-2">Reponse</label>
+                                        {{ form_widget(form.date, {'attr': {'placeholder': 'Date and time...', 'class': 'form-control datepicker'}}) }}
+                                    </div>
+                                    <!--end::Input group-->
+                                        <!--begin::Switch-->
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="mb-15 fv-row">
+                                        <!--begin::Wrapper-->
+                                        <div class="d-flex flex-stack">
+                                            <!--begin::Label-->
+                                            <div class="fw-bold me-5">
+                                                <label class="fs-6">Notifications</label>
+                                                <div class="fs-7 text-muted">Allow Notifications by Phone or Email</div>
+                                            </div>
+                                            <!--end::Label-->
+                                            <!--begin::Checkboxes-->
+                                            <div class="d-flex align-items-center">
+                                                <!--begin::Checkbox-->
+                                                <label class="form-check form-check-custom form-check-solid me-10">
+                                                    <input class="form-check-input h-20px w-20px" type="checkbox" name="communication[]" value="email" checked="checked" />
+                                                    <span class="form-check-label fw-bold">Email</span>
+                                                </label>
+                                                <!--end::Checkbox-->
+                                                <!--begin::Checkbox-->
+                                                <label class="form-check form-check-custom form-check-solid">
+                                                    <input class="form-check-input h-20px w-20px" type="checkbox" name="communication[]" value="phone" />
+                                                    <span class="form-check-label fw-bold">Phone</span>
+                                                </label>
+                                                <!--end::Checkbox-->
+                                            </div>
+                                            <!--end::Checkboxes-->
+                                        </div>
+                                        <!--end::Wrapper-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Actions-->
+
+                                </form>
+                                {{ form_end(form) }}
+
+                                <!--end:Form-->
+                            </div>
+                            <!--end::Modal body-->
+                        </div>
+                        <!--end::Modal content-->
+                    </div>
+                    <!--end::Modal dialog-->
+                </div>
+                <!--end::Modal - New Target-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Post-->
+    </div>
+
+
+
 {% endblock %}

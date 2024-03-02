@@ -1,0 +1,276 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Reponse index{% endblock %}
+
+{% block body %}
+    <div id="kt_content_container" class="container-xxl" style="max-width: 1800px;">
+        <!--begin::Toolbar-->
+        <div class="d-flex flex-wrap flex-stack mb-6">
+            <!--begin::Title-->
+            <h3 class="fw-bolder my-2">Liste Reponse
+                <span class="fs-6 text-gray-400 fw-bold ms-1">{{ (count) }}</span></h3>
+            <!--end::Title-->
+            <div class="aside-search py-5">
+                <!--begin::Search-->
+                <div id="kt_header_search" class="d-flex align-items-center" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter" data-kt-search-layout="menu" data-kt-menu-trigger="auto" data-kt-menu-permanent="true" data-kt-menu-placement="bottom-start" data-kt-menu-flip="bottom">
+                    <!--begin::Form-->
+                    <form data-kt-search-element="form" class="w-100 position-relative" autocomplete="off">
+                        <!--begin::Hidden input(Added to disable form autocomplete)-->
+                        <input type="hidden" />
+                        <!--end::Hidden input-->
+                        <!--begin::Icon-->
+                        <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                        <span class="svg-icon svg-icon-2 search-icon position-absolute top-50 translate-middle-y ms-4">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+											<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="black" />
+											<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="black" />
+										</svg>
+									</span>
+                        <!--end::Svg Icon-->
+                        <!--end::Icon-->
+                        <!--begin::Input-->
+                        <input type="text" class="form-control ps-13 fs-7 h-40px" id="search1" value="" placeholder="Rechercher" />
+                        <!--end::Input-->
+                        <!--begin::Spinner-->
+                        <span class="position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
+										<span class="spinner-border h-15px w-15px align-middle text-gray-400"></span>
+									</span>
+                        <!--end::Spinner-->
+                        <!--begin::Reset-->
+                        <span class="btn btn-flush btn-active-color-primary position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-4" data-kt-search-element="clear">
+										<!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+										<span class="svg-icon svg-icon-2 svg-icon-lg-1 me-0">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+												<rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="black" />
+												<rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)" fill="black" />
+											</svg>
+										</span>
+                            <!--end::Svg Icon-->
+									</span>
+                        <!--end::Reset-->
+                    </form>
+                    <!--end::Form-->
+                </div>
+                <!--end::Search-->
+            </div>
+
+        </div>
+
+        <!--end::Toolbar-->
+        <!--begin::Row-->
+        <div class="row g-6 g-xl-9">
+
+        {% for reponse in reponses %}
+
+
+                <!--begin::Col-->
+                <div class="col-sm-6 col-xl-4">
+                    <!--begin::Card-->
+                    <div class="card h-100">
+                        <!--begin::Card header-->
+                        <div class="card-header flex-nowrap border-0 pt-9">
+                            <!--begin::Card title-->
+                            <div class="card-title m-0">
+                                <!--begin::Icon-->
+                                <div class="symbol symbol-75px symbol-circle">
+                                    <img src="{{ asset('assets/media/avatars/12.jpg') }}" alt="image" class="p-3" />
+                                </div>
+                                <!--end::Icon-->
+                                <!--begin::Title-->
+                                <a href="#" class="fs-4 fw-bold text-hover-primary text-gray-600 m-0">Twitch Posts</a>
+                                <!--end::Title-->
+                            </div>
+                            <!--end::Card title-->
+                            <!--begin::Card toolbar-->
+                            <div class="card-toolbar m-0">
+                                <!--begin::Menu-->
+                                <button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-primary btn-active-light-primary me-n3" data-kt-menu-trigger="click" data-kt-menu-placement="bottom-end">
+                                    <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+                                    <span class="svg-icon svg-icon-3 svg-icon-primary">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <rect x="5" y="5" width="5" height="5" rx="1" fill="#000000" />
+                                        <rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
+                                        <rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
+                                        <rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />
+                                    </g>
+                                </svg>
+                            </span>
+                                    <!--end::Svg Icon-->
+                                </button>
+                                <!--begin::Menu 3-->
+                                <div class="menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary fw-bold w-200px py-3" data-kt-menu="true">
+                                    <!--begin::Heading-->
+                                    <div class="menu-item px-3">
+                                        <div class="menu-content text-muted pb-2 px-3 fs-7 text-uppercase">Action</div>
+                                    </div>
+                                    <!--end::Heading-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="{{ path('app_reponse_show', {'id': reponse.id}) }}" class="menu-link flex-stack px-3">Detail
+                                        </a>
+                                    </div>
+                                    <!--end::Menu item-->
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="{{ path('app_reponse_edit', {'id': reponse.id}) }}" class="menu-link px-3">Edit</a>
+                                    </div>
+                                    <!--end::Menu item-->
+
+                                    <!--begin::Menu item-->
+                                    <div class="menu-item px-3">
+                                        <a href="{{ path('app_reclamation_delete2', {'id': reponse.id}) }}" class="menu-link px-3">Delete</a>
+                                    </div>
+
+                                    <!--end::Menu item-->
+                                </div>
+                                <!--end::Menu 3-->
+                                <!--end::Menu-->
+                            </div>
+                            <!--end::Card toolbar-->
+                        </div>
+                        <!--end::Card header-->
+                        <!--begin::Card body-->
+                        <div class="card-body d-flex flex-column px-9 pt-6 pb-8">
+                            <!--begin::Heading-->
+
+                            <!--end::Heading-->
+                            <!--begin::Stats-->
+                            <div class="d-flex align-items-center flex-wrap mb-5 mt-auto fs-6">
+                                <!--SVG file not found: icons/duotune/arrows/Up-right.svg-->
+                                <!--begin::Number-->
+                                <div class="fw-bolder text-danger me-2">Description</div>
+                                <!--end::Number-->
+                                <!--begin::Label-->
+                                <div class="fw-bold text-gray-400">{{ reponse.reponse }}</div>
+                                <!--end::Label-->
+                            </div>
+                            <!--end::Stats-->
+                            <!--begin::Indicator-->
+                            <div class="d-flex align-items-center fw-bold">
+                                <span class="badge bg-light text-gray-700 px-3 py-2 me-2">Date</span>
+                                <span class="text-gray-400 fs-7">{{ reponse.date ? reponse.date|date('Y-m-d H:i:s') : '' }}</span>
+                            </div>
+                            <!--end::Indicator-->
+                        </div>
+                        <!--end::Card body-->
+                    </div>
+                    <!--end::Card-->
+                </div>
+                <!--end::Col-->
+
+        {% endfor %}
+            </div>
+    </div>
+
+
+    <div class="d-flex flex-stack flex-wrap pt-10">
+        <div class="fs-6 fw-bold text-gray-700"></div>
+        <!--begin::Pages-->
+        <ul class="pagination">        {% do reponses.SetPageRange(3) %}
+            {{ knp_pagination_render(reponses, "pagination.html.twig") }}
+        </ul>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var searchRequest = null;
+            var originalReponse = jQuery('.row.g-6.g-xl-9').html(); // Store original reclamation items
+
+            jQuery("#search1").keyup(function() {
+                var minlength = 1;
+                var that = this;
+                var value = jQuery(this).val();
+
+                if (value.length >= minlength) {
+                    // Abort previous request if it exists
+                    if (searchRequest != null) {
+                        searchRequest.abort();
+                    }
+
+                    searchRequest = jQuery.ajax({
+                        type: "GET",
+                        url: "{{ path('reponse_search') }}",
+                        data: {
+                            'q': value
+                        },
+                        dataType: "json",
+                        success: function(result) {
+                            var reponseContainer = jQuery('.row.g-6.g-xl-9');
+                            reponseContainer.empty();
+                            if (result.reponses.length === 0) {
+                                var messageHtml = '<div class="col-12">' +
+                                    '<div class="card text-center">' +
+                                    '<div class="card-body d-flex align-items-center justify-content-center" style="min-height: 200px;">' +
+                                    '<p class="fs-5 text-muted">Aucune réclamation n\'a été trouvée.</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                                reponseContainer.append(messageHtml);
+                            } else {
+                                // Append search results to reclamation container
+                                jQuery.each(result.reponses, function(index, reponse) {
+                                    var reponseHtml = '<div class="col-sm-6 col-xl-4">' +
+                                        '<div class="card h-100">' +
+                                        '<div class="card-header flex-nowrap border-0 pt-9">' +
+                                        '<div class="card-title m-0">' +
+                                        '<div class="symbol symbol-75px symbol-circle">' +
+                                        '<img src="{{ asset('assets/media/avatars/12.jpg') }}" alt="image" class="p-3" />' +
+                                        '</div>' +
+                                        '<a href="#" class="fs-4 fw-bold text-hover-primary text-gray-600 m-0">Twitch Posts</a>' +
+                                        '</div>' +
+                                        '<div class="card-toolbar m-0">' +
+                                        '<button type="button" class="btn btn-clean btn-sm btn-icon btn-icon-primary btn-active-light-primary me-n3 dropdown-toggle">' +
+                                        '<span class="svg-icon svg-icon-3 svg-icon-primary">' +
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">' +
+                                        '<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '<rect x="5" y="5" width="5" height="5" rx="1" fill="#000000" />' +
+                                        '<rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />' +
+                                        '<rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />' +
+                                        '<rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3" />' +
+                                        '</g>' +
+                                        '</svg>' +
+                                        '</span>' +
+                                        '</button>' +
+                                        '<div class="dropdown-menu">' +
+                                        '<a class="dropdown-item" href="/reponse/' + reponse.id + '">Detail</a>' +
+                                        '<a class="dropdown-item" href="/reponse/edit/' + reponse.id + '">Edit</a>' +
+                                        '<a class="dropdown-item" href="/reclamation/delete/' + reponse.id + '">Delete</a>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="card-body d-flex flex-column px-9 pt-6 pb-8">' +
+                                        '<div class="d-flex align-items-center flex-wrap mb-5 mt-auto fs-6">' +
+                                        '<div class="fw-bolder text-danger me-2">Description</div>' +
+                                        '<div class="fw-bold text-gray-400">' + reponse.reponse + '</div>' +
+                                        '</div>' +
+                                        '<div class="d-flex align-items-center fw-bold">' +
+                                        '<span class="badge bg-light text-gray-700 px-3 py-2 me-2">Date</span>' +
+                                        '<span class="text-gray-400 fs-7">' + reponse.date + '</span>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>';
+
+                                    reponseContainer.append(reponseHtml);
+                                });
+
+                                // Activer le menu déroulant pour les nouveaux éléments
+                                reponseContainer.find('.dropdown-toggle').on('click', function() {
+                                    jQuery(this).next('.dropdown-menu').toggleClass('show');
+                                });
+                            }
+                        }
+                    });
+                } else if (value.length === 0) { // Restore original content if search input is empty
+                    jQuery('.row.g-6.g-xl-9').html(originalReponse);
+                }
+            });
+        });
+    </script>
+
+
+{% endblock %}

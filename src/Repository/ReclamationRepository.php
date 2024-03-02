@@ -45,4 +45,46 @@ class ReclamationRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findEntitiesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT r
+            FROM App\Entity\Reclamation r
+            WHERE r.sujet LIKE :str 
+            OR r.nom LIKE :str
+            OR r.email LIKE :str 
+            OR r.description LIKE :str
+            OR r.etat LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+    }
+
+
+    public function countReclamations(): int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function countNonTraiteReclamations(): int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->where('r.etat = :etat')
+            ->setParameter('etat', 'NonTraité')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+    public function countTraiteReclamations(): int
+    {
+        return $this->createQueryBuilder('r')
+            ->select('COUNT(r.id)')
+            ->where('r.etat = :etat')
+            ->setParameter('etat', 'Traité')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
 }

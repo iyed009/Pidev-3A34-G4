@@ -1,45 +1,273 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
 {% block title %}Reclamation index{% endblock %}
 
 {% block body %}
-    <h1>Reclamation index</h1>
+    <div class="content d-flex flex-column flex-column-fluid" >
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid">
+            <!--begin::Container-->
+            <div  class="container-xxl">
+                <div class="row g-5 g-xl-8">
+                    <div class="col-xl-4">
+                        <!--begin: Statistics Widget 6-->
+                        <div class="card bg-light-success card-xl-stretch mb-xl-8">
+                            <!--begin::Body-->
+                            <div class="card-body my-3">
+                                <a href="#" class="card-title fw-bolder text-success fs-5 mb-3 d-block">Reclamation Traité</a>
+                                <div class="py-1">
+                                    <span class="text-dark fs-1 fw-bolder me-2">{{ percentageTraite }}%</span>
+                                </div>
+                                <div class="progress h-7px bg-success bg-opacity-50 mt-7">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <!--end:: Body-->
+                        </div>
+                        <!--end: Statistics Widget 6-->
+                    </div>
+                    <div class="col-xl-4">
+                        <!--begin: Statistics Widget 6-->
+                        <div class="card bg-light-danger card-xl-stretch mb-xl-8">
+                            <!--begin::Body-->
+                            <div class="card-body my-3">
+                                <a href="#" class="card-title fw-bolder text-danger fs-5 mb-3 d-block">Reclamation Non Traité</a>
+                                <div class="py-1">
+                                    <span class="text-dark fs-1 fw-bolder me-2">{{ percentageNonTraite }}%</span>
+                                </div>
+                                <div class="progress h-7px bg-danger bg-opacity-50 mt-7">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 15%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <!--end:: Body-->
+                        </div>
+                        <!--end: Statistics Widget 6-->
+                    </div>
+                </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>NumTele</th>
-                <th>Etat</th>
-                <th>Sujet</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for reclamation in reclamations %}
-            <tr>
-                <td>{{ reclamation.id }}</td>
-                <td>{{ reclamation.nom }}</td>
-                <td>{{ reclamation.email }}</td>
-                <td>{{ reclamation.numTele }}</td>
-                <td>{{ reclamation.etat }}</td>
-                <td>{{ reclamation.sujet }}</td>
-                <td>{{ reclamation.description }}</td>
-                <td>
-                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}">show</a>
-                    <a href="{{ path('app_reclamation_edit', {'id': reclamation.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="8">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_reclamation_new') }}">Create new</a>
+
+                <!--begin::Heading-->
+                <div class="d-flex flex-wrap flex-stack mb-6">
+                    <!--begin::Title-->
+                    <h3 class="fw-bolder my-2" >Reclamations
+                        <span class="fs-6 fw-bold ms-1">( {{ (count) }} )</span></h3>
+                    <!--end::Title-->
+                    <!--begin::Controls-->
+                    <div class="aside-search py-5">
+                        <!--begin::Search-->
+                        <div  class="d-flex align-items-center" >
+                            <!-- begin::Form -->
+                            <form  class="w-100 position-relative" autocomplete="off">
+                                <!-- begin::Hidden input(Added to disable form autocomplete) -->
+                                <input type="hidden" />
+                                <!-- end::Hidden input -->
+                                <!-- begin::Icon -->
+                                <span class="svg-icon svg-icon-2 search-icon position-absolute top-50 translate-middle-y ms-4">
+                                <!-- Your SVG icon code -->
+                            </span>
+                                <!-- end::Icon -->
+                                <!-- begin::Input -->
+                                <input type="text" class="form-control ps-13 fs-7 h-40px" id="search1" value="" placeholder="Rechercher"/>
+                                <!-- end::Input -->
+                            </form>
+                            <!-- end::Form -->
+                        </div>
+                        <!--end::Search-->
+                    </div>
+                    <div class="d-flex my-2">
+                        <!--begin::Select-->
+                        <select name="status1" data-control="select" data-hide-search="true" class="form-select form-select-white form-select-sm w-125px">
+                            <option value="all" {% if etat == 'all' %}selected{% endif %}>Toutes</option>
+                            <option value="Traité" {% if etat == 'Traité' %}selected{% endif %}>Traitées</option>
+                            <option value="NonTraité" {% if etat == 'NonTraité' %}selected{% endif %}>Non traitées</option>
+                        </select>
+                        <!--end::Select-->
+                    </div>
+                    <!--end::Controls-->
+                </div>
+                <!--end::Heading-->
+
+                <!--begin::Contacts-->
+                <div class="row g-6 g-xl-9">
+                    <!--begin::Col-->
+                    {% for reclamation in reclamations %}
+                        <div class="col-md-6 col-xxl-4">
+                            <!--begin::Card-->
+                            <div class="card">
+                                <!--begin::Card body-->
+                                <div class="card-body d-flex flex-center flex-column p-9">
+                                    <!--begin::Wrapper-->
+                                    <div class="mb-5">
+                                        <!--begin::Avatar-->
+                                        <div class="symbol symbol-75px symbol-circle">
+                                            <img alt="Pic" src="{{ asset('assets/media/avatars/12.jpg') }}"/>
+                                        </div>
+                                        <!--end::Avatar-->
+                                    </div>
+                                    <!--end::Wrapper-->
+                                    <!--begin::Name-->
+                                    <a href="#"
+                                       class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">{{ reclamation.nom|capitalize }} {{ reclamation.prenom|capitalize }}</a>
+                                    <!--end::Name-->
+                                    <!--begin::Position-->
+                                    <div class="fw-bold text-gray-400 mb-6"><span class="{{ reclamation.etat == 'Traité' ? 'badge badge-light-success fs-7 fw-bold' : 'badge badge-light-danger fs-7 fw-bold' }}">
+                                {{ reclamation.etat }}
+                                </span></div>
+                                    <!--end::Position-->
+                                    <!--begin::Info-->
+                                    <div class="d-flex flex-center flex-wrap mb-5">
+                                        <!--begin::Stats-->
+                                        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mx-3 mb-3">
+                                            <div class="fs-6 fw-bolder text-gray-700">Email</div>
+                                            <div class="fw-bold text-gray-400">{{ reclamation.email }}</div>
+                                        </div>
+                                        <!--end::Stats-->
+                                        <!--begin::Stats-->
+                                        <div class="border border-gray-300 border-dashed rounded min-w-125px py-3 mx-3 px-4 mb-3">
+                                            <div class="fs-6 fw-bolder text-gray-700">Sujet</div>
+                                            <div class="fw-bold text-gray-400">{{ reclamation.sujet }}</div>
+                                        </div>
+                                        <!--end::Stats-->
+                                    </div>
+                                    <!--end::Info-->
+                                    <!--begin::Link-->
+
+                                    <a href="{{ path('app_reclamation_show', {'id': reclamation.id}) }}"
+                                       class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">
+                                        <!--begin::Svg Icon | path: icons/duotune/general/gen019.svg-->
+                                        <button class="btn btn-sm btn-light-primary fw-bolder" data-kt-drawer-show="true">Detail</button>
+                                    </a>
+
+                                    <!--end::Link-->
+                                </div>
+                                <!--begin::Card body-->
+                            </div>
+                            <!--begin::Card-->
+                        </div>
+                        <!--end::Col-->
+                    {% endfor %}
+
+
+                </div>
+
+
+                <!--end::Contacts-->
+            </div>
+
+            <!--end::Container-->
+        </div>
+
+        <!--end::Post-->
+    </div>
+
+<div class="d-flex flex-stack flex-wrap pt-10">
+    <div class="fs-6 fw-bold text-gray-700"></div>
+    <!--begin::Pages-->
+    <ul class="pagination">        {% do reclamations.SetPageRange(3) %}
+        {{ knp_pagination_render(reclamations, "pagination.html.twig") }}
+    </ul>
+</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var searchRequest = null;
+            var originalReclamations = jQuery('.row.g-6.g-xl-9').html(); // Store original reclamation items
+            var reclamations = []; // Define reclamations array here
+
+
+            jQuery("#search1").keyup(function() {
+                var minlength = 1;
+                var that = this;
+                var value = jQuery(this).val();
+
+                if (value.length >= minlength) {
+                    // Abort previous request if it exists
+                    if (searchRequest != null) {
+                        searchRequest.abort();
+                    }
+
+                    searchRequest = jQuery.ajax({
+                        type: "GET",
+                        url: "{{ path('reclamation_search') }}",
+                        data: {
+                            'q': value
+                        },
+                        dataType: "json",
+                        success: function(result) {
+                            var reclamationContainer = jQuery('.row.g-6.g-xl-9');
+                            reclamationContainer.empty();
+                            if (result.reclamations.length === 0) {
+                                var messageHtml = '<div class="col-12">' +
+                                    '<div class="card text-center">' +
+                                    '<div class="card-body d-flex align-items-center justify-content-center" style="min-height: 200px;">' +
+                                    '<p class="fs-5 text-muted">Aucune réclamation n\'a été trouvée.</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                                reclamationContainer.append(messageHtml);
+                            } else {
+                                // Append search results to reclamation container
+                                jQuery.each(result.reclamations, function(index, reclamation) {
+                                    var reclamationHtml = '<div class="col-md-6 col-xxl-4">' +
+                                        '<div class="card">' +
+                                        '<div class="card-body d-flex flex-center flex-column p-9">' +
+                                        '<div class="mb-5">' +
+                                        '<div class="symbol symbol-75px symbol-circle">' +
+                                        '<img alt="Pic" src="{{ asset('assets/media/avatars/12.jpg') }}"/>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<a href="#" class="fs-4 text-gray-800 text-hover-primary fw-bolder mb-0">' + reclamation.nom + ' ' + reclamation.prenom + '</a>' +
+                                        '<div class="fw-bold text-gray-400 mb-6"><span class="' + (reclamation.etat == 'Traité' ? 'badge badge-light-success fs-7 fw-bold' : 'badge badge-light-danger fs-7 fw-bold') + '">' + reclamation.etat + '</span></div>' +
+                                        '<div class="d-flex flex-center flex-wrap mb-5">' +
+                                        '<div class="border border-gray-300 border-dashed rounded min-w-125px py-3 px-4 mx-3 mb-3">' +
+                                        '<div class="fs-6 fw-bolder text-gray-700">Email</div>' +
+                                        '<div class="fw-bold text-gray-400">' + reclamation.email + '</div>' +
+                                        '</div>' +
+                                        '<div class="border border-gray-300 border-dashed rounded min-w-125px py-3 mx-3 px-4 mb-3">' +
+                                        '<div class="fs-6 fw-bolder text-gray-700">Sujet</div>' +
+                                        '<div class="fw-bold text-gray-400">' + reclamation.sujet + '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<a href="/reclamation/' + reclamation.id + '" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">' +
+                                        '<button class="btn btn-sm btn-light-primary fw-bolder" data-kt-drawer-show="true">Detail</button>' +
+                                        '</a>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>';
+                                    reclamationContainer.append(reclamationHtml);
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    // Restore original reclamation items if search input is empty
+                    jQuery('.row.g-6.g-xl-9').html(originalReclamations);
+                }
+            });
+        });
+    </script>
+    <script>
+        // Récupérer les éléments de la barre de progression
+        var progressBarTraite = document.querySelector('.bg-success .progress-bar');
+        var progressBarNonTraite = document.querySelector('.bg-danger .progress-bar');
+
+        // Définir les pourcentages traités et non traités (supposons qu'ils soient déjà définis côté serveur)
+        var percentageTraite = {{ percentageTraite }};
+        var percentageNonTraite = {{ percentageNonTraite }};
+
+        // Mettre à jour la largeur de la barre de progression
+        progressBarTraite.style.width = percentageTraite + '%';
+        progressBarNonTraite.style.width = percentageNonTraite + '%';
+
+        // Mettre à jour le texte du pourcentage dans les éléments span correspondants
+        document.querySelector('.bg-success .text-dark').textContent = percentageTraite + '%';
+        document.querySelector('.bg-danger .text-dark').textContent = percentageNonTraite + '%';
+    </script>
+
+
 {% endblock %}
+
+

@@ -1,0 +1,61 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}New Reclamation{% endblock %}
+
+{% block body %}
+    <section class="contact-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="card contact-card">
+                        <div class="card-body">
+                            <div class="section-title contact-title">
+                                <span style="color: white;">Contact Us</span>
+                                <h2 style="color: white;">GET IN TOUCH</h2>
+                            </div>
+                            <div class="contact-widget">
+                                <div class="cw-text" style="color: white;">
+                                    <i class="fa fa-map-marker"></i>
+                                    <p>333 Middle Winchendon Rd, Rindge,<br/> NH 03461</p>
+                                </div>
+                                <div class="cw-text" style="color: white;">
+                                    <i class="fa fa-mobile"></i>
+                                    <ul>
+                                        <li>125-711-811</li>
+                                        <li>125-668-886</li>
+                                    </ul>
+                                </div>
+                                <div class="cw-text email" style="color: white;">
+                                    <i class="fa fa-envelope"></i>
+                                    <p>Support.gymcenter@gmail.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card transcription-card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h1 style="color: white;">OpenAI Transcription</h1>
+                                <form method="post" action="{{ path('transcribe') }}" enctype="multipart/form-data">
+                                    <label for="audioFile" style="color: white;">Upload Audio File:</label>
+                                    <input type="file" name="audioFile" id="audioFile"  capture="microphone">
+                                    <button type="submit" class="btn btn-primary">Transcribe</button>
+                                </form>
+                                {% if transcription is defined %}
+                                    <p style="color: black;"><strong>Transcription:</strong> {{ transcription }}</p>
+                                {% else %}
+                                    <p style="color: black;">No transcription available.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12087.069761554938!2d-74.2175599360452!3d40.767139456514954!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c254b5958982c3%3A0xb6ab3931055a2612!2sEast%20Orange%2C%20NJ%2C%20USA!5e0!3m2!1sen!2sbd!4v1581710470843!5m2!1sen!2sbd" height="550" style="border:0;" allowfullscreen=""></iframe>
+            </div>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends 'base1.html.twig' %}
+{% block body %}
+    <section class="breadcrumb-section set-bg" data-setbg="{{ asset('img/000000.png')}}">
+        <div class="container text-center">
+            <img src="{{ asset('img/réclamations.jpg') }}" alt="Your Image" class="img-fluid" style="max-width: 50%; height: auto; margin-top: -50px;">
+        </div>
+    </section>
+
+
+
+    <section class="bmi-calculator-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="section-title chart-title">
+                        <span>Mes Reclamations</span>
+                        <h2>nbre reclamation</h2>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="section-title chart-calculate-title">
+                        <span>Mes reponses</span>
+                        <h2>nbre reponses</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% for reclamation in reclamations %}
+
+    <section class="bmi-calculator-section spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="chart-table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>{{ reclamation.nom|capitalize }} {{ reclamation.prenom|capitalize }}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="point">Email</td>
+                                <td>{{ reclamation.email}}</td>
+                            </tr>
+                            <tr>
+                                <td class="point">Phone</td>
+                                <td>{{ reclamation.numTele}}</td>
+                            </tr>
+                            <tr>
+                                <td class="point">Etat</td>
+                                <td class="{{ reclamation.etat == 'Traité' ? 'badge badge-light-success fs-7 fw-bold' : 'badge badge-light-danger fs-7 fw-bold' }}">
+                                {{ reclamation.etat }}
+                                </span></td>
+                            </tr>
+                            <tr>
+                                <td class="point">Sujet</td>
+                                <td>{{ reclamation.sujet }}</td>
+                            </tr>
+                            <tr>
+                                <td class="point">Description</td>
+                                <td>{{ reclamation.description }}</td>
+                            </tr>
+                            <tr>
+                                <td class="point">Date</td>
+                                <td>{{ reclamation.date ? reclamation.date|date('Y-m-d H:i:s') : '' }}</td>
+                            </tr>
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+                {% if reclamation.reponse is null %}
+                    <div class="col-lg-6">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h1 class="card-title" style="color: #f36100;">
+                                    En Cours de Traitement <i class="fas fa-spinner"></i>
+                                </h1>
+                            </div>
+                        </div>
+
+                    </div>
+
+                {% else %}
+                    <div class="col-lg-6">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <form action="#">
+                                    <div class="form-group">
+                                        <label for="reponse" class="text-black fw-bold">Réponse:</label>
+                                        <span id="reponse" class="text-black fw-bold">{{ reclamation.reponse.reponse }}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="date" class="text-black fw-bold">Date:</label>
+                                        <span id="date" class="text-black fw-bold">{{ reclamation.reponse.date ? reclamation.reponse.date|date('Y-m-d H:i:s') : '' }}</span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-lg-6 d-flex align-items-center">
+                                <img src="{{ asset('img/gallery/gallery-1.jpg') }}" alt="Your Image" class="img-fluid">
+                            </div>
+                            <div class="col-lg-6 d-flex align-items-center">
+                                <img src="{{ asset('img/gallery/gallery-6.jpg') }}" alt="Your Image" class="img-fluid">
+                            </div>
+                        </div>
+                    </div>
+
+                {% endif %}
+
+
+
+
+
+
+            </div>
+        </div>
+    </section>
+{% endfor %}
+
+
+{% endblock %}
+
