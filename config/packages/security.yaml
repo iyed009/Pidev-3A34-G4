@@ -17,6 +17,7 @@ security:
       entry_point: App\Security\LoginFormAuthenticator
       custom_authenticator:
         - App\Security\LoginFormAuthenticator
+  
       logout:
         path: app_logout
         target: app_login
@@ -31,10 +32,15 @@ security:
         name: SECURITY_DEMO
 
   access_control:
-    - { path: ^/admin, roles: ROLE_ADMIN }
-    - { path: ^/client, roles: ROLE_CLIENT }
+  - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  - { path: ^/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  - { path: ^/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+  - { path: ^/nom, roles: ROLE_SUPER_ADMIN }
+  - { path: ^/salle, roles: ROLE_ADMIN }
+  - { path: ^/client, roles: ROLE_CLIENT }
     # Additional access control rules as needed
 
     # Ensure login and logout paths are accessible to all
-    - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-    - { path: ^/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+    # - { path: ^/login, roles: ROLE_USER }
+    # - { path: ^/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }

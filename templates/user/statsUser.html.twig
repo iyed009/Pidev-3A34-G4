@@ -1,0 +1,166 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}User Statistics
+{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+	<style>
+		.card {
+			border-radius: 15px;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+		.card-title {
+			margin-bottom: 15px;
+		}
+		.circular-chart {
+			display: block;
+			margin: 20px auto;
+			max-width: 100%;
+			max-height: 250px;
+		}
+		.circle-bg,
+		.circle {
+			fill: none;
+			stroke-width: 2.8;
+			stroke-linecap: round;
+			animation: progress 1s ease-out forwards;
+		}
+
+		.circle-bg {
+			stroke: #eee;
+		}
+		.percentage {
+			fill: #333;
+			font-family: 'Helvetica Neue', sans-serif;
+			font-size: 8px; /* Ajustement pour meilleure visibilité */
+			text-anchor: middle;
+			text-color: black;
+		}
+		@keyframes progress {
+			0% {
+				stroke-dasharray: 0 100;
+			}
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<div class="container-xxl py-5">
+		<div
+			class="row g-4">
+			<!-- Total Admins Count Widget -->
+			<div class="col-md-6 col-xl-4">
+				<div
+					class="card" style="background-color: #e8f5e9;">
+					<!-- Light green background for success -->
+					<div class="card-body text-center">
+						<h5 class="card-title" style="color: #2e7d32;">totalAdminsCount</h5>
+						<!-- Dark green text for contrast -->
+						<svg width="120" height="120" viewbox="0 0 120 120">
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#ccc" stroke-width="12"/>
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#66bb6a" stroke-width="12" stroke-dasharray="{{ (totalAdminsCount / 100) * 339.29 }} 339.29" transform="rotate(-90 60 60)"/>
+							<text x="60" y="65" fill="#1b5e20" font-family="Arial" font-size="24" text-anchor="middle">{{ totalAdminsCount }}%</text>
+							<!-- Use a darker shade for text to ensure readability -->
+						</svg>
+					</div>
+				</div>
+			</div>
+			<!-- Total Clients Count Widget -->
+			<div class="col-md-6 col-xl-4">
+				<div
+					class="card" style="background-color: #ffebee;">
+					<!-- Light red background for attention -->
+					<div class="card-body text-center">
+						<h5 class="card-title" style="color: #c62828;">totalClientsCount</h5>
+						<!-- Dark red text for visibility -->
+						<svg width="120" height="120" viewbox="0 0 120 120">
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#ccc" stroke-width="12"/>
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#ef5350" stroke-width="12" stroke-dasharray="{{ (totalClientsCount / 100) * 339.29 }} 339.29" transform="rotate(-90 60 60)"/>
+							<text x="60" y="65" fill="#b71c1c" font-family="Arial" font-size="24" text-anchor="middle">{{ totalClientsCount }}%</text>
+							<!-- Deeper shade for text for easy reading -->
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<div
+			class="row g-4">
+			<!-- User Verified Widget -->
+			<div class="col-md-6 col-xl-4">
+				<div
+					class="card" style="background-color: #e3f2fd;">
+					<!-- Light blue background for a calm, trustworthy feel -->
+					<div class="card-body text-center">
+						<h5 class="card-title" style="color: #1565c0;">User Verified</h5>
+						<!-- Strong blue for the text -->
+						<svg width="120" height="120" viewbox="0 0 120 120">
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#ccc" stroke-width="12"/>
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#64b5f6" stroke-width="12" stroke-dasharray="{{ (percentageTraite / 100) * 339.29 }} 339.29" transform="rotate(-90 60 60)"/>
+							<text x="60" y="65" fill="#0d47a1" font-family="Arial" font-size="24" text-anchor="middle">{{ percentageTraite }}%</text>
+							<!-- Darker blue for clarity -->
+						</svg>
+					</div>
+				</div>
+			</div>
+			<!-- User Not Verified Widget -->
+			<div class="col-md-6 col-xl-4">
+				<div
+					class="card" style="background-color: #fce4ec;">
+					<!-- Light pink for a soft, cautionary note -->
+					<div class="card-body text-center">
+						<h5 class="card-title" style="color: #ad1457;">User Not Verified</h5>
+						<!-- Vibrant pink for text -->
+						<svg width="120" height="120" viewbox="0 0 120 120">
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#ccc" stroke-width="12"/>
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#f48fb1" stroke-width="12" stroke-dasharray="{{ (percentageNonTraite / 100) * 339.29 }} 339.29" transform="rotate(-90 60 60)"/>
+							<text x="60" y="65" fill="#880e4f" font-family="Arial" font-size="24" text-anchor="middle">{{ percentageNonTraite }}%</text>
+							<!-- Deeper pink for text to ensure it stands out -->
+						</svg>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+const data = [{{ percentageTraite }}, {{ percentageNonTraite }}];
+const ctx = document.getElementById('verificationChart').getContext('2d');
+new Chart(ctx, {
+type: 'doughnut',
+data: {
+labels: [
+'Verified', 'Not Verified'
+],
+datasets: [
+{
+data: data,
+backgroundColor: [
+'#4caf50', '#f44336'
+],
+borderColor: [
+'#fff', '#fff'
+],
+borderWidth: 2
+}
+]
+},
+options: {
+responsive: true,
+maintainAspectRatio: false,
+cutoutPercentage: 80
+}
+});
+});
+	</script>
+{% endblock %}

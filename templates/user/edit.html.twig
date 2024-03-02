@@ -1,0 +1,39 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Edit User{% endblock %}
+
+{% block body %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center"> 
+                    <h1>Edit Client</h1>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+                    {% for field in form %}
+                        {% if field.vars.name != '_token' %}
+                            <div class="mb-3">
+                                {{ form_label(field) }}
+                                {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
+                                {% if field.vars.errors %}
+                                    <div class="text-danger">{{ form_errors(field) }}</div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">{{ button_label|default('Update') }}</button>
+                        <a href="{{ path('user_list_role_client') }}" class="btn btn-secondary">Back to list</a>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
