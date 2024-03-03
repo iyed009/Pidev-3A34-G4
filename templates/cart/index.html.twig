@@ -1,0 +1,75 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Votre Panier!{% endblock %}
+
+{% block body %}
+    <section class="breadcrumb-section set-bg" data-setbg={{ asset('img/breadcrumb-bg.jpg')}}>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <div class="breadcrumb-text">
+                        <h2>Our Blog</h2>
+                        <div class="bt-option">
+                            <a href="./index.html">Home</a>
+                            <a href="#">Produits</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-light p-3">
+        <h1>Votre panier</h1>
+    </section>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Produit</th>
+            <th>Prix</th>
+            <th>Quantité</th>
+            <th>Total</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for element in dataPanier %}
+            <tr>
+                <td>{{ element.product.name }}</td>
+                <td class="text-end">{{ element.product.price }} €</td>
+                <td>{{ element.quantite }}</td>
+                <td class="text-end">{{ element.quantite * element.product.price }} €</td>
+                <td>
+                    <a href="{{path("cart_add", {id: element.product.id})}}" class="btn btn-success">
+                        <i class="fas fa-cart-plus"></i>
+                    </a>
+                    <a href="{{path("cart_remove", {id: element.product.id})}}" class="btn btn-warning">
+                        <i class="fa-solid fa-cart-arrow-down"></i>
+                    </a>
+                    <a href="{{path("cart_delete", {id: element.product.id})}}" class="btn btn-danger">
+                        <i class="fas fa-minus-square"></i>
+                    </a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">Votre panier est vide</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="3">Total</td>
+            <td class="text-end">{{ total }} €</td>
+            <td>
+                <a href="{{path("cart_delete_all")}}" class="btn btn-danger">
+                    <i class="fas fa-minus-square"></i>
+                </a>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+    <!-- Bouton Télécharger en PDF -->
+    <a href="{{ path('cart_download_pdf') }}" class="btn btn-primary">Télécharger en PDF</a>
+
+{% endblock %}

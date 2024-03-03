@@ -45,6 +45,9 @@
                         <div class="at-desc" style="font-size: 16px; color: #333;">
                             <p>{{ product.description }}</p>
                         </div>
+                        <div class="add-to-cart-btn">
+                            <a href="{{ path('cart_add', {'id': product.id}) }}" class="btn btn-primary">Add to Cart</a>
+                        </div>
                     </div>
                 </div>
             </div>

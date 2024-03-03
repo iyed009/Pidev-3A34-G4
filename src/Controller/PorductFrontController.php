@@ -2,23 +2,36 @@
 
 namespace App\Controller;
 
+use App\Data\SearchData;
 use App\Entity\Product;
 use App\Form\Product1Type;
+use App\Form\SearchForm;
+use App\Repository\CategoriePRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route; 
+use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
  
 #[Route('/front/product')]
 class PorductFrontController extends AbstractController
 {
     #[Route('/', name: 'app_porduct_front_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository): Response
+    public function index(ProductRepository $productRepository , CategoriePRepository $categoriePRepository, Request $request): Response
     {
+        $data = new SearchData();
+        $data->page = $request->get('page', 1);
+        $form = $this -> createForm(SearchForm::class, $data);
+        $form ->handleRequest($request);
+        $products= $productRepository->findSearch($data);
+        $categories = $categoriePRepository->findAll();
+
         return $this->render('porduct_front/index.html.twig', [
-            'products' => $productRepository->findAll(),
+            'product' => $products,
+            'categories' => $categories,
+            'form' => $form ->createView()
         ]);
     }
 
