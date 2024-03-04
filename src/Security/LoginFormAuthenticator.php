@@ -82,10 +82,10 @@ class LoginFormAuthenticator extends AbstractAuthenticator implements Authentica
 
         if (in_array('ROLE_SUPER_ADMIN', $token->getRoleNames())) {
 
-            return new RedirectResponse($this->urlGenerator->generate('app_nom'));
+            return new RedirectResponse($this->urlGenerator->generate('user_stats'));
         } elseif (in_array('ROLE_CLIENT', $token->getRoleNames())) {
 
-            return new RedirectResponse($this->urlGenerator->generate('app_client'));
+            return new RedirectResponse($this->urlGenerator->generate('app_reclamation_client'));
         }
 
         return new RedirectResponse($this->urlGenerator->generate('app_login'));

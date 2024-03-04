@@ -12,10 +12,10 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.0",
+        "fakerphp/faker": "^1.23",
         "knplabs/knp-paginator-bundle": "^5.9",
         "nyholm/psr7": "^1.8",
         "openai-php/client": "^0.8.4",
-        "fakerphp/faker": "^1.23",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.25",
         "ramsey/uuid-doctrine": "^2.0",
@@ -48,8 +48,8 @@
         "symfony/translation": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
         "symfony/twilio-notifier": "5.4.*",
-        "symfony/ux-turbo": "^2.14",
         "symfony/uid": "5.4.*",
+        "symfony/ux-turbo": "*",
         "symfony/validator": "5.4.*",
         "symfony/web-link": "5.4.*",
         "symfony/yaml": "5.4.*",
@@ -57,9 +57,11 @@
         "symfonycasts/verify-email-bundle": "^1.16",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
+        "twilio/sdk": "^7.16",
         "victor-prdh/recaptcha-bundle": "^1.8"
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.5",
         "phpunit/phpunit": "^9.5",
         "symfony/browser-kit": "5.4.*",
         "symfony/css-selector": "5.4.*",
@@ -73,7 +75,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "php-http/discovery": true
         },
         "optimize-autoloader": true,
         "preferred-install": {

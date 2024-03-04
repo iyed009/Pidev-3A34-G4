@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -43,18 +44,14 @@ class RegistrationFormType extends AbstractType
             ->add('adresse', null, [
                 'required' => false,
             ])
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'CLIENT' => 'ROLE_CLIENT',
-                    'Admin' => 'ROLE_ADMIN',
-                ],
-                'mapped' => false,
-                'expanded' => false,
-                'multiple' => false,
-                'label' => 'Role',
-                'required' => true,
-                'data' => 'ROLE_CLIENT',
+            ->add('roles', TextType::class, [
+                'mapped' => false, // This field does not directly map to the entity's property
+                'disabled' => true, // Makes the field non-interactive
+                'required' => false, // This field is not required
+                'label' => 'Role', // Label for the form field
+                'attr' => ['value' => 'CLIENT'], // You could dynamically set this based on the actual user role
             ])
+
             ->add('avatar', FileType::class, [
                 'label' => 'avatar',
                 'mapped' => false,

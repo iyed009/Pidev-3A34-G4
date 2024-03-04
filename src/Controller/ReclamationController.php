@@ -68,10 +68,13 @@ class ReclamationController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager ,UserRepository $utilisateurRepository,TwilioService $twilioService): Response
     {
         $reclamation = new Reclamation();
-        $user=$utilisateurRepository->find(1);
+        $user=$this->getUser();
+       // $user=$utilisateurRepository->find(1);
         $reclamation->setUtilisateur($user);
-        $reclamation->setNumTele(7777777);
-        $reclamation->setEmail('belhouchet.koussay@esprit.tn');
+        $reclamation->setNom($user->getNom());
+        $reclamation->setPrenom($user->getPrenom());
+        $reclamation->setNumTele($user->getNumTele());
+        $reclamation->setEmail($user->getEmail());
 
         $form = $this->createForm(ReclamationType::class, $reclamation);
         $form->handleRequest($request);

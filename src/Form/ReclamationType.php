@@ -18,10 +18,21 @@ class ReclamationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('nom')
+        $reclamation = $builder->getData();
 
-            ->add('prenom')
+        $builder
+            ->add('nom', null, [
+                'data' => $reclamation ? $reclamation->getNom() : '',
+                'disabled' => true,
+// Définir la valeur par défaut
+            ])
+            ->add('prenom', null, [
+                'data' => $reclamation ? $reclamation->getPrenom() : '',
+                'disabled' => true,
+// Définir la valeur par défaut
+            ])
+            // Ajouter les autres champs comme avant
+
 
             ->add('sujet', ChoiceType::class, [
                 'label' => 'Sujet',
@@ -55,5 +66,6 @@ class ReclamationType extends AbstractType
             'data_class' => Reclamation::class,
         ]);
     }
+
 }
 

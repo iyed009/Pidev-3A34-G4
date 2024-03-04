@@ -37,8 +37,12 @@ security:
   - { path: ^/logout, roles: IS_AUTHENTICATED_ANONYMOUSLY }
   - { path: ^/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
   - { path: ^/nom, roles: ROLE_SUPER_ADMIN }
-  - { path: ^/salle, roles: ROLE_ADMIN }
+  - { path: ^/salle, roles: ROLE_SUPER_ADMIN }
   - { path: ^/client, roles: ROLE_CLIENT }
+  - { path: ^/transcribe, roles: ROLE_CLIENT }
+  - { path: ^/reclamation/new, roles: ROLE_CLIENT }
+  - { path: ^/reclamation, roles: ROLE_SUPER_ADMIN }
+  - { path: ^/reponse, roles: ROLE_SUPER_ADMIN }
     # Additional access control rules as needed
 
     # Ensure login and logout paths are accessible to all

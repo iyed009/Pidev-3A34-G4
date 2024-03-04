@@ -46,13 +46,14 @@ class OpenIAController extends AbstractController
                     foreach ($response->segments as $segment) {
                         $transcription .= $segment->text;
                     }
-
+                    $user=$this->getUser();
+                    $reclamation->setUtilisateur($user);
                     // Set Reclamation entity properties
-                    $reclamation->setNom('mohamed');
-                    $reclamation->setPrenom('ali');
+                    $reclamation->setNom($user->getNom());
+                    $reclamation->setPrenom($user->getPrenom());
                     $reclamation->setSujet('voice');
-                    $reclamation->setNumTele(7777777);
-                    $reclamation->setEmail('wederni05@gmail.com');
+                    $reclamation->setNumTele($user->getNumTele());
+                    $reclamation->setEmail($user->getEmail());
                     $reclamation->setDescription($transcription);
 
                     // Persist Reclamation entity to database
