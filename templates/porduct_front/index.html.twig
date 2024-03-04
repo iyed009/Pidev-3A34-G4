@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb-text">
-                    <h2>Our Blog</h2>
+                    <h2>Nos Produits</h2>
                     <div class="bt-option">
                         <a href="./index.html">Home</a>
                         <a href="#">Produits</a>
@@ -36,14 +36,14 @@
                         </div>
                         <div class="bi-text" >
                             <h5 style="   font-size: 40px;
-    color: red;
+    color: floralwhite;
     margin-top: 5px; font-family: Arial Narrow, sans-serif;" >{{ product.name }}</h5>
                             <ul>
-                                <li>{{ product.price }}</li>
-                                <li>{{ product.categoriep.name }}</li>
+                                <li style="font-size: 15px">{{ product.price }} €</li>
+                                <li style="font-size: 10px; font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif">#{{ product.categoriep.name }}</li>
                             </ul>
-                            <p style="   font-size: 50px;
-    color: #333;
+                            <p style="   font-size: 20px;
+    color: #f55206;
     margin-top: 5px; font-family:Arial Narrow, sans-serif	;">{{ product.description }}</p>
                         </div>
                     </div>
@@ -54,7 +54,8 @@
                 </div>
                 <div class="col-lg-4 col-md-8 p-0">
                     <div class="sidebar-option">
-                        <div class="so-categories" style=" display: block;
+                        <div class="so-categories" style="color: #f1f1f1;
+                         display: block;
     position: sticky;
     top: 20px;">
                              {% include 'porduct_front/_filter.html.twig' with {form: form} only %}

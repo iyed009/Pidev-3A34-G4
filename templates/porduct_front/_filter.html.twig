@@ -1,21 +1,54 @@
 
+<style>
+    /* Pour les titres des catégories */
+    .form-title {
+        color: #ffffff; /* Couleur du texte */
+         /* Couleur de fond */
+        padding: 10px; /* Ajoutez un remplissage pour plus de visibilité */
+        border-radius: 5px; /* Arrondir les coins */
+    }
 
+    /* Pour les labels des champs */
+    .form-label {
+        color: #ffffff; /* Couleur du texte */
+    }
 
+    /* Pour les champs de saisie */
+    .form-control {
+        /* Couleur de fond */
+        color: #ffffff; /* Couleur du texte */
+        border-color: #666666; /* Couleur de la bordure */
+    }
+
+    /* Pour les boutons */
+    .btn-primary {
+        background-color: #007bff; /* Couleur de fond */
+        border-color: #007bff; /* Couleur de la bordure */
+        color: #ffffff; /* Couleur du texte */
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3; /* Couleur de fond au survol */
+        border-color: #0056b3; /* Couleur de la bordure au survol */
+    }
+</style>
 {{ form_start(form, {attr: {class: 'filter'}}) }}
-     {{ form_row(form.q) }}
 
-<h4>Categories</h4>
-{{ form_row(form.categorieP) }}
+{{ form_row(form.q, {'label': 'Search', 'label_attr': {'class': 'form-label'}}) }}
 
-<h4>Price</h4>
+<h4 class="form-title" >Categories</h4>
+{{ form_row(form.categorieP, {'label': 'Options', 'label_attr': {'class': 'form-label'}}) }}
+
+<h4 class="form-title" style="color: #f1f1f1">Price</h4>
 <div class="row">
     <div class="col-md-6">
-        {{ form_row(form.min) }}
+        {{ form_row(form.min, {'label': 'Min Price', 'label_attr': {'class': 'form-label'}}) }}
     </div>
     <div class="col-md-6">
-        {{ form_row(form.max) }}
+        {{ form_row(form.max, {'label': 'Max Price', 'label_attr': {'class': 'form-label'}}) }}
     </div>
 </div>
 
-<button type="submit" class="btn btn-primary w-100">Filtrer</button>
+<button type="submit" class="btn btn-primary w-100">Filter</button>
+
 {{ form_end(form) }}

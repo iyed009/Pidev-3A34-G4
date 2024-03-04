@@ -5,11 +5,16 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Dompdf\Dompdf;
+use app\Services\MailService;
 use Dompdf\Options;
+use Twilio\Rest\Client;
 
 /**
  * @Route("/cart",name="cart_")
@@ -57,6 +62,58 @@ class CartController extends AbstractController
             $session->set("panier", $panier);
             return $this->redirectToRoute("cart_index");
     }
+
+    /**
+     * @Route("/mail/mail", name="email_add")
+     */
+    public function contactUser(MailerInterface $mailer, Request $request, SessionInterface $session, ProductRepository $productRepository): Response
+    {
+        // Récupérer les données du panier et le total
+        $data = $this->getDataPanier($session, $productRepository);
+
+        // Construire le sujet de l'e-mail en incluant les données du panier
+        $subject = 'Reclamation Artist - Détails du panier';
+        foreach ($data['dataPanier'] as $item) {
+            $subject .= sprintf(" %s (quantité: %d),", $item['product']->getName(), $item['quantite']);
+        }
+        $subject = rtrim($subject, ',');
+
+        // Construire l'e-mail avec le sujet dynamique
+        $email = (new Email())
+            ->from('daasala58@gmail.com')
+            ->to('elfidha.ons@esprit.tn')
+            ->subject($subject)
+            ->text('Votre demande sera prise en compte et nous vous répondrons dans les meilleurs délais. Vous serez notifiés via une mail les détails de traitement de votre réclamation. Merci !!');
+
+        // Envoyer l'e-mail
+        $mailer->send($email);
+
+        // Redirection vers la page du panier
+        return $this->redirectToRoute('cart_index', [], Response::HTTP_SEE_OTHER);
+    }
+    /**
+     * @Route("/cart/send-whatsapp-message", name="send_whatsapp_message")
+     */
+    public function sendWhatsAppMessage(): Response
+    {
+        $sid = 'AC790f372b99d9356c74aedab145d4268d';
+        $token = '3d0ba83a7073558e4efc292b29fcd847';
+        $twilioNumber = '+14155238886';
+
+        $recipientNumber = '+21625446211'; // Le numéro de téléphone du destinataire
+
+        $client = new Client($sid, $token);
+
+        $message = $client->messages->create(
+            "whatsapp:".$recipientNumber, // Numéro de téléphone du destinataire (format WhatsApp)
+            [
+                'from' => "whatsapp:".$twilioNumber, // Numéro Twilio autorisé à envoyer des messages WhatsApp
+                'body' => 'Commande creted' // Votre message WhatsApp
+            ]
+        );
+
+        return new Response('Message WhatsApp envoyé !');
+    }
     /**
      * @Route("/remove/{id}", name="remove")
      */
@@ -76,6 +133,7 @@ class CartController extends AbstractController
 
         // On sauvegarde dans la session
         $session->set("panier", $panier);
+
 
         return $this->redirectToRoute("cart_index");
     }
@@ -126,6 +184,7 @@ class CartController extends AbstractController
         $dompdf->stream('panier.pdf', [
             'Attachment' => true,
         ]);
+        //*whatsapp
 
         // Retourne une réponse vide
         return new Response();

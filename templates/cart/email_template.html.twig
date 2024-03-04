@@ -1,0 +1,23 @@
+<!-- email_template.html.twig -->
+<html>
+<head>
+    <style>
+        /* Ajoutez vos styles CSS ici */
+        .product {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<h1>Contenu de l'e-mail</h1>
+<p>Voici le détail de votre panier :</p>
+<ul>
+    {% for item in dataPanier %}
+        <li class="product">
+            {{ item.product.name }} - {{ item.quantite }} - {{ item.product.price }} €
+        </li>
+    {% endfor %}
+</ul>
+<p>Total : {{ total }} €</p>
+</body>
+</html>
