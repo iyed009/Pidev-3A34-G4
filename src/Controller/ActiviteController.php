@@ -274,7 +274,7 @@ class ActiviteController extends AbstractController
             'errors' => $form->getErrors(true, false),
         ]);
     }
-    #[Route('/search', name: 'reclamation_search')]
+    #[Route('/search', name: 'activite_search')]
     public function search(Request $request, ActiviteRepository $activiteRepository)
     {
         $searchTerm = $request->query->get('q');

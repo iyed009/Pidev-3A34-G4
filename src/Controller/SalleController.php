@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -270,6 +271,29 @@ class SalleController extends AbstractController
             'salles' =>  $salles,
             'errors' => $form->getErrors(true, false),
         ]);
+    }
+    #[Route('/search1', name: 'salle_search1')]
+    public function search1(Request $request, SalleRepository $salleRepository)
+    {
+        $searchTerm = $request->query->get('q');
+
+        $salles = $salleRepository->findEntitiesByString($searchTerm);
+
+        // Formatage des résultats pour le renvoi au format JSON
+        $formattedSalle = [];
+        foreach ($salles as $salle) {
+            $formattedSalles[] = [
+                'nom' => $salle->getNom(),
+                'addresse' => $salle->getAddresse() ,
+                'numtel' => $salle->getNumTel(),
+                'capacite' => $salle->getCapacite(),
+                'logosalle' => $salle->getLogoSalle(),
+                'id' => $salle->getId(),
+
+            ];
+        }
+
+        return new JsonResponse(['salles' => $formattedSalles]);
     }
 
 }

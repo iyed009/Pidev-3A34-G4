@@ -28,13 +28,13 @@
 													</svg>
 												</span>
                             <!--end::Svg Icon-->
-                            <input type="text" id="search" name="q" class="form-control form-control-solid w-250px ps-14" placeholder="Search user"/>
+                            <input type="text" id="search" name="q" class="form-control form-control-solid w-250px ps-14" placeholder="Chercher Activite"/>
 
                         </div>
                         <div class="card-header border-0 pt-5">
 
                             <div class="card-toolbar">
-                                <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                                <a href="#" style="margin-right: 10px" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
                                    data-bs-target="#kt_modal_new_target">
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                     <span class="svg-icon svg-icon-2">
@@ -188,7 +188,7 @@
                                     <td>
                                         <div class="w-100 rounded mb-2 mb-lg-0 mt-2">
                                             {% if activite.imageActivte|length > 0 %}
-                                                <img src="{{ asset('uploads/' ~ activite.imageActivte) }}" class="img-fluid" alt="Evenement Image" width="150" height="100">
+                                                <img src="{{ asset('uploads/' ~ activite.imageActivte) }}" class="img-fluid" alt="Activite Image" width="150" height="100">
                                             {% else %}
                                                 <img src="{{ asset('uploads/Not found.jpg') }}" class="img-fluid" alt="Image Not Found" width="150" height="100">
                                             {% endif %}
@@ -296,11 +296,12 @@
                                         "<td>" +
                                         "<div class='w-100 rounded mb-2 mb-lg-0 mt-2'>" +
                                         (activite.imageActivte.length > 0 ?
-                                            "<img src='{{ asset('uploads/') }}" + activite.imageActivte + "' class='img-fluid' alt='Evenement Image' width='150' height='100'>" :
+                                            "<img src='{{ asset('uploads/') }}" + activite.imageActivte + "' class='img-fluid' alt='Activite Image' width='150' height='100'>" :
                                             "<img src='{{ asset('uploads/Not found.jpg') }}' class='img-fluid' alt='Image Not Found' width='150' height='100'>") +
                                         "</div>" +
                                         "</td>" +
                                         "<td>" +
+                                        '<a href="/activite/' + activite.id + '" class="btn btn-light-success btn-sm btn-primary">' +
                                         "<i class='fas fa-eye'></i>" +
                                         "</a>" +
                                         "</td>" +

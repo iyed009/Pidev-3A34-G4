@@ -31,13 +31,14 @@
 													</svg>
 												</span>
                                 <!--end::Svg Icon-->
-                                <input type="text" data-kt-user-table-filter="search"
+                                <input type="text" id="search" data-kt-user-table-filter="search"
                                        class="form-control form-control-solid w-250px ps-14" placeholder="Search user"/>
                             </div>
                             <div class="card-header border-0 pt-5">
++
 
                                 <div class="card-toolbar">
-                                    <a href="" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                                    <a href="" style="margin-right: 10px" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
                                        data-bs-target="#kt_modal_new_target">
                                         <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                         <span class="svg-icon svg-icon-2">
@@ -50,6 +51,20 @@
 												</svg>
 											</span>
                                         <!--end::Svg Icon-->Ajouter une Salle</a>
+                                    <div class="toolbox-right" >
+                                        <div class="toolbox-sort"  >
+                                            <div class="select-custom" >
+                                                <select name="sortby" id="sortby" onchange="window.location.href=this.value;" data-control="select" class="form-select form-select-sm form-select-solid w-100px w-xxl-125px" style="padding-right: 10px; margin-right: 10px;">
+                                                    <option value="#" selected="selected">Trier par</option>
+                                                    <option value="{{path('salle_tri_nom')}}">Nom</option>
+                                                    <option value="{{path('salle_tri')}}">NbrAbonnés&#9650;</option>
+                                                    <option value="{{path('salle_desc')}}">NbrAbonnés&#9660;</option>
+                                                    <option value="{{path('app_salle_index')}}" >Non triée</option>
+                                                </select>
+                                                {#<option value="#">Date</option>#}
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
                                          aria-hidden="true">
                                         <!--begin::Modal dialog-->
@@ -127,20 +142,7 @@
                                         </div>
                                         <!--end::Modal dialog-->
                                     </div>
-                                    <div class="toolbox-right" >
-                                        <div class="toolbox-sort"  >
-                                            <div class="select-custom" >
-                                                <select name="sortby" id="sortby" onchange="window.location.href=this.value;" data-control="select" class="form-select form-select-sm form-select-solid w-100px w-xxl-125px" style="padding-right: 10px; margin-right: 10px;">
-                                                    <option value="#" selected="selected">Trier par</option>
-                                                    <option value="{{path('salle_tri_nom')}}">Nom</option>
-                                                    <option value="{{path('salle_tri')}}">NbrAbonnés&#9650;</option>
-                                                    <option value="{{path('salle_desc')}}">NbrAbonnés&#9660;</option>
-                                                    <option value="{{path('app_salle_index')}}" >Non triée</option>
-                                                </select>
-                                                {#<option value="#">Date</option>#}
-                                            </div>
-                                        </div>
-                                    </div>
+
 
 
                             </div>
@@ -179,7 +181,7 @@
                                         <td>
                                             <div class="w-100 rounded mb-2 mb-lg-0 mt-2">
                                                 {% if salle.logoSalle|length > 0 %}
-                                                    <img src="{{ asset('uploads/' ~ salle.logoSalle) }}" class="img-fluid" alt="Evenement Image" width="150" height="100">
+                                                    <img src="{{ asset('uploads/' ~ salle.logoSalle) }}" class="img-fluid" alt="Salle Image" width="150" height="100">
                                                 {% else %}
                                                     <img src="{{ asset('uploads/Not found.jpg') }}" class="img-fluid" alt="Image Not Found" width="150" height="100">
                                                 {% endif %}
@@ -222,6 +224,7 @@
                 <!--end::Container-->
                 </div>
             </div>
+        </div>
 
             <!--end::Post-->
 
@@ -276,6 +279,92 @@
                 .catch(error => console.error('Error:', error));
         });
     </script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // Déclarer la variable searchRequest au niveau global
+        var searchRequest;
+        var originalTableBody;
+
+        // Attacher un gestionnaire d'événements à l'événement keyup de l'input de recherche
+        $("#search").keyup(function() {
+            var minlength = 1;
+            var that = this;
+            var value = $(this).val();
+            var tableBody = $(".table tbody");
+
+            if (value.length >= minlength) {
+                // Annuler la requête précédente si elle existe
+                if (searchRequest != null) {
+                    searchRequest.abort();
+                }
+
+                // Démarrer une nouvelle requête AJAX
+                searchRequest = $.ajax({
+                    type: "GET",
+                    url: "{{ path('salle_search1') }}", // Remplacez par votre route correcte
+                    data: {
+                        'q': value
+                    },
+                    dataType: "json", // Supposant que votre réponse est JSON
+                    success: function(result) {
+                        // Vérifier si la valeur est toujours la même
+                        if (value === $(that).val()) {
+                            // Effacer le contenu du tableau
+                            tableBody.empty();
+
+                            // Vérifier si result.salles est défini
+                            if (result.salles && result.salles.length > 0) {
+                                // Ajouter les résultats de la recherche au tableau
+                                $.each(result.salles, function(index, salle) {
+                                    var newRow = "<tr>" +
+                                        "<td>" + salle.nom + "</td>" +
+                                        "<td>" + salle.addresse + "</td>" +
+                                        "<td>" + salle.numTel + "</td>" +
+                                        "<td>" + salle.capacite + "</td>" + // Utilisation de capacité au lieu de nbrClient, ajustez selon votre besoin
+                                        "<td>" +
+                                        "<div class='w-100 rounded mb-2 mb-lg-0 mt-2'>" +
+                                        "<img src='{{ asset('uploads/') }}" + salle.logosalle + "' class='img-fluid' alt='Salle Image' width='150' height='100'>" +
+                                        "</div>" +
+                                        "</td>" +
+                                        "<td>" +
+                                        "<a href='/salle/" + salle.id + "' class='btn btn-light-success btn-sm btn-primary'>" +
+                                        "<i class='fas fa-eye'></i>" +
+                                        "</a>" +
+                                        "</td>" +
+                                        "</tr>";
+
+
+
+                                    // Ajouter la nouvelle ligne au tableau
+                                    tableBody.append(newRow);
+                                });
+                            } else {
+                                // Si aucune salle n'est trouvée, afficher un message
+                                tableBody.html("<tr><td colspan='6'>Aucune salle n'a été trouvée.</td></tr>");
+                            }
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                    }
+                });
+
+                // Sauvegarder le contenu original du tableau si c'est la première fois
+                if (!originalTableBody) {
+                    originalTableBody = tableBody.html();
+                }
+                }
+                else {
+                    // Si le champ de recherche est vide, restaurer le contenu original du tableau
+                    tableBody.html(originalTableBody);
+                    originalTableBody = null; // Réinitialiser la variable originalTableBody
+                return; // Quitter la fonction prématurément pour éviter toute exécution supplémentaire
+            }
+        });
+    </script>
+
+
+
 
 
 {% endblock %}

@@ -75,4 +75,20 @@ class SalleRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findEntitiesByString($str) {
+        try {
+            return $this->getEntityManager()
+                ->createQuery(
+                    'SELECT s
+                FROM App\Entity\Salle s
+                WHERE s.nom LIKE :str 
+                OR s.addresse LIKE :str'
+                )
+                ->setParameter('str', '%'.$str.'%')
+                ->getResult();
+        } catch (\Exception $e) {
+            // Gérer l'erreur ici, par exemple, journaliser l'erreur ou renvoyer une réponse d'erreur
+            return [];
+        }
+    }
 }

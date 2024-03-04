@@ -58,25 +58,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-8 p-0">
-                    <div class="sidebar-option">
-                        <div class="so-categories">
-                            <h5 class="title">Activite</h5>
-                            {% for activite in activites %}
+                <div class="col-lg-4 col-md-6" >
+                    <div class="fs-widget">
+                        <h4>Tips & Guides</h4>
+                        {% for activite in activites %}
+                        <div class="fw-recent">
+                            <h6><a href="{{ path('app_front_activite_show', {'id': activite.id}) }}">{{ activite.nom}}</a></h6>
                             <ul>
-                                <li><a href="{{ path('app_front_activite_show', {'id': activite.id}) }}">{{ activite.nom}} <span>{{ activite.date ? activite.date|date('D') : '' }} {{ activite.date ? activite.date|date('d') : '' }}, {{ activite.date ? activite.date|date('M') : '' }} | {{ activite.date ? activite.date|date('h:i') : '' }}</span></a></li>
+                                <li>{{ activite.date ? activite.date|date('D') : '' }} {{ activite.date ? activite.date|date('d') : '' }}, {{ activite.date ? activite.date|date('M') : '' }} | {{ activite.date ? activite.date|date('h:i') : '' }}</li>
+                                <li>Place restante : {{ activite.nbrMax - activite.reservation|length }}</li>
                             </ul>
-                            {% endfor %}
                         </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-        <iframe class="position-relative rounded w-100 h-100"
-                src="https://maps.google.com/maps?q={{ salle.addresse }}&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
-                frameborder="0" style="min-height: 650px; border:0; width: 200%;" allowfullscreen="" aria-hidden="false"
-                tabindex="0"></iframe>
-    </section>
+        <div style="margin: 50px auto 0 auto; max-width: calc(100% - 200px);">
+            <iframe class="position-relative rounded w-100 h-100"
+                    src="https://maps.google.com/maps?q={{ salle.addresse }}&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+                    style="min-height: 650px; border:0; width: 200%;" allowfullscreen="" aria-hidden="false"
+                    tabindex="0"></iframe>
+        </div>
 
+    </section>
 
 {% endblock %}

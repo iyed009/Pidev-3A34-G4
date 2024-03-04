@@ -6,10 +6,14 @@ use App\Entity\Activite;
 use App\Form\Activite1Type;
 use App\Repository\ActiviteRepository;
 use App\Repository\UserRepository;
+use App\Service\TwilioReservation;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\Transport;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/front/activite')]
@@ -30,17 +34,46 @@ public function reservation(ActiviteRepository $activiteRepository): Response
         'activites' => $activiteRepository->findActivitiesByUserId(1),
     ]);
 }
-    #[Route('/res/{id}', name: 'test', methods: ['GET','POST'])]
-public function réserver(ActiviteRepository $activiteRepository,UserRepository $userRepository,$id, EntityManagerInterface $entityManager): Response
+    #[Route('/res/{id}', name: 'reserver', methods: ['GET','POST'])]
+public function réserver(Activite $activite,ActiviteRepository $activiteRepository,UserRepository $userRepository,$id, EntityManagerInterface $entityManager,TwilioReservation $twilioReservation): Response
 {
-    $user = $userRepository->find(3);
-    $act = $activiteRepository->find($id);
+        $user = $userRepository->find(3);
+        $act = $activiteRepository->find($id);
         $act->addReservation($user);
-        $user->addActivite( $act);
-    $entityManager->persist($act);
-    $entityManager->persist($user);
-    $entityManager->flush();
-    return $this->redirectToRoute('app_front_activite_reservation', [], Response::HTTP_SEE_OTHER);
+        $user->addActivite($act);
+        $entityManager->persist($act);
+        $entityManager->persist($user);
+        $entityManager->flush();
+        $to = "+21658076383";
+        $body = "Une nouvelle réservation pour l'activitée : ". $activite->getNom() ." au sein du salle :  " .$activite->getSalle()->getNom()." est ajoutée, nombre totale du réservation" .$activite->getReservation()->count();
+        $twilioReservation->sendSms($to, $body);
+
+        $content = '<p>Votre réservation est confirmée !  ' . $activite->getNom() . '</p>';
+        $content .= '<p>Bonjour,</p>';
+        $content .= '<p>Nous sommes ravis de vous informer que votre réservation pour l activitée '.$activite->getNom().' dans la salle : ' . $activite->getSalle()->getNom() .' situé à '.$activite->getSalle()->getAddresse().' est condirmé </p>';
+        $content .= '<p>Préparez-vous à passer un moment inoubliable et à créer des souvenirs mémorables avec le coach '.$activite->getCoach().'</p>';
+        $content .= '<p>N oubliez pas d apporter votre énergie positive et votre esprit d équipe le ' . $activite->getDate()->format('d M Y à H:i') . '</p>';
+        $content .= '<p>Si vous avez des questions ou besoin d assistance supplémentaire merci de nous contacter par téléphone : ' . $activite->getSalle()->getNumTel() .' ou via E-mail du responsbale : '.$activite->getSalle()->getUtilisateur()->getEmail().'</p>';
+
+
+        $subject = 'Confirmation du réservation!';
+        $transport = Transport::fromDsn('smtp://louay.saad@esprit.tn:svmwcgirfddipchm@smtp.gmail.com:587');
+
+        $mailerWithTransport = new Mailer($transport);
+        $email = (new Email())
+            ->from('louay.saad@esprit.tn')
+            ->to($user->getEmail())
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject($subject)
+            // ->text('Sending emails is fun again!')
+            ->html($content);
+        $mailerWithTransport->send($email);
+
+        return $this->redirectToRoute('app_front_activite_reservation', [], Response::HTTP_SEE_OTHER);
+
 
 }
 
