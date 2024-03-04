@@ -37,8 +37,6 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $adresse = null;
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'utilisateur')]
-    private Collection $tickets;
 
     #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'utilisateur')]
     private Collection $reclamations;
@@ -52,15 +50,19 @@ class User
     #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'utilisateur')]
     private Collection $activites;
 
+    #[ORM\ManyToMany(targetEntity: Ticket::class, mappedBy: 'users')]
+    private Collection $tickets;
+
+
 
 
     public function __construct()
     {
-        $this->tickets = new ArrayCollection();
         $this->reclamations = new ArrayCollection();
         $this->reponses = new ArrayCollection();
         $this->salles = new ArrayCollection();
         $this->activites = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,35 +154,7 @@ class User
         return $this;
     }
 
-    /**
-     * @return Collection<int, Ticket>
-     */
-    public function getTickets(): Collection
-    {
-        return $this->tickets;
-    }
 
-    public function addTicket(Ticket $ticket): static
-    {
-        if (!$this->tickets->contains($ticket)) {
-            $this->tickets->add($ticket);
-            $ticket->setUtilisateur($this);
-        }
-
-        return $this;
-    }
-
-    public function removeTicket(Ticket $ticket): static
-    {
-        if ($this->tickets->removeElement($ticket)) {
-            // set the owning side to null (unless already changed)
-            if ($ticket->getUtilisateur() === $this) {
-                $ticket->setUtilisateur(null);
-            }
-        }
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Reclamation>
@@ -297,6 +271,45 @@ class User
             if ($activite->getUtilisateur() === $this) {
                 $activite->setUtilisateur(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function getTicket(): ?Ticket
+    {
+        return $this->ticket;
+    }
+
+    public function setTicket(?Ticket $ticket): static
+    {
+        $this->ticket = $ticket;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Ticket $ticket): static
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets->add($ticket);
+            $ticket->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Ticket $ticket): static
+    {
+        if ($this->tickets->removeElement($ticket)) {
+            $ticket->removeUser($this);
         }
 
         return $this;

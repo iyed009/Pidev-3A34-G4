@@ -158,6 +158,7 @@
       <path value="$PROJECT_DIR$/vendor/symfony/google-mailer" />
       <path value="$PROJECT_DIR$/vendor/symfony/twilio-notifier" />
       <path value="$PROJECT_DIR$/vendor/twilio/sdk" />
+      <path value="$PROJECT_DIR$/vendor/mercuryseries/flashy-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2" />

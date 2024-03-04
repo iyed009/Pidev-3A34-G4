@@ -80,10 +80,12 @@ class TicketController extends AbstractController
 
         }
 
-
+        // Fetch the users associated with this ticket
+        $users = $ticket->getUsers();
         return $this->render('ticket/show.html.twig', [
             'ticket' => $ticket,
             'form' => $form->createView(),
+            'users' => $users,
         ]);
     }
 
@@ -191,6 +193,7 @@ class TicketController extends AbstractController
             'tickets' => $tickets,
         ]);
     }
+
 
 
 

@@ -24,7 +24,9 @@ License: For each use you must have a valid license purchased only from above li
     <meta property="og:url" content="https://keenthemes.com/metronic" />
     <meta property="og:site_name" content="Keenthemes | Metronic" />
     {% block css%}
-    <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
+        <link rel="stylesheet" href="{{ asset('bundles/mercuryseriesflashy/css/flashy.css') }}">
+
+        <link rel="canonical" href="https://preview.keenthemes.com/metronic8" />
     <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico')}}" />
         <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
@@ -4477,6 +4479,11 @@ License: For each use you must have a valid license purchased only from above li
     <script src="{{ asset('assets/js/custom/modals/upgrade-plan.js')}}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+    <!-- Flashy depends on jQuery -->
+    <script src="//code.jquery.com/jquery.js"></script>
+    <!-- Load Flashy default JavaScript -->
+    <script src="{{ asset('bundles/mercuryseriesflashy/js/flashy.js') }}"></script>
+
 
     <script>
         // Attendre que le document soit chargé
@@ -4498,6 +4505,8 @@ License: For each use you must have a valid license purchased only from above li
     <!--end::Page Custom Javascript-->
     <!--end::Javascript-->
 {% endblock %}
+<!-- Include Flashy default partial -->
+{{ include('@MercurySeriesFlashy/flashy.html.twig') }}
 </body>
 <!--end::Body-->
 </html>

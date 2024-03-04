@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TicketRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -34,8 +36,17 @@ class Ticket
     #[Assert\NotBlank(message:"Merci de saisir un évenement ")]
     private ?Evenement $evenement = null;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
-    private ?User $utilisateur = null;
+    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'tickets')]
+    #[ORM\JoinTable(name: "ticket_user")]
+    private Collection $users;
+
+
+
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -90,15 +101,32 @@ class Ticket
         return $this;
     }
 
-    public function getUtilisateur(): ?User
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
     {
-        return $this->utilisateur;
+        return $this->users;
     }
 
-    public function setUtilisateur(?User $utilisateur): static
+    public function addUser(User $user): static
     {
-        $this->utilisateur = $utilisateur;
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+        }
 
         return $this;
     }
+
+    public function removeUser(User $user): static
+    {
+        $this->users->removeElement($user);
+
+        return $this;
+    }
+
+
+
+
+
 }

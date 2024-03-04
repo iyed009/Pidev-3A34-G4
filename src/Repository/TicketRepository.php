@@ -47,7 +47,19 @@ class TicketRepository extends ServiceEntityRepository
 //    }
 
 
+    public function findTicketsByUserId(int $userId): array
+    {
+        $entityManager = $this->getEntityManager();
 
+        $query = $entityManager->createQuery(
+            'SELECT t
+             FROM App\Entity\Ticket t
+             JOIN t.users u
+             WHERE u.id = :userId'
+        )->setParameter('userId', $userId);
+
+        return $query->getResult();
+    }
 
     // Your custom method to decrement the number of tickets
     public function decrementTicket(Ticket $ticket): void

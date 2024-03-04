@@ -6,9 +6,8 @@ use App\Entity\Evenement;
 use App\Entity\Ticket;
 use App\Form\Ticket1Type;
 use App\Repository\TicketRepository;
-use App\Services\QrcodeService;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Endroid\QrCode\QrCode;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,23 +32,12 @@ class TicketFrontController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_ticket_front_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/mesTickets', name: 'app_ticket_front_new', methods: ['GET'])]
+    public function new(TicketRepository $ticketRepository): Response
     {
-        $ticket = new Ticket();
-        $form = $this->createForm(Ticket1Type::class, $ticket);
-        $form->handleRequest($request);
+        return $this->render('ticket_front/mesTicket.html.twig', [
+            'tickets' => $ticketRepository->findTicketsByUserId(2),
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($ticket);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_ticket_front_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->renderForm('ticket_front/new.html.twig', [
-            'ticket' => $ticket,
-            'form' => $form,
         ]);
     }
 
@@ -92,11 +80,19 @@ class TicketFrontController extends AbstractController
             'ticket' => $ticket,
         ]);
     }
-    #[Route('/decrement-ticket/{id}', name: 'decrement_ticket')]
+    #[Route('/decrement-ticket/{id}', name: 'decrement_ticket', methods: ['GET','POST'])]
 
-    public function decrementTicket(Ticket $ticket, TicketRepository $ticketRepository , EntityManagerInterface $entityManager): Response
+    public function decrementTicket($id,Ticket $ticket,UserRepository $userRepository, TicketRepository $ticketRepository , EntityManagerInterface $entityManager): Response
     {
         try {
+            $user = $userRepository->find(2);
+            $tick = $ticketRepository->find($id);
+            $tick->addUser($user);
+            $user->addTicket($tick);
+            $entityManager->persist($user);
+            $entityManager->persist($tick);
+
+
             $ticketRepository->decrementTicket($ticket);
             $entityManager->flush();
 
@@ -114,11 +110,11 @@ class TicketFrontController extends AbstractController
             $mailerWithTransport = new Mailer($transport);
             $email = (new Email())
                 ->from('belhouchet.koussay@esprit.tn')
-                ->to('majed.smichi@esprit.tn')
+                ->to('koussay600@gmail.com')
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
-                //->priority(Email::PRIORITY_HIGH)
+                ->priority(Email::PRIORITY_HIGH)
                 ->subject($subject)
                 // ->text('Sending emails is fun again!')
                 ->html($content);
@@ -133,5 +129,7 @@ class TicketFrontController extends AbstractController
             return new Response($e->getMessage(), 400);
         }
     }
+
+
 
 }
