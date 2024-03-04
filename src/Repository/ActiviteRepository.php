@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Activite;
+use App\Entity\Salle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,6 +25,61 @@ class ActiviteRepository extends ServiceEntityRepository
 //    /**
 //     * @return Activite[] Returns an array of Activite objects
 //     */
+    public function findBySalle(Salle $salle)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.salle = :salle')
+            ->setParameter('salle', $salle)
+            ->getQuery()
+            ->getResult();
+    }
+    public function findActiviteByNbrAbonnes()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a FROM App\Entity\Activite a ORDER BY a.nbrMax ASC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findActiviteByNbrAbonnesDESC()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a FROM App\Entity\activite a ORDER BY a.nbrMax DESC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findactiviteByName()
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            'SELECT a FROM App\Entity\activite a ORDER BY a.nom ASC'
+        );
+        return $query->getResult();
+    }
+    public function findEntitiesByString($str) {
+        try {
+            return $this->getEntityManager()
+                ->createQuery(
+                    'SELECT a
+                FROM App\Entity\Activite a
+                WHERE a.nom LIKE :str 
+                OR a.coach LIKE :str'
+                )
+                ->setParameter('str', '%'.$str.'%')
+                ->getResult();
+        } catch (\Exception $e) {
+            // Gérer l'erreur ici, par exemple, journaliser l'erreur ou renvoyer une réponse d'erreur
+            return [];
+        }
+    }
+
 //    public function findByExampleField($value): array
 //    {
 //        return $this->createQueryBuilder('a')
@@ -45,4 +101,18 @@ class ActiviteRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function findActivitiesByUserId(int $userId): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a
+             FROM App\Entity\Activite a
+             JOIN a.reservation u
+             WHERE u.id = :userId'
+        )->setParameter('userId', $userId);
+
+        return $query->getResult();
+    }
+
 }

@@ -6,6 +6,8 @@ use App\Repository\SalleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+USE Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: SalleRepository::class)]
 class Salle
@@ -16,25 +18,45 @@ class Salle
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Nom manquant !")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Adresse manquante !")]
     private ?string $addresse = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Numéro de téléphone manquant !")]
+    #[Assert\Type(type: 'integer', message: "Le numéro de téléphone doit être un entier !")]
+    #[Assert\Length(exactly:8,exactMessage: "Le numéro de téléphone doit contenir exactement 8 chiffres." )]
     private ?int $numTel = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Capacité manquante !")]
+    #[Assert\Type(type: 'integer', message: "La capacité doit être un entier !")]
+    #[Assert\GreaterThan(value: 0, message: "La capacité doit être supérieure à 0 !")]
     private ?int $capacite = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "text")]
+    #[Assert\NotBlank(message: "Description manquante !")]
+    #[Assert\Length(min: 15,exactMessage: "La description doit ètre supérieure à 15 caractère")]
     private ?string $description = null;
 
-    #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'salle')]
+    #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'salle', cascade: ['remove'])]
     private Collection $activite;
 
     #[ORM\ManyToOne(inversedBy: 'salles')]
     private ?User $utilisateur = null;
+
+    #[ORM\Column]
+    #[Assert\NotBlank(message: "Nombre d'abonné' manquant !")]
+    #[Assert\Type(type: 'integer', message: "Le nombre de clients doit être un entier !")]
+    #[Assert\GreaterThanOrEqual(value: 0, message: "Le nombre de clients doit être supérieur ou égal à 0 !")]
+    private ?int $nbrClient = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $logoSalle = null;
+
 
     public function __construct()
     {
@@ -144,6 +166,30 @@ class Salle
     public function setUtilisateur(?User $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
+
+        return $this;
+    }
+
+    public function getNbrClient(): ?int
+    {
+        return $this->nbrClient;
+    }
+
+    public function setNbrClient(int $nbrClient): static
+    {
+        $this->nbrClient = $nbrClient;
+
+        return $this;
+    }
+
+    public function getLogoSalle(): ?string
+    {
+        return $this->logoSalle;
+    }
+
+    public function setLogoSalle(string $logoSalle): static
+    {
+        $this->logoSalle = $logoSalle;
 
         return $this;
     }

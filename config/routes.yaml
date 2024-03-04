@@ -8,3 +8,10 @@ reclamation_search:
 reponse_search:
   path: /search1
   controller: App\Controller\ReponseController::search1
+activite_search:
+  path: /search
+  controller: App\Controller\ActiviteController::search
+
+salle_search1:
+  path: /search1
+  controller: App\Controller\SalleController::search1

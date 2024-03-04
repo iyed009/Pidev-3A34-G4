@@ -1,0 +1,234 @@
+{% extends 'base2.html.twig' %}
+{% import 'salle/macros.html.twig' as macros %}
+{% block title %}Salle{% endblock %}
+
+{% block body %}
+<div style="margin-left: 20px; margin-top: 20px;margin-right: 20px;">
+        <div class="d-flex flex-column flex-xl-row">
+            <!--begin::Post-->
+            <div class="post d-flex flex-column-fluid" id="kt_post">
+                <!--begin::Container-->
+                <div id="kt_content_container" class="container-xxl">
+                    <!--begin::Layout-->
+                    <div class="d-flex flex-column flex-xl-row">
+                        <!--begin::Sidebar-->
+                        <div class="flex-column flex-lg-row-auto w-100 w-xl-350px mb-10">
+                            <!--begin::Card-->
+                            <div class="card mb-5 mb-xl-8">
+                                <!--begin::Card body-->
+                                <div class="card-body pt-20">
+                                    <!--begin::Summary-->
+                                    <div class="d-flex flex-center flex-column mb-5">
+                                        <!--begin::Avatar-->
+                                        <div class="symbol symbol-100px symbol-circle mb-7">
+                                            <img src="{{ asset('uploads/' ~ salle.logoSalle) }}" alt="image" />
+                                        </div>
+                                        <!--end::Avatar-->
+                                        <!--begin::Name-->
+                                        <a href="#" class="fs-3 text-gray-800 text-hover-primary fw-bolder mb-1">{{ salle.nom }}</a>
+                                        <!--end::Name-->
+                                        <!--begin::Position-->
+                                        <div class="fs-5 fw-bold text-muted mb-6">{{ salle.addresse }}</div>
+                                        <!--end::Position-->
+                                    </div>
+                                    <!--end::Summary-->
+                                    <!--begin::Details toggle-->
+                                    <div class="d-flex flex-stack fs-4 py-3">
+                                        <div class="fw-bolder rotate collapsible" data-bs-toggle="collapse" href="#kt_customer_view_details" role="button" aria-expanded="false" aria-controls="kt_customer_view_details">Details
+                                            <span class="ms-2 rotate-180">
+            <!--begin::Svg Icon | path: icons/duotune/arrows/arr072.svg-->
+            <span class="svg-icon svg-icon-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M11.4343 12.7344L7.25 8.55005C6.83579 8.13583 6.16421 8.13584 5.75 8.55005C5.33579 8.96426 5.33579 9.63583 5.75 10.05L11.2929 15.5929C11.6834 15.9835 12.3166 15.9835 12.7071 15.5929L18.25 10.05C18.6642 9.63584 18.6642 8.96426 18.25 8.55005C17.8358 8.13584 17.1642 8.13584 16.75 8.55005L12.5657 12.7344C12.2533 13.0468 11.7467 13.0468 11.4343 12.7344Z" fill="black" />
+                </svg>
+            </span>
+        </span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+        <span data-bs-toggle="tooltip" data-bs-trigger="hover"  class="me-2">
+            <a href="#" class="btn btn-sm btn-light-success" data-bs-toggle="modal" data-bs-target="#kt_modal_update_salle">Modifier</a>
+        </span>
+                                            <div>
+                                                {{ include('salle/_delete_form.html.twig') }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--end::Details toggle-->
+                                    <div class="separator separator-dashed my-3"></div>
+                                    <!--begin::Details content-->
+                                    <div id="kt_customer_view_details" class="collapse show">
+                                        <div class="py-5 fs-6">
+                                            <!--begin::Badge-->
+                                            <div class="badge badge-light-info d-inline">Premium user</div>
+                                            <!--begin::Badge-->
+                                            <!--begin::Details item-->
+                                            <div class="fw-bolder mt-5">Numero Tel</div>
+                                            <div class="text-gray-600">
+                                                <a href="#" class="text-gray-600 text-hover-primary">{{ salle.numTel }}</a>
+                                            </div>
+                                            <!--begin::Details item-->
+                                            <!--begin::Details item-->
+                                            <div class="fw-bolder mt-5">Address</div>
+                                            <div class="text-gray-600">{{ salle.addresse }},
+                                                <br />Tunisie</div>
+                                            <!--begin::Details item-->
+                                            <!--begin::Details item-->
+                                            <div class="fw-bolder mt-5">Capacité</div>
+                                            <div class="text-gray-600">{{ salle.nbrClient }}/{{ salle.capacite }}</div>
+                                            <!--begin::Details item-->
+                                            <!--begin::Details item-->
+                                            <div class="fw-bolder mt-5">Description</div>
+                                            <div class="text-gray-600">{{ salle.description }}</div>
+                                            <!--begin::Details item-->
+                                        </div>
+                                    </div>
+                                    <!--end::Details content-->
+                                </div>
+                                <!--end::Card body-->
+                            </div>
+                            <!--end::Card-->
+                        </div>
+                        <!--end::Sidebar-->
+                    </div>
+                    <!--end::Layout-->
+                </div>
+                <div class="modal fade" id="kt_modal_update_salle" tabindex="-1"
+                     aria-hidden="true">
+                    <!--begin::Modal dialog-->
+                    <div class="modal-dialog modal-dialog-centered mw-650px" id="mainModal">
+                        <!--begin::Modal content-->
+                        <div class="modal-content rounded" id="mainModal">
+                            <!--begin::Modal header-->
+                            <div class="modal-header pb-0 border-0 justify-content-end">
+                                <!--begin::kt_modal_new_target-->
+                                <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                     data-bs-dismiss="modal">
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                    <span class="svg-icon svg-icon-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none">
+                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                  transform="rotate(-45 6 17.3137)" fill="black"/>
+                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                  transform="rotate(45 7.41422 6)" fill="black"/>
+                                        </svg>
+                                    </span>
+                                    <!--end::Svg Icon-->
+                                </div>
+                                <!--end::Close-->
+                            </div>
+                            <!--begin::Modal header-->
+                            <!--begin::Modal body-->
+                            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                {{ form_start(form, {'attr': {'novalidate': 'novalidate','id': 'kt_modal_update_salle', 'class': 'form', 'action': path('app_salle_show', {'id': salle.id}) }}) }}
+                                <div class="mb-13 text-center">
+                                    <h1 class="mb-3">Modifier Salle</h1>
+                                    <!--end::Title-->
+                                </div>
+                                {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de la salle'}}) }}
+                                {{ form_row(form.addresse, {'label': 'Addresse', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de la salle'}}) }}
+                                {{ form_row(form.numTel, {'label': 'Numero Téléphone', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
+                                {{ form_row(form.capacite, {'label': 'Capacitée', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
+                                {{ form_row(form.nbrClient, {'label': 'Nombre abonné', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
+                                {{ form_row(form.description, {'label': 'Description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de la salle'}}) }}
+                                {{ form_row(form.logoSalle, {
+                                    'label': 'Logo Salle',
+                                    'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'},
+                                    'attr': {'class': 'form-control form-control-solid', 'accept': 'image/*'}
+                                }) }}
+                                <!--end::Heading-->
+                                <!--begin::Actions-->
+                                <div class="text-center mt-5 mb-3">
+                                    <button type="submit" id="kt_modal_update_salle_submit"
+                                            class="btn btn-primary">
+                                        <span class="indicator-label">Soumettre</span>
+                                        <span class="indicator-progress">Veuillez patienter...
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                    </button>
+                                </div>
+                                <!--end::Actions-->
+                                {{ form_end(form) }}
+                                <!--end:Form-->
+                            </div>
+                            <!--end::Modal body-->
+                        </div>
+                        <!--end::Modal content-->
+                    </div>
+                    <!--end::Modal dialog-->
+                </div>
+                <div class="col-xl-8">
+                        <!--begin::List Widget 5-->
+                        <div class="card card-xl-stretch mb-xl-10">
+                            <!--begin::Header-->
+                            <div class="card-header align-items-center border-0 mt-4">
+                                <h3 class="card-title align-items-start flex-column">
+                                    <span class="fw-bolder mb-2 text-dark">Activities</span>
+                                    <span class="text-muted fw-bold fs-7">Nombre totale des activités: {{ salle.getActivite|length }}</span>
+                                </h3>
+                                <a href="{{ path('app_activite_index') }}" class="btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-primary border-0 me-n3 bg-primary">
+                                    <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+                                    <span class="svg-icon svg-icon-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
+                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                <rect x="5" y="5" width="5" height="5" rx="1" fill="#FF00FF"/>
+                                <rect x="14" y="5" width="5" height="5" rx="1" fill="#FF00FF" opacity="0.3"/>
+                                <rect x="5" y="14" width="5" height="5" rx="1" fill="#FF00FF" opacity="0.3"/>
+                                <rect x="14" y="14" width="5" height="5" rx="1" fill="#FF00FF" opacity="0.3"/>
+                            </g>
+                        </svg>
+                    </span>
+                                </a>
+                            </div>
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body pt-5">
+                                <!--begin::Timeline-->
+                                <div class="timeline-label">
+                                    {% for activite in activites %}
+                                        <div class="timeline-item">
+                                            <div class="timeline-label fw-bolder text-gray-800 fs-6">{{ activite.date ? activite.date|date('H:i') : '' }}</div>
+                                            <div class="timeline-badge">
+                                                <i class="fa fa-genderless fs-1 {{ macros.random_color_class() }}"></i>
+                                            </div>
+                                            <div  class="fw-mormal timeline-content text-muted ps-3">{{ activite.nom }}</div>
+                                            <a href="{{ path('app_activite_show', {'id': activite.id}) }}" class="btn btn-light-success btn-sm btn-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <!--end: Card Body-->
+                        </div>
+                        <!--end: List Widget 5-->
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Container-->
+            </div>
+            <!--end::Post-->
+    </div>
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modal = document.getElementById('kt_modal_update_salle');
+                if (modal) {
+                    modal.classList.add('show');
+                    modal.style.display = 'block';
+                    modal.setAttribute('aria-modal', true);
+                }
+                var closeModalButton = document.getElementById('close-modal');
+
+                if (closeModalButton && modal) {
+                    closeModalButton.addEventListener('click', function() {
+                        modal.classList.remove('show');
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-modal', false);
+                    });
+                }
+            });
+        </script>
+    {% endif %}
+{% endblock %}
+

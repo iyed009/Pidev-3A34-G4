@@ -1,20 +1,334 @@
-{% extends 'base.html.twig' %}
+{% extends 'base2.html.twig' %}
 
-{% block title %}Hello ActiviteController!{% endblock %}
+{% block title %}Activite index{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <!--begin::Container-->
+            <div id="kt_content_container" class="container-xxl">
+                <!--begin::Card-->
+                <div class="card">
+                    <!--begin::Card header-->
+                    <div class="card-header ">
+                        <!--begin::Card title-->
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                        <!--begin::Search-->
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                            <span class="svg-icon svg-icon-1 position-absolute ms-6">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                         viewBox="0 0 24 24" fill="none">
+														<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
+                                                              height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
+                                                              fill="black"/>
+														<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
+                                                              fill="black"/>
+													</svg>
+												</span>
+                            <!--end::Svg Icon-->
+                            <input type="text" id="search" name="q" class="form-control form-control-solid w-250px ps-14" placeholder="Chercher Activite"/>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/weder/OneDrive/Bureau/Pidev-3A34/Pidev-3A34-G4/src/Controller/ActiviteController.php'|file_link(0) }}">src/Controller/ActiviteController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/weder/OneDrive/Bureau/Pidev-3A34/Pidev-3A34-G4/templates/activite/index.html.twig'|file_link(0) }}">templates/activite/index.html.twig</a></code></li>
-    </ul>
-</div>
+                        </div>
+                        <div class="card-header border-0 pt-5">
+
+                            <div class="card-toolbar">
+                                <a href="#" style="margin-right: 10px" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                                   data-bs-target="#kt_modal_new_target">
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                    <span class="svg-icon svg-icon-2">
+												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none">
+													<rect opacity="0.5" x="11.364" y="20.364" width="16" height="2"
+                                                          rx="1" transform="rotate(-90 11.364 20.364)" fill="black"/>
+													<rect x="4.36396" y="11.364" width="16" height="2" rx="1"
+                                                          fill="black"/>
+												</svg>
+											</span>
+                                    <!--end::Svg Icon-->Ajouter une activitée</a>
+                                <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
+                                     aria-hidden="true">
+                                    <!--begin::Modal dialog-->
+                                    <div class="modal-dialog modal-dialog-centered mw-650px" id="mainModal">
+                                        <!--begin::Modal content-->
+                                        <div class="modal-content rounded" id="mainModal">
+                                            <!--begin::Modal header-->
+                                            <div class="modal-header pb-0 border-0 justify-content-end">
+                                                <!--begin::Close-->
+                                                <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                                     data-bs-dismiss="modal" id="close-modal">
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                    <span class="svg-icon svg-icon-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none">
+                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                  transform="rotate(-45 6 17.3137)" fill="black"/>
+                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                  transform="rotate(45 7.41422 6)" fill="black"/>
+                                        </svg>
+                                    </span>
+                                                    <!--end::Svg Icon-->
+                                                </div>
+                                                <!--end::Close-->
+                                            </div>
+                                            <!--begin::Modal header-->
+                                            <!--begin::Modal body-->
+                                            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                                <!--begin:Form-->
+                                                {{ form_start(form, {'attr': {'id': '+', 'class': 'form', 'action': '#','novalidate': 'novalidate' }}) }}
+                                                <!--begin::Heading-->
+                                                <div class="mb-13 text-center">
+                                                    <!--begin::Title-->
+                                                    <h1 class="mb-3">Ajouter Activitée</h1>
+                                                    <!--end::Title-->
+                                                    <!--begin::Description-->
+
+                                                    <!--end::Description-->
+                                                </div>
+                                                <!--end::Heading-->
+                                                {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de l\'activitée'}}) }}
+
+{#
+                                                {{ form_row(form.date, {'label': 'Date', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la date de l\'activitée'}}) }}
+#}
+
+
+                                                <div class="form-group">
+                                                    {{ form_label(form.date, 'Date', {'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}}) }}
+                                                    {{ form_widget(form.date, { 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Sélectionnez une date', 'id': 'date_input'}}) }}
+                                                    {{ form_errors(form.date) }}
+                                                </div>
+
+                                                {{ form_row(form.nbrMax, {'label': 'Capacitée', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la capacitée de l\'activitée'}}) }}
+                                                {{ form_row(form.coach, {'label': 'Coach', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom du coach de l\'activitée'}}) }}
+                                                {{ form_row(form.description, {'label': 'Description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de l\'activitée'}}) }}
+                                                {{ form_row(form.salle, {'label': 'Salle', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Identifier la salle de l\'activitée'}}) }}
+
+                                                {{ form_row(form.imageActivte, {
+                                                    'label': 'Image de l\'activitée',
+                                                    'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'},
+                                                    'attr': {'class': 'form-control form-control-solid', 'accept': 'image/*'}
+                                                }) }}
+
+
+                                                <!--begin::Actions-->
+                                                <div class="text-center mt-5 mb-3">
+
+                                                    <button type="submit" id="kt_modal_new_target_submit"
+                                                            class="btn btn-primary">
+                                                        <span class="indicator-label">Soumettre</span>
+                                                        <span class="indicator-progress">Veuillez patienter...
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                                    </button>
+
+                                                </div>
+
+
+                                                <!--end::Actions-->
+                                                {{ form_end(form)}}
+                                                <!--end:Form-->
+                                            </div>
+
+                                            <!--end::Modal body-->
+                                        </div>
+                                        <!--end::Modal content-->
+                                    </div>
+                                    <!--end::Modal dialog-->
+                                </div>
+                                <div class="toolbox-right" >
+                                    <div class="toolbox-sort"  >
+                                        <div class="select-custom" >
+                                            <select name="sortby" id="sortby" onchange="window.location.href=this.value;" data-control="select" class="form-select form-select-sm form-select-solid w-100px w-xxl-125px" style="padding-right: 10px; margin-right: 10px;">
+                                                <option value="#" selected="selected">Trier par</option>
+                                                <option value="{{path('activite_tri_nom')}}">Nom</option>
+                                                <option value="{{path('activite_tri')}}">NbrMax&#9650;</option>
+                                                <option value="{{path('activite_desc')}}">NbrMax&#9660;</option>
+                                                <option value="{{path('app_salle_index')}}" >Non triée</option>
+                                            </select>
+                                            {#<option value="#">Date</option>#}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <!--begin::Table-->
+                        <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_table_users">
+                            <!--begin::Table head-->
+                            <thead>
+                            <!--begin::Table row-->
+                            <tr class="text-start text-muted fw-bolder fs-7 text-uppercase gs-0">
+                                <th class="min-w-125px  fw-bolder fs-6 text-gray-800">Nom</th>
+                                <th class="min-w-125px fw-bolder fs-6 text-gray-800">Date</th>
+                                <th class="min-w-125px fw-bolder fs-6 text-gray-800">NbrMax</th>
+                                <th class="min-w-125px fw-bolder fs-6 text-gray-800">Coach</th>
+
+                                <th class="min-w-125px fw-bolder fs-6 text-gray-800">Logo</th>
+                            </tr>
+                            <!--end::Table row-->
+                            </thead>
+                            <!--end::Table head-->
+                            <!--begin::Table body-->
+                            <tbody class="text-gray-600 fw-bold">
+                            <!--begin::Table row-->
+
+                            <!--end::Table row-->
+                            <!--begin::Table row-->
+                            {% for activite in activites %}
+                                <tr>
+                                    <td>{{ activite.nom }}</td>
+                                    <td>{{ activite.date ? activite.date|date('Y-m-d H:i') : '' }}</td>
+                                    <td>{{ activite.nbrMax }}</td>
+                                    <td>{{ activite.coach }}</td>
+
+                                    <td>
+                                        <div class="w-100 rounded mb-2 mb-lg-0 mt-2">
+                                            {% if activite.imageActivte|length > 0 %}
+                                                <img src="{{ asset('uploads/' ~ activite.imageActivte) }}" class="img-fluid" alt="Activite Image" width="150" height="100">
+                                            {% else %}
+                                                <img src="{{ asset('uploads/Not found.jpg') }}" class="img-fluid" alt="Image Not Found" width="150" height="100">
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('app_activite_show', {'id': activite.id}) }}" class="btn btn-light-success btn-sm btn-primary">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+
+
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="7">no records found</td>
+                                </tr>
+                            {% endfor %}
+                            <!--end::Table row-->
+                            </tbody>
+                            <!--end::Table body-->
+                        </table>
+                        <!--end::Table-->
+                        <div class="d-flex justify-content-center pt-10">
+                            <ul class="pagination">
+                                {% do activites.SetPageRange(3) %}
+                                {{ knp_pagination_render(activites, "pagination.html.twig") }}
+                            </ul>
+                        </div>
+                    </div>
+                    <!--end::Card body-->
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Post-->
+    </div>
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modal = document.getElementById('kt_modal_new_target');
+                if (modal) {
+                    modal.classList.add('show');
+                    modal.style.display = 'block';
+                    modal.setAttribute('aria-modal', true);
+                }
+                var closeModalButton = document.getElementById('close-modal');
+
+                if (closeModalButton && modal) {
+                    closeModalButton.addEventListener('click', function() {
+                        modal.classList.remove('show');
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-modal', false);
+                    });
+                }
+            });
+        </script>
+    {% endif %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        // Déclarer la variable searchRequest au niveau global
+        var searchRequest;
+        var originalTableBody;
+
+        // Attacher un gestionnaire d'événements à l'événement keyup de l'input de recherche
+        $("#search").keyup(function() {
+            var minlength = 1;
+            var that = this;
+            var value = $(this).val();
+            var tableBody = $(".table tbody");
+
+            if (value.length >= minlength) {
+                // Abort the previous request if it exists
+                if (searchRequest != null) {
+                    searchRequest.abort();
+                }
+
+                // Start a new AJAX request
+                searchRequest = $.ajax({
+                    type: "GET",
+                    url: "{{ path('activite_search') }}", // Change to your correct route
+                    data: {
+                        'q': value
+                    },
+                    dataType: "json", // Assuming your response is JSON
+                    success: function(result) {
+                        // Check if the value is still the same
+                        if (value === $(that).val()) {
+                            // Clear the table body
+                            tableBody.empty();
+
+                            if (result.activites.length === 0) {
+                                // If no activities found, display a message
+                                tableBody.html("<tr><td colspan='6'>Aucune activité n'a été trouvée.</td></tr>");
+                            } else {
+                                // Append the search results to the table
+                                $.each(result.activites, function(index, activite) {
+                                    console.log(activite);
+                                    var newRow = "<tr>" +
+                                        "<td>" + activite.nom + "</td>" +
+                                        "<td>" + (activite.date ? activite.date : '') + "</td>" +
+                                        "<td>" + activite.nbrMax + "</td>" +
+                                        "<td>" + activite.coach + "</td>" +
+                                        "<td>" +
+                                        "<div class='w-100 rounded mb-2 mb-lg-0 mt-2'>" +
+                                        (activite.imageActivte.length > 0 ?
+                                            "<img src='{{ asset('uploads/') }}" + activite.imageActivte + "' class='img-fluid' alt='Activite Image' width='150' height='100'>" :
+                                            "<img src='{{ asset('uploads/Not found.jpg') }}' class='img-fluid' alt='Image Not Found' width='150' height='100'>") +
+                                        "</div>" +
+                                        "</td>" +
+                                        "<td>" +
+                                        '<a href="/activite/' + activite.id + '" class="btn btn-light-success btn-sm btn-primary">' +
+                                        "<i class='fas fa-eye'></i>" +
+                                        "</a>" +
+                                        "</td>" +
+                                        "</tr>";
+
+                                    // Append the new row to the table
+                                    tableBody.append(newRow);
+                                });
+                            }
+                        }
+                    }
+                });
+
+                // Sauvegarder le contenu original du tableau si c'est la première fois
+                if (!originalTableBody) {
+                    originalTableBody = tableBody.html();
+                }
+            } else {
+                // If the search input is empty, restore the original table content
+                tableBody.html(originalTableBody);
+                originalTableBody = null; // Reset the originalTableBody variable
+                return; // Exit the function early to prevent further execution
+            }
+        });
+
+    </script>
+
+
+
 {% endblock %}

@@ -1,0 +1,64 @@
+<form id="deleteForm_{{ activite.id }}" method="post" action="{{ path('app_activite_delete', {'id': activite.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ activite.id) }}">
+    <button class="btn btn-sm btn-light-danger align-self-center delete-button" data-id="{{ activite.id }}">
+        <i class="bi bi-trash"></i>
+    </button>
+</form>
+
+
+
+
+<script>
+    // Ajouter un écouteur d'événements aux boutons de suppression
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const eventId = button.dataset.id;
+
+            // Afficher la boîte de dialogue de confirmation SweetAlert2
+            Swal.fire({
+                title: 'Êtes-vous sûr(e) ?',
+                text: 'Cette activitée sera supprimée défintivement !',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Oui, supprimez-la !'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Soumettre le formulaire si l'utilisateur confirme la suppression
+                    document.getElementById('deleteForm_' + eventId).submit();
+                }
+            });
+        });
+    });
+</script>
+
+
+<script>
+    // Ajouter un écouteur d'événements aux boutons de suppression
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const eventId = button.dataset.id;
+
+            // Afficher la boîte de dialogue de confirmation SweetAlert2
+            Swal.fire({
+                title: 'Êtes-vous sûr(e) ?',
+                text: 'Cette salle sera supprimée défintivement !',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Oui, supprimez-le !'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Soumettre le formulaire si l'utilisateur confirme la suppression
+                    document.getElementById('deleteForm_' + eventId).submit();
+                }
+            });
+        });
+    });
+</script>
