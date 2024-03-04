@@ -32,7 +32,7 @@ class ActiviteController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_activite'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -100,7 +100,7 @@ class ActiviteController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_activite'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -165,7 +165,7 @@ class ActiviteController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_activite'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -206,7 +206,7 @@ class ActiviteController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_activite'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -247,7 +247,7 @@ class ActiviteController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_activite'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -274,8 +274,8 @@ class ActiviteController extends AbstractController
             'errors' => $form->getErrors(true, false),
         ]);
     }
-    #[Route('/search', name: 'activite_search')]
-    public function search(Request $request, ActiviteRepository $activiteRepository)
+    #[Route('/search2', name: 'activite_search2')]
+    public function search2(Request $request, ActiviteRepository $activiteRepository)
     {
         $searchTerm = $request->query->get('q');
 

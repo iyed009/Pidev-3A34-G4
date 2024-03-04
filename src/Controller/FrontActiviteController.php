@@ -29,20 +29,18 @@ class FrontActiviteController extends AbstractController
     }#[Route('/mesReservation', name: 'app_front_activite_reservation', methods: ['GET'])]
 public function reservation(ActiviteRepository $activiteRepository): Response
 {
-
+    $user=$this->getUser();
     return $this->render('front_activite/mesReservations.html.twig', [
-        'activites' => $activiteRepository->findActivitiesByUserId(1),
+        'activites' => $activiteRepository->findActivitiesByUserId($user->getId()),
     ]);
 }
     #[Route('/res/{id}', name: 'reserver', methods: ['GET','POST'])]
 public function réserver(Activite $activite,ActiviteRepository $activiteRepository,UserRepository $userRepository,$id, EntityManagerInterface $entityManager,TwilioReservation $twilioReservation): Response
 {
-        $user = $userRepository->find(3);
-        $act = $activiteRepository->find($id);
-        $act->addReservation($user);
-        $user->addActivite($act);
-        $entityManager->persist($act);
-        $entityManager->persist($user);
+    $user=$this->getUser();
+    $activite->addReservation($user);
+    $user->addActivite($activite);
+    $entityManager->persist($activite);
         $entityManager->flush();
         $to = "+21658076383";
         $body = "Une nouvelle réservation pour l'activitée : ". $activite->getNom() ." au sein du salle :  " .$activite->getSalle()->getNom()." est ajoutée, nombre totale du réservation" .$activite->getReservation()->count();
@@ -53,7 +51,7 @@ public function réserver(Activite $activite,ActiviteRepository $activiteReposit
         $content .= '<p>Nous sommes ravis de vous informer que votre réservation pour l activitée '.$activite->getNom().' dans la salle : ' . $activite->getSalle()->getNom() .' situé à '.$activite->getSalle()->getAddresse().' est condirmé </p>';
         $content .= '<p>Préparez-vous à passer un moment inoubliable et à créer des souvenirs mémorables avec le coach '.$activite->getCoach().'</p>';
         $content .= '<p>N oubliez pas d apporter votre énergie positive et votre esprit d équipe le ' . $activite->getDate()->format('d M Y à H:i') . '</p>';
-        $content .= '<p>Si vous avez des questions ou besoin d assistance supplémentaire merci de nous contacter par téléphone : ' . $activite->getSalle()->getNumTel() .' ou via E-mail du responsbale : '.$activite->getSalle()->getUtilisateur()->getEmail().'</p>';
+        $content .= '<p>Si vous avez des questions ou besoin d assistance supplémentaire merci de nous contacter par téléphone : ' . $activite->getSalle()->getNumTel() .' ou via E-mail du responsbale : '.$user->getEmail().'</p>';
 
 
         $subject = 'Confirmation du réservation!';

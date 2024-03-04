@@ -6,6 +6,8 @@
 parameters:
     google_recaptcha_site_key: '%env(GOOGLE_RECAPTCHA_SITE_KEY)%'
     images_directory: '%kernel.project_dir%/public/uploads/images'
+    images_directory_salle: '%kernel.project_dir%/public/uploads/salle'
+    images_directory_activite: '%kernel.project_dir%/public/uploads/activite'
 
 services:
     # default configuration for services in *this* file

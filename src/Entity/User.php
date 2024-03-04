@@ -89,8 +89,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Salle::class, mappedBy: 'utilisateur')]
     private Collection $salles;
 
-    #[ORM\OneToMany(targetEntity: Activite::class, mappedBy: 'utilisateur')]
+    #[ORM\ManyToMany(targetEntity: Activite::class, mappedBy: 'reservation')]
     private Collection $activites;
+
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
@@ -428,7 +429,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->activites->contains($activite)) {
             $this->activites->add($activite);
-            $activite->setUtilisateur($this);
+            $activite->addReservation($this);
         }
 
         return $this;
@@ -437,14 +438,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeActivite(Activite $activite): static
     {
         if ($this->activites->removeElement($activite)) {
-            // set the owning side to null (unless already changed)
-            if ($activite->getUtilisateur() === $this) {
-                $activite->setUtilisateur(null);
-            }
+            $activite->removeReservation($this);
         }
 
         return $this;
     }
+
 
     public function isVerified(): bool
     {

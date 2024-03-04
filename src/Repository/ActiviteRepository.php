@@ -101,7 +101,7 @@ class ActiviteRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-    public function findActivitiesByUserId(int $userId): array
+    public function findActivitiesByUserId(string $userId): array
     {
         $entityManager = $this->getEntityManager();
 

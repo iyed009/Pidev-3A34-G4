@@ -43,6 +43,8 @@ security:
   - { path: ^/reclamation/new, roles: ROLE_CLIENT }
   - { path: ^/reclamation, roles: ROLE_SUPER_ADMIN }
   - { path: ^/reponse, roles: ROLE_SUPER_ADMIN }
+  - { path: ^/front, roles: ROLE_CLIENT }
+  - { path: ^/activite, roles: ROLE_SUPER_ADMIN }
     # Additional access control rules as needed
 
     # Ensure login and logout paths are accessible to all

@@ -181,9 +181,9 @@
                                         <td>
                                             <div class="w-100 rounded mb-2 mb-lg-0 mt-2">
                                                 {% if salle.logoSalle|length > 0 %}
-                                                    <img src="{{ asset('uploads/' ~ salle.logoSalle) }}" class="img-fluid" alt="Salle Image" width="150" height="100">
+                                                    <img src="{{ asset('uploads/salle/' ~ salle.logoSalle) }}" class="img-fluid" alt="Salle Image" width="150" height="100">
                                                 {% else %}
-                                                    <img src="{{ asset('uploads/Not found.jpg') }}" class="img-fluid" alt="Image Not Found" width="150" height="100">
+                                                    <img src="{{ asset('uploads/salle/Not found.jpg') }}" class="img-fluid" alt="Image Not Found" width="150" height="100">
                                                 {% endif %}
                                             </div>
                                         </td>
@@ -301,7 +301,7 @@
                 // Démarrer une nouvelle requête AJAX
                 searchRequest = $.ajax({
                     type: "GET",
-                    url: "{{ path('salle_search1') }}", // Remplacez par votre route correcte
+                    url: "{{ path('salle_search3') }}", // Remplacez par votre route correcte
                     data: {
                         'q': value
                     },
@@ -323,7 +323,7 @@
                                         "<td>" + salle.capacite + "</td>" + // Utilisation de capacité au lieu de nbrClient, ajustez selon votre besoin
                                         "<td>" +
                                         "<div class='w-100 rounded mb-2 mb-lg-0 mt-2'>" +
-                                        "<img src='{{ asset('uploads/') }}" + salle.logosalle + "' class='img-fluid' alt='Salle Image' width='150' height='100'>" +
+                                        "<img src='{{ asset('uploads/salle/') }}" + salle.logosalle + "' class='img-fluid' alt='Salle Image' width='150' height='100'>" +
                                         "</div>" +
                                         "</td>" +
                                         "<td>" +
@@ -357,8 +357,6 @@
                 else {
                     // Si le champ de recherche est vide, restaurer le contenu original du tableau
                     tableBody.html(originalTableBody);
-                    originalTableBody = null; // Réinitialiser la variable originalTableBody
-                return; // Quitter la fonction prématurément pour éviter toute exécution supplémentaire
             }
         });
     </script>

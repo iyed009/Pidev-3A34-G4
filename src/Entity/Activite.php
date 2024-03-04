@@ -134,6 +134,11 @@ class Activite
         return $this;
     }
 
+    public function setReservation(Collection $reservation): void
+    {
+        $this->reservation = $reservation;
+    }
+
 
     public function getImageActivte(): ?string
     {

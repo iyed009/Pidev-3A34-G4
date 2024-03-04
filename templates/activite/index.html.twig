@@ -188,9 +188,9 @@
                                     <td>
                                         <div class="w-100 rounded mb-2 mb-lg-0 mt-2">
                                             {% if activite.imageActivte|length > 0 %}
-                                                <img src="{{ asset('uploads/' ~ activite.imageActivte) }}" class="img-fluid" alt="Activite Image" width="150" height="100">
+                                                <img src="{{ asset('uploads/activite/' ~ activite.imageActivte) }}" class="img-fluid" alt="Activite Image" width="150" height="100">
                                             {% else %}
-                                                <img src="{{ asset('uploads/Not found.jpg') }}" class="img-fluid" alt="Image Not Found" width="150" height="100">
+                                                <img src="{{ asset('uploads/activite/Not found.jpg') }}" class="img-fluid" alt="Image Not Found" width="150" height="100">
                                             {% endif %}
                                         </div>
                                     </td>
@@ -260,34 +260,36 @@
             var that = this;
             var value = $(this).val();
             var tableBody = $(".table tbody");
+            var basePath = 'uploads/activite/';
 
             if (value.length >= minlength) {
-                // Abort the previous request if it exists
+                // Annuler la requête précédente si elle existe
                 if (searchRequest != null) {
                     searchRequest.abort();
                 }
 
-                // Start a new AJAX request
+                // Démarrer une nouvelle requête AJAX
                 searchRequest = $.ajax({
                     type: "GET",
-                    url: "{{ path('activite_search') }}", // Change to your correct route
+                    url: "{{ path('activite_search2') }}", // Changez pour votre route correcte
                     data: {
                         'q': value
                     },
-                    dataType: "json", // Assuming your response is JSON
+                    dataType: "json", // Supposant que votre réponse est en JSON
                     success: function(result) {
-                        // Check if the value is still the same
+                        // Vérifier si la valeur est toujours la même
                         if (value === $(that).val()) {
-                            // Clear the table body
+                            // Vider le corps du tableau
                             tableBody.empty();
 
                             if (result.activites.length === 0) {
-                                // If no activities found, display a message
+                                // Si aucune activité n'a été trouvée, afficher un message
                                 tableBody.html("<tr><td colspan='6'>Aucune activité n'a été trouvée.</td></tr>");
                             } else {
-                                // Append the search results to the table
+                                // Ajouter les résultats de la recherche au tableau
                                 $.each(result.activites, function(index, activite) {
                                     console.log(activite);
+                                    var avatarUrl = basePath + activite.imageActivte;
                                     var newRow = "<tr>" +
                                         "<td>" + activite.nom + "</td>" +
                                         "<td>" + (activite.date ? activite.date : '') + "</td>" +
@@ -296,8 +298,8 @@
                                         "<td>" +
                                         "<div class='w-100 rounded mb-2 mb-lg-0 mt-2'>" +
                                         (activite.imageActivte.length > 0 ?
-                                            "<img src='{{ asset('uploads/') }}" + activite.imageActivte + "' class='img-fluid' alt='Activite Image' width='150' height='100'>" :
-                                            "<img src='{{ asset('uploads/Not found.jpg') }}' class='img-fluid' alt='Image Not Found' width='150' height='100'>") +
+                                            "<img src='" + avatarUrl + "' class='img-fluid' alt='Activite Image' width='150' height='100'>" :
+                                            "<img src='{{ asset('uploads/activite/Not found.jpg') }}' class='img-fluid' alt='Image Not Found' width='150' height='100'>") +
                                         "</div>" +
                                         "</td>" +
                                         "<td>" +
@@ -307,7 +309,7 @@
                                         "</td>" +
                                         "</tr>";
 
-                                    // Append the new row to the table
+                                    // Ajouter la nouvelle ligne au tableau
                                     tableBody.append(newRow);
                                 });
                             }
@@ -315,15 +317,13 @@
                     }
                 });
 
-                // Sauvegarder le contenu original du tableau si c'est la première fois
+                // Sauvegarder le contenu original du tableau s'il s'agit de la première fois
                 if (!originalTableBody) {
                     originalTableBody = tableBody.html();
                 }
             } else {
-                // If the search input is empty, restore the original table content
+                // Si l'entrée de recherche est vide, restaurer le contenu original du tableau
                 tableBody.html(originalTableBody);
-                originalTableBody = null; // Reset the originalTableBody variable
-                return; // Exit the function early to prevent further execution
             }
         });
 

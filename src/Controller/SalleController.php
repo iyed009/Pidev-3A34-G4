@@ -1,13 +1,12 @@
 <?php
 
+
 namespace App\Controller;
 
 use App\Entity\Salle;
 use App\Form\SalleType;
 use App\Repository\ActiviteRepository;
-use App\Repository\ReclamationRepository;
 use App\Repository\SalleRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,8 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/salle')]
 class SalleController extends AbstractController
 {
-    #[Route('/', name: 'app_salle_index', methods: ['GET','POST'])]
-    public function index( PaginatorInterface $paginator,SalleRepository $salleRepository,Request $request,EntityManagerInterface $entityManager): Response
+    #[Route('/', name: 'app_salle_index', methods: ['GET', 'POST'])]
+    public function index(PaginatorInterface $paginator, SalleRepository $salleRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
 
 
@@ -35,7 +34,7 @@ class SalleController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_salle'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -51,19 +50,19 @@ class SalleController extends AbstractController
         $salles = $salleRepository->findAll();
 
 
-        $salles= $paginator->paginate(
+        $salles = $paginator->paginate(
             $salles,
             $request->query->getInt('page', 1), // page number
             3 // limit per page
         );
 
-            return $this->render('salle/index.html.twig', [
-                'salles' => $salles,
-                'form' => $form->createView(),
-                'errors' => $form->getErrors(true, false),
+        return $this->render('salle/index.html.twig', [
+            'salles' => $salles,
+            'form' => $form->createView(),
+            'errors' => $form->getErrors(true, false),
 
-            ]);
-        }
+        ]);
+    }
 
 
     #[Route('/new', name: 'app_salle_new', methods: ['GET', 'POST'])]
@@ -86,8 +85,8 @@ class SalleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_salle_show', methods: ['GET','POST'])]
-    public function show(Salle $salle,ActiviteRepository $activiteRepository ,Request $request,EntityManagerInterface $entityManager): Response
+    #[Route('/{id}', name: 'app_salle_show', methods: ['GET', 'POST'])]
+    public function show(Salle $salle, ActiviteRepository $activiteRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(SalleType::class, $salle);
         $form->handleRequest($request);
@@ -101,7 +100,7 @@ class SalleController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_salle'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -112,7 +111,7 @@ class SalleController extends AbstractController
                 $entityManager->flush();
 
 
-                return $this->redirectToRoute('app_salle_show', ['id'=>$salle->getId()], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_salle_show', ['id' => $salle->getId()], Response::HTTP_SEE_OTHER);
             }
         }
 
@@ -143,10 +142,10 @@ class SalleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'app_salle_delete', methods: ['POST','DELETE'])]
+    #[Route('/{id}/delete', name: 'app_salle_delete', methods: ['POST', 'DELETE'])]
     public function delete(Request $request, Salle $salle, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$salle->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $salle->getId(), $request->request->get('_token'))) {
             $entityManager->remove($salle);
             $entityManager->flush();
         }
@@ -154,47 +153,8 @@ class SalleController extends AbstractController
         return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/tri/capacite', name: 'salle_tri' )]
-    public function tri(SalleRepository $repo, PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
-    {   $salle = new Salle();
-        $form = $this->createForm(SalleType::class, $salle);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $imageFile = $form->get('logoSalle')->getData();
-            if ($imageFile) {
-                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
-                try {
-                    $imageFile->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                }
-                $salle->setLogoSalle($newFilename);
-
-                $entityManager->persist($salle);
-                $entityManager->flush();
-
-                return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
-            }
-        }
-        $data =  $repo->findSalleByNbrAbonnes();
-        $salles = $paginator->paginate(
-            $data, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            3 /*limit per page*/
-        );
-        return $this->render('salle/index.html.twig', [
-
-            'form' => $form->createView(),
-            'salles' =>  $salles,
-            'errors' => $form->getErrors(true, false),
-        ]);
-    }
-
-    #[Route('/tri/desc', name: 'salle_desc' )]
-    public function tridesc(SalleRepository $repo, PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
+    #[Route('/tri/capacite', name: 'salle_tri')]
+    public function tri(SalleRepository $repo, PaginatorInterface $paginator, Request $request, EntityManagerInterface $entityManager): Response
     {
         $salle = new Salle();
         $form = $this->createForm(SalleType::class, $salle);
@@ -206,7 +166,7 @@ class SalleController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_salle'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -219,7 +179,7 @@ class SalleController extends AbstractController
                 return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
             }
         }
-        $data =  $repo->findSalleByNbrAbonnesDESC();
+        $data = $repo->findSalleByNbrAbonnes();
         $salles = $paginator->paginate(
             $data, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
@@ -228,13 +188,13 @@ class SalleController extends AbstractController
         return $this->render('salle/index.html.twig', [
 
             'form' => $form->createView(),
-            'salles' =>  $salles,
+            'salles' => $salles,
             'errors' => $form->getErrors(true, false),
         ]);
     }
 
-    #[Route('/tri/nom', name: 'salle_tri_nom' )]
-    public function trinom(SalleRepository $repo, PaginatorInterface $paginator,Request $request,EntityManagerInterface $entityManager): Response
+    #[Route('/tri/desc', name: 'salle_desc')]
+    public function tridesc(SalleRepository $repo, PaginatorInterface $paginator, Request $request, EntityManagerInterface $entityManager): Response
     {
         $salle = new Salle();
         $form = $this->createForm(SalleType::class, $salle);
@@ -246,7 +206,7 @@ class SalleController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_salle'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -259,7 +219,7 @@ class SalleController extends AbstractController
                 return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
             }
         }
-        $data =  $repo->findSallesByName();
+        $data = $repo->findSalleByNbrAbonnesDESC();
         $salles = $paginator->paginate(
             $data, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
@@ -268,28 +228,68 @@ class SalleController extends AbstractController
         return $this->render('salle/index.html.twig', [
 
             'form' => $form->createView(),
-            'salles' =>  $salles,
+            'salles' => $salles,
             'errors' => $form->getErrors(true, false),
         ]);
     }
-    #[Route('/search1', name: 'salle_search1')]
-    public function search1(Request $request, SalleRepository $salleRepository)
+
+    #[Route('/tri/nom', name: 'salle_tri_nom')]
+    public function trinom(SalleRepository $repo, PaginatorInterface $paginator, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $salle = new Salle();
+        $form = $this->createForm(SalleType::class, $salle);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $imageFile = $form->get('logoSalle')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory_salle'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                }
+                $salle->setLogoSalle($newFilename);
+
+                $entityManager->persist($salle);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
+            }
+        }
+        $data = $repo->findSallesByName();
+        $salles = $paginator->paginate(
+            $data, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            3 /*limit per page*/
+        );
+        return $this->render('salle/index.html.twig', [
+
+            'form' => $form->createView(),
+            'salles' => $salles,
+            'errors' => $form->getErrors(true, false),
+        ]);
+    }
+
+    #[Route('/search3', name: 'salle_search3')]
+    public function search3(Request $request, SalleRepository $salleRepository)
     {
         $searchTerm = $request->query->get('q');
 
         $salles = $salleRepository->findEntitiesByString($searchTerm);
 
         // Formatage des résultats pour le renvoi au format JSON
-        $formattedSalle = [];
+        $formattedSalles = []; // Correction ici, $formattedSalle to $formattedSalles
         foreach ($salles as $salle) {
             $formattedSalles[] = [
                 'nom' => $salle->getNom(),
-                'addresse' => $salle->getAddresse() ,
+                'addresse' => $salle->getAddresse(),
                 'numtel' => $salle->getNumTel(),
                 'capacite' => $salle->getCapacite(),
                 'logosalle' => $salle->getLogoSalle(),
                 'id' => $salle->getId(),
-
             ];
         }
 
