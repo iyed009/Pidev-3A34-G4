@@ -23,6 +23,7 @@ class SalleController extends AbstractController
     public function index(PaginatorInterface $paginator, SalleRepository $salleRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
 
+        $user=$this->getUser();
 
         $salle = new Salle();
         $form = $this->createForm(SalleType::class, $salle);
@@ -40,14 +41,14 @@ class SalleController extends AbstractController
                 } catch (FileException $e) {
                 }
                 $salle->setLogoSalle($newFilename);
-
+                $salle->setUtilisateur($user);
                 $entityManager->persist($salle);
                 $entityManager->flush();
 
                 return $this->redirectToRoute('app_salle_index', [], Response::HTTP_SEE_OTHER);
             }
         }
-        $salles = $salleRepository->findAll();
+        $salles = $salleRepository->findSallesByUserId($user->getId());
 
 
         $salles = $paginator->paginate(

@@ -91,4 +91,18 @@ class SalleRepository extends ServiceEntityRepository
             return [];
         }
     }
+
+    public function findSallesByUserId(string $userId): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT a
+             FROM App\Entity\Salle a
+             JOIN a.utilisateur u
+             WHERE u.id = :userId'
+        )->setParameter('userId', $userId);
+
+        return $query->getResult();
+    }
 }
