@@ -18,10 +18,8 @@ class CategorieP
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
 
-    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'categorieP')]
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'categorieP', cascade: ['remove'])]
     private Collection $product;
 
     public function __construct()
@@ -46,17 +44,6 @@ class CategorieP
         return $this;
     }
 
-    public function getType(): ?string
-    {
-        return $this->type;
-    }
-
-    public function setType(string $type): static
-    {
-        $this->type = $type;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Product>
@@ -86,5 +73,8 @@ class CategorieP
         }
 
         return $this;
+    }
+    public function __toString(){
+        return $this->name;
     }
 }

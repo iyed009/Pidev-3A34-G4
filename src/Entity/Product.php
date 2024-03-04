@@ -5,29 +5,48 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\Collection;
+
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
-    #[ORM\Id]
+    #[ORM\Id] 
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
-
-    #[ORM\Column]
-    private ?int $quantite = null;
+    #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank(message: 'Le nom du produit ne peut pas être vide')]
+    #[Assert\Length(
+        min: 5,
+        max: 200,
+        minMessage: 'Le titre doit faire au moins {{ limit }} caractères',
+        maxMessage: 'Le titre ne doit pas faire plus de {{ limit }} caractères'
+    )]
+    private $name;
+    #[ORM\Column(type: "integer")]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
+    #[Assert\Positive(message: "The quantity must be positive.")]
+    #[Assert\LessThanOrEqual(10, message: "The quantity cannot be greater than 10.")]
+    private $quantite;
 
     #[ORM\Column(type: Types::TEXT)]
+
+
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: "integer")]
+
     private ?int $price = null;
 
     #[ORM\ManyToOne(inversedBy: 'product')]
+    #[Assert\NotBlank(message: ' ne peut pas être vide')]
     private ?CategorieP $categorieP = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $image = null;
 
     public function getId(): ?int
     {
@@ -90,6 +109,18 @@ class Product
     public function setCategorieP(?CategorieP $categorieP): static
     {
         $this->categorieP = $categorieP;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

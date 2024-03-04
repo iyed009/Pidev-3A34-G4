@@ -1,0 +1,33 @@
+    <form id="deleteForm_{{ categorie.id }}" method="post" action="{{ path('app_categoriep_delete', {'id': categorie.id}) }}">
+        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ categorie.id) }}">
+        <button class="btn btn-light-danger align-self-center delete-button" data-id="{{ categorie.id }}">
+            <i class="bi bi-trash"></i>
+        </button>
+    </form>
+
+    <script>
+        // Ajouter un écouteur d'événements aux boutons de suppression
+        const deleteButtons = document.querySelectorAll('.delete-button');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const categorieId = button.dataset.id;
+
+                // Afficher la boîte de dialogue de confirmation SweetAlert2
+                Swal.fire({
+                    title: 'Êtes-vous sûr(e) ?',
+                    text: 'Vous ne pourrez pas récupérer cette catégorie !',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Oui, supprimez-la !'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Soumettre le formulaire si l'utilisateur confirme la suppression
+                        document.getElementById('deleteForm_' + categorieId).submit();
+                    }
+                });
+            });
+        });
+    </script>

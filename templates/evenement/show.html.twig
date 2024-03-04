@@ -1,0 +1,235 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}Evenement{% endblock %}
+
+{% block body %}
+
+
+
+
+
+    <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <!--begin::Container-->
+            <div id="kt_content_container" class="container-xxl">
+                <!--begin::Contact-->
+                <div class="card">
+                        <!--begin::Card header-->
+                        <div class="card-header ">
+                            <!--begin::Card title-->
+                            <div class="card-title m-0">
+                                <h3 class="fw-bolder m-0">Evenement Details</h3>
+                            </div>
+                            <!--end::Card title-->
+                            <!--begin::Action-->
+
+
+
+
+
+
+
+
+
+
+
+
+                            <div class="card-header border-0 pt-5">
+                                <div class="card-header border-left-2 pt-4"> {{ include('evenement/_delete_form.html.twig') }}</div>
+
+
+
+
+
+
+                                <div class="card-toolbar">
+                                    <a href="#" class="btn btn-light-success" data-bs-toggle="modal"
+                                       data-bs-target="#kt_modal_new_target">
+
+                                        Modifier
+                                         Evenement</a>
+                                    <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
+                                         aria-hidden="true">
+                                        <!--begin::Modal dialog-->
+                                        <div class="modal-dialog modal-dialog-centered mw-650px" id="mainModal">
+                                            <!--begin::Modal content-->
+                                            <div class="modal-content rounded" id="mainModal">
+                                                <!--begin::Modal header-->
+                                                <div class="modal-header pb-0 border-0 justify-content-end">
+                                                    <!--begin::Close-->
+                                                    <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                                         data-bs-dismiss="modal">
+                                                        <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                        <span class="svg-icon svg-icon-1">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                             viewBox="0 0 24 24" fill="none">
+                                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
+                                                  transform="rotate(-45 6 17.3137)" fill="black"/>
+                                            <rect x="7.41422" y="6" width="16" height="2" rx="1"
+                                                  transform="rotate(45 7.41422 6)" fill="black"/>
+                                        </svg>
+                                    </span>
+                                                        <!--end::Svg Icon-->
+                                                    </div>
+                                                    <!--end::Close-->
+                                                </div>
+                                                <!--begin::Modal header-->
+                                                <!--begin::Modal body-->
+                                                <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+
+                                                    {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'class': 'form', 'action': path('app_evenement_show', {'id': evenement.id}) }}) }}
+                                                    <div class="mb-13 text-center">
+
+                                                        <h1 class="mb-3">Modifier Evenement</h1>
+                                                        <!--end::Title-->
+                                                        <!--begin::Description-->
+
+                                                        <!--end::Description-->
+                                                    </div>
+                                                    <!--end::Heading-->
+                                                    {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de l\'événement'}}) }}
+                                                    {{ form_row(form.description, {'label': 'Description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de l\'événement'}}) }}
+                                                    {{ form_row(form.lieu, {'label': 'Lieu', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
+
+                                                    {{ form_row(form.date_evenement, {'label': 'Date de l\'événement', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid ps-12', 'placeholder': 'Sélectionnez une date', 'id': 'date_evenement_input'}}) }}
+                                                    {{ form_row(form.image_evenement, {
+                                                        'label': 'Image de l\'événement',
+                                                        'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'},
+                                                        'attr': {'class': 'form-control form-control-solid', 'accept': 'image/*'}
+                                                    }) }}
+                                                    <!--begin::Actions-->
+                                                    <div class="text-center mt-5 mb-3">
+
+                                                        <button type="submit" id="kt_modal_new_target_submit"
+                                                                class="btn btn-primary">
+                                                            <span class="indicator-label">Soumettre</span>
+                                                            <span class="indicator-progress">Veuillez patienter...
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                        </span>
+                                                        </button>
+
+                                                    </div>
+
+
+                                                    <!--end::Actions-->
+                                                    {{ form_end(form) }}
+                                                    <!--end:Form-->
+                                                </div>
+                                                <!--end::Modal body-->
+                                            </div>
+                                            <!--end::Modal content-->
+                                        </div>
+                                        <!--end::Modal dialog-->
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    <!--begin::Body-->
+                    <div class="card-body p-lg-17">
+                        <!--begin::Row-->
+                        <div class="row mb-3">
+                            <!--begin::Col-->
+                            <div class="col-md-6 pe-lg-10">
+                                <!--begin::Form-->
+                                <div class="card-body p-9">
+                                    <!--begin::Card body-->
+
+                                    <div class="row mb-7">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 fw-bold text-muted">Nom</label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8">
+                                            <span class="fw-bolder fs-6 text-gray-800 col-lg-8 d-flex justify-content-center align-items-center">{{ evenement.nom }}</span>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--begin::Input group-->
+                                    <div class="row mb-7">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 fw-bold text-muted">Description</label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 fv-row">
+                                            <span class="fw-bolder fs-6 text-gray-800 me-2 col-lg-8 d-flex justify-content-center align-items-center">{{ evenement.description }}</span>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="row mb-7">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 fw-bold text-muted">Lieu
+                                        </label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8 d-flex align-items-center">
+                                            <span class="fw-bolder fs-6 text-gray-800 me-2 col-lg-8 d-flex justify-content-center align-items-center">{{ evenement.lieu }}</span>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <!--end::Input group-->
+                                    <!--begin::Input group-->
+                                    <div class="row mb-7">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 fw-bold text-muted">Date Evenement</label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8">
+                                            <a class="fw-bolder fs-6 text-gray-800 me-2 col-lg-8 d-flex justify-content-center align-items-center">{{ evenement.dateEvenement ? evenement.dateEvenement|date('Y-m-d') : '' }}</a>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+                                    <div class="row mb-7">
+                                        <!--begin::Label-->
+                                        <label class="col-lg-4 fw-bold text-muted">Heure Evenement</label>
+                                        <!--end::Label-->
+                                        <!--begin::Col-->
+                                        <div class="col-lg-8">
+                                            <a class="fw-bolder fs-6 text-gray-800 me-2 col-lg-8 d-flex justify-content-center align-items-center">{{ evenement.dateEvenement ? evenement.dateEvenement|date('H:i:s') : '' }}</a>
+                                        </div>
+                                        <!--end::Col-->
+                                    </div>
+
+                                </div>
+                                <!--end::Form-->
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-md-6 ps-lg-10">
+                                <!--begin::Map-->
+                                <div class="w-100 rounded mb-2 mb-lg-0 mt-2" >
+                                    {% if evenement.imageEvenement|length > 0 %}
+                                        <img src="{{ asset('uploads/' ~ evenement.imageEvenement) }}" class="img-fluid" alt="Evenement Image">
+                                    {% else %}
+                                        <img src="{{ asset('uploads/Not found.jpg') }}" class="img-fluid" alt="Image Not Found">
+                                    {% endif %}
+                                </div>
+                                <!--end::Map-->
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+
+                        <a href="{{ path('app_evenement_index') }}" class="btn btn-light">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </a>
+
+                        </div>
+                        <!--end::Card-->
+                    </div>
+                    <!--end::Body-->
+                </div>
+                <!--end::Contact-->
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Post-->
+
+
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{# templates/product/new.html.twig #}
+
+{% extends 'base2.html.twig' %}
+
+
+{% block body %}
+    <div class="container">
+        <div style="border: 1px solid #ced4da;
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            margin-bottom: 20px;">
+            <h1 class="mb-4">Add New Product</h1>
+
+            {{ form_start(form,{'attr': {'action': '#', 'class': 'form-contact contact_form', 'id': 'contactForm', 'novalidate': 'novalidate'}}) }}
+            <div class="mb-3">
+                {{ form_label(form.name, 'Name') }}
+                {{ form_widget(form.name, {'attr': {'class': 'form-control' ~ (form.vars.valid ? '' : ' input-error')}}) }}
+                <div style="color: red">{{ form_errors(form.name) }}</div>
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.description, 'Description') }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control' ~ (form.vars.valid ? '' : ' input-error')}}) }}
+                <div style="color: red"> {{ form_errors(form.description) }}</div>
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.quantite, 'Quantity') }}
+                {{ form_widget(form.quantite, {'attr': {'class': 'form-control' ~ (form.vars.valid ? '' : ' input-error')}}) }}
+                <div style="color: red">{{ form_errors(form.quantite) }}</div>
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.price, 'Price') }}
+                {{ form_widget(form.price, {'attr': {'class': 'form-control' ~ (form.vars.valid ? '' : ' input-error')}}) }}
+                <div style="color: red">{{ form_errors(form.price) }}</div>
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.categorieP, 'Category') }}
+                {{ form_widget(form.categorieP, {'attr': {'class': 'form-control' ~ (form.vars.valid ? '' : ' input-error')}}) }}
+                <div style="color: red">{{ form_errors(form.categorieP) }}</div>
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.image, 'Product Image') }}
+                {{ form_widget(form.image, {'attr': {'class': 'form-control' ~ (form.vars.valid ? '' : ' input-error'), 'accept': 'image/*'}}) }}
+                <div style="color: red">{{ form_errors(form.image) }}</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Product</button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

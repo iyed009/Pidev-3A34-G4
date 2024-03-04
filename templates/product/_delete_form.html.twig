@@ -1,0 +1,33 @@
+<form id="deleteForm_{{ product.id }}" method="post" action="{{ path('app_product_delete', {'id': product.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
+    <button class="btn btn-light-danger align-self-center delete-button" data-id="{{ product.id }}">
+        <i class="bi bi-trash"></i>
+    </button>
+</form>
+
+<script>
+    // Ajouter un écouteur d'événements aux boutons de suppression
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const productId = button.dataset.id;
+
+            // Afficher la boîte de dialogue de confirmation SweetAlert2
+            Swal.fire({
+                title: 'Êtes-vous sûr(e) ?',
+                text: 'Vous ne pourrez pas récupérer ce produit !',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Oui, supprimez-le !'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Soumettre le formulaire si l'utilisateur confirme la suppression
+                    document.getElementById('deleteForm_' + productId).submit();
+                }
+            });
+        });
+    });
+</script>
