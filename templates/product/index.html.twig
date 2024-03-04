@@ -62,9 +62,9 @@
                                     <td>
                                         <div class="w-100 rounded mb-2 mb-lg-0 mt-2">
                                             {% if product.image %}
-                                                <img src="{{ asset('uploads/' ~ product.image) }}" class="img-fluid" alt="Product Image" width="100" height="80">
+                                                <img src="{{ asset('uploads/product/' ~ product.image) }}" class="img-fluid" alt="Product Image" width="100" height="80">
                                             {% else %}
-                                                <img src="{{ asset('uploads/not_found.jpg') }}" class="img-fluid" alt="Image Not Found" width="100" height="80">
+                                                <img src="{{ asset('uploads/product/not_found.jpg') }}" class="img-fluid" alt="Image Not Found" width="100" height="80">
                                             {% endif %}
                                         </div>
                                     </td>

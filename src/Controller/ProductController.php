@@ -39,7 +39,7 @@ class ProductController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_product'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -73,7 +73,7 @@ class ProductController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_product'),
                         $newFilename
                     );
                 } catch (FileException $e) {

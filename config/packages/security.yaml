@@ -45,6 +45,10 @@ security:
   - { path: ^/reponse, roles: ROLE_SUPER_ADMIN }
   - { path: ^/front, roles: ROLE_CLIENT }
   - { path: ^/activite, roles: ROLE_SUPER_ADMIN }
+  - { path: ^/product, roles: ROLE_SUPER_ADMIN }
+  - { path: ^/categoriep, roles: ROLE_SUPER_ADMIN }
+  - { path: ^/front/product, roles: ROLE_CLIENT }
+  - { path: ^/cart, roles: ROLE_CLIENT }
     # Additional access control rules as needed
 
     # Ensure login and logout paths are accessible to all

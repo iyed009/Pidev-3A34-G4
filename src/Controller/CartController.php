@@ -34,11 +34,13 @@ class CartController extends AbstractController
 
         foreach($panier as $id => $quantite){
             $product = $productRepository->find($id);
-            $dataPanier[] = [
-                "product" => $product,
-                "quantite" => $quantite
-            ];
-            $total += $product->getPrice() * $quantite;
+            if ($product) {
+                $dataPanier[] = [
+                    "product" => $product,
+                    "quantite" => $quantite
+                ];
+                $total += $product->getPrice() * $quantite;
+            }
         }
 
         return $this->render('cart/index.html.twig', [

@@ -12,6 +12,7 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.0",
+        "dompdf/dompdf": "^2.0",
         "fakerphp/faker": "^1.23",
         "knplabs/knp-paginator-bundle": "^5.9",
         "nyholm/psr7": "^1.8",
