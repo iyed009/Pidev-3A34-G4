@@ -33,7 +33,7 @@ class EvenementController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_evenement'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -105,7 +105,7 @@ class EvenementController extends AbstractController
                 $newFilename = $originalFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
                 try {
                     $imageFile->move(
-                        $this->getParameter('images_directory'),
+                        $this->getParameter('images_directory_evenement'),
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -177,8 +177,8 @@ class EvenementController extends AbstractController
         ]);
     }
 
-    #[Route('/search1', name: 'evenement_search1')]
-    public function search1(Request $request, EvenementRepository $evenementRepository)
+    #[Route('/search5', name: 'evenement_search5')]
+    public function search5(Request $request, EvenementRepository $evenementRepository)
     {
         $searchTerm = $request->query->get('q');
 

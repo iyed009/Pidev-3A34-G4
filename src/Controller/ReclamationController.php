@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Reclamation;
 use App\Entity\Reponse;
+use App\Entity\User;
 use App\Form\ReclamationType;
 use App\Form\ReponseType;
 use App\Repository\ReclamationRepository;
@@ -27,11 +28,27 @@ class ReclamationController extends AbstractController
     public function index(ReclamationRepository $reclamationRepository, Request $request,PaginatorInterface $paginator): Response
     {
 
+
         $reclamationsCount = $reclamationRepository->countReclamations();
         $countNonTraiteReclamations = $reclamationRepository->countNonTraiteReclamations();
         $countTraiteReclamations = $reclamationRepository->countTraiteReclamations();
-        $percentageNonTraite = number_format(($countNonTraiteReclamations / $reclamationsCount) * 100, 2);
-        $percentageTraite = number_format(($countTraiteReclamations / $reclamationsCount) * 100, 2);
+        if ($reclamationsCount != 0) {
+            if ($countTraiteReclamations != 0) {
+                $percentageTraite = number_format(($countTraiteReclamations / $reclamationsCount) * 100, 2);
+            } else {
+                $percentageTraite = 0;
+            }
+
+            if ($countNonTraiteReclamations != 0) {
+                $percentageNonTraite = number_format(($countNonTraiteReclamations / $reclamationsCount) * 100, 2);
+            } else {
+                $percentageNonTraite = 0;
+            }
+        } else {
+            // Handle the case where $reclamationsCount is 0
+            $percentageTraite = 0;
+            $percentageNonTraite = 0;
+        }
 
 
         $etat = $request->get('etat','all');
@@ -59,6 +76,7 @@ class ReclamationController extends AbstractController
             'count'=>$count,
             'percentageNonTraite' => $percentageNonTraite,
             'percentageTraite' => $percentageTraite,
+
 
         ]);
     }

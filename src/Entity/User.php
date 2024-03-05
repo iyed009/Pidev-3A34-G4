@@ -77,7 +77,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private \DateTimeImmutable $updatedAt;
 
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'utilisateur')]
+    #[ORM\ManyToMany(targetEntity: Ticket::class, mappedBy: 'users')]
     private Collection $tickets;
 
     #[ORM\OneToMany(targetEntity: Reclamation::class, mappedBy: 'utilisateur')]
@@ -309,7 +309,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->tickets->contains($ticket)) {
             $this->tickets->add($ticket);
-            $ticket->setUtilisateur($this);
+            $ticket->addUser($this);
         }
 
         return $this;
@@ -318,10 +318,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeTicket(Ticket $ticket): static
     {
         if ($this->tickets->removeElement($ticket)) {
-            // set the owning side to null (unless already changed)
-            if ($ticket->getUtilisateur() === $this) {
-                $ticket->setUtilisateur(null);
-            }
+            $ticket->removeUser($this);
         }
 
         return $this;

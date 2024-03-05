@@ -120,8 +120,8 @@ class TicketController extends AbstractController
 
 
 
-    #[Route('/search', name: 'ticket_search')]
-    public function search(Request $request, TicketRepository $ticketRepository)
+    #[Route('/search4', name: 'ticket_search4')]
+    public function search4(Request $request, TicketRepository $ticketRepository)
     {
         $searchTerm = $request->query->get('q');
 

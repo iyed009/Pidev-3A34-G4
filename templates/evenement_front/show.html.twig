@@ -36,7 +36,7 @@
                 <div class="col-lg-6 p-0">
                     <div style="background-image: url('{{ asset('uploads/' ~ evenement.imageEvenement) }}'); height: 640px; width: 760px;">
                         <a href="{{ path('app_evenement_front_show', {'id': evenement.id}) }}">
-                            <img src="{{ asset('uploads/' ~ evenement.imageEvenement) }}" style="height: 100%; width: 100%;" alt="Evenement Image">
+                            <img src="{{ asset('uploads/evenement/' ~ evenement.imageEvenement) }}" style="height: 100%; width: 100%;" alt="Evenement Image">
                         </a>
                     </div>
                 </div>

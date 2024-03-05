@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Reclamation;
+use App\Form\ReclamationType;
+use App\Service\TwilioService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,12 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class OpenIAController extends AbstractController
 {
     #[Route("/transcribe", name: "transcribe", methods:["GET", "POST"])]
-    public function transcribe(Request $request, EntityManagerInterface $entityManager): Response
+    public function transcribe(Request $request, EntityManagerInterface $entityManager,TwilioService $twilioService): Response
     {
         // Instantiate a new Reclamation entity
         $reclamation = new Reclamation();
 
+        $to="+21650889983";
+        $body="Une nouvelle reclamation a etait ajouter";
+        $twilioService->sendSms($to,$body);
+        $this->addFlash('success', 'Your reclamation has been added successfully.');
+
         if ($request->isMethod('POST')) {
+            // Your transcription logic goes here
+            // Make sure to set the $transcription variable
             $audioFile = $request->files->get('audioFile');
 
             // Ensure a file was uploaded
@@ -54,16 +63,17 @@ class OpenIAController extends AbstractController
                     $reclamation->setSujet('voice');
                     $reclamation->setNumTele($user->getNumTele());
                     $reclamation->setEmail($user->getEmail());
-                    $reclamation->setDescription($transcription);
 
                     // Persist Reclamation entity to database
                     $entityManager->persist($reclamation);
                     $entityManager->flush();
-
+                    $form = $this->createForm(ReclamationType::class, $reclamation);
+                    $form->handleRequest($request);
                     // Render the template with the transcription
                     return $this->render('reclamation/voice.html.twig', [
                         'controller_name' => 'OpenIAController',
                         'transcription' => $transcription,
+                        'form' => $form->createView(),
                     ]);
                 } catch (\Exception $e) {
                     // Handle exceptions, e.g., log or show an error message
@@ -71,9 +81,11 @@ class OpenIAController extends AbstractController
                 }
             }
         }
+
         // Render the template without transcription if no POST request or no file uploaded
         return $this->render('reclamation/voice.html.twig', [
             'controller_name' => 'OpenIAController',
+
         ]);
     }
 }

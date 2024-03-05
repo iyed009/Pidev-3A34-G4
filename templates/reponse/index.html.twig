@@ -8,7 +8,7 @@
         <div class="d-flex flex-wrap flex-stack mb-6">
             <!--begin::Title-->
             <h3 class="fw-bolder my-2">Liste Reponse
-                <span class="fs-6 text-gray-400 fw-bold ms-1">{{ (count) }}</span></h3>
+                <span class="fs-6 text-gray-400 fw-bold ms-1">({{ count }})</span></h3>
             <!--end::Title-->
             <div class="aside-search py-5">
                 <!--begin::Search-->
@@ -73,11 +73,11 @@
                             <div class="card-title m-0">
                                 <!--begin::Icon-->
                                 <div class="symbol symbol-75px symbol-circle">
-                                    <img src="{{ asset('assets/media/avatars/12.jpg') }}" alt="image" class="p-3" />
+                                    <img src="{{ asset('uploads/images/' ~ reponse.idReclamation.getUtilisateur().getAvatar()) }}" alt="image" class="p-3" />
                                 </div>
                                 <!--end::Icon-->
                                 <!--begin::Title-->
-                                <a href="#" class="fs-4 fw-bold text-hover-primary text-gray-600 m-0">Twitch Posts</a>
+                                <a href="#" class="fs-4 fw-bold text-hover-primary text-gray-600 m-0">{{ reponse.idReclamation.nom }}  {{ reponse.idReclamation.prenom }}</a>
                                 <!--end::Title-->
                             </div>
                             <!--end::Card title-->

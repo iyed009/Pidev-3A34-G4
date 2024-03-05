@@ -912,7 +912,7 @@ License: For each use you must have a valid license purchased only from above li
                                         <span class="menu-title">Liste Des CLients</span>
                                     </a>
                                 </div>
-                                 <div class="menu-item">
+                     {#            <div class="menu-item">
                                     <a class="menu-link" href="{{ path('app_admin_salle_new')}}">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
@@ -927,7 +927,7 @@ License: For each use you must have a valid license purchased only from above li
 												</span>
                                         <span class="menu-title">Liste Des Propriètiares</span>
                                     </a>
-                                </div>
+                                </div>#}
 
 
 
@@ -1025,7 +1025,7 @@ License: For each use you must have a valid license purchased only from above li
 									</span>
                             <div class="menu-sub menu-sub-accordion">
                                 <div class="menu-item">
-                                    <a class="menu-link" href="{#{{ path('app_evenement_index')}}#}" >
+                                    <a class="menu-link" href="{{ path('app_evenement_index')}}" >
 
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
@@ -1054,7 +1054,7 @@ License: For each use you must have a valid license purchased only from above li
                             <div class="menu-sub menu-sub-accordion">
 
                                 <div class="menu-item">
-                                    <a class="menu-link" href="{#{{ path('app_ticket_index')}}#}">
+                                    <a class="menu-link" href="{{ path('app_ticket_index')}}">
 												<span class="menu-bullet">
 													<span class="bullet bullet-dot"></span>
 												</span>
@@ -1066,6 +1066,14 @@ License: For each use you must have a valid license purchased only from above li
 
                             </div>
                         </div>
+
+
+
+                    </div>
+                    <!--end::Menu-->
+                </div>
+                <!--end::Aside Menu-->
+            </div>
 
 
 

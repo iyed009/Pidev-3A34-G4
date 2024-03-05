@@ -9,6 +9,7 @@ parameters:
     images_directory_salle: '%kernel.project_dir%/public/uploads/salle'
     images_directory_activite: '%kernel.project_dir%/public/uploads/activite'
     images_directory_product: '%kernel.project_dir%/public/uploads/product'
+    images_directory_evenement: '%kernel.project_dir%/public/uploads/evenement'
 
 services:
     # default configuration for services in *this* file

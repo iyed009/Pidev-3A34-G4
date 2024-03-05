@@ -47,7 +47,7 @@ class TicketRepository extends ServiceEntityRepository
 //    }
 
 
-    public function findTicketsByUserId(int $userId): array
+    public function findTicketsByUserId(string $userId): array
     {
         $entityManager = $this->getEntityManager();
 

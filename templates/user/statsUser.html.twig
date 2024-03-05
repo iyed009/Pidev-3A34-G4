@@ -51,7 +51,7 @@
 		<div
 			class="row g-4">
 			<!-- Total Admins Count Widget -->
-			<div class="col-md-6 col-xl-4">
+{#			<div class="col-md-6 col-xl-4">
 				<div
 					class="card" style="background-color: #e8f5e9;">
 					<!-- Light green background for success -->
@@ -66,24 +66,9 @@
 						</svg>
 					</div>
 				</div>
-			</div>
+			</div>#}
 			<!-- Total Clients Count Widget -->
-			<div class="col-md-6 col-xl-4">
-				<div
-					class="card" style="background-color: #ffebee;">
-					<!-- Light red background for attention -->
-					<div class="card-body text-center">
-						<h5 class="card-title" style="color: #c62828;">totalClientsCount</h5>
-						<!-- Dark red text for visibility -->
-						<svg width="120" height="120" viewbox="0 0 120 120">
-							<circle cx="60" cy="60" r="54" fill="none" stroke="#ccc" stroke-width="12"/>
-							<circle cx="60" cy="60" r="54" fill="none" stroke="#ef5350" stroke-width="12" stroke-dasharray="{{ (totalClientsCount / 100) * 339.29 }} 339.29" transform="rotate(-90 60 60)"/>
-							<text x="60" y="65" fill="#b71c1c" font-family="Arial" font-size="24" text-anchor="middle">{{ totalClientsCount }}%</text>
-							<!-- Deeper shade for text for easy reading -->
-						</svg>
-					</div>
-				</div>
-			</div>
+
 		</div>
 		<br/>
 		<div
@@ -118,6 +103,22 @@
 							<circle cx="60" cy="60" r="54" fill="none" stroke="#f48fb1" stroke-width="12" stroke-dasharray="{{ (percentageNonTraite / 100) * 339.29 }} 339.29" transform="rotate(-90 60 60)"/>
 							<text x="60" y="65" fill="#880e4f" font-family="Arial" font-size="24" text-anchor="middle">{{ percentageNonTraite }}%</text>
 							<!-- Deeper pink for text to ensure it stands out -->
+						</svg>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 col-xl-4">
+				<div
+						class="card" style="background-color: #ffebee;">
+					<!-- Light red background for attention -->
+					<div class="card-body text-center">
+						<h5 class="card-title" style="color: #c62828;">totalClientsCount</h5>
+						<!-- Dark red text for visibility -->
+						<svg width="120" height="120" viewbox="0 0 120 120">
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#ccc" stroke-width="12"/>
+							<circle cx="60" cy="60" r="54" fill="none" stroke="#ef5350" stroke-width="12" stroke-dasharray="{{ (totalClientsCount / 100) * 339.29 }} 339.29" transform="rotate(-90 60 60)"/>
+							<text x="60" y="65" fill="#b71c1c" font-family="Arial" font-size="24" text-anchor="middle">{{ totalClientsCount }}%</text>
+							<!-- Deeper shade for text for easy reading -->
 						</svg>
 					</div>
 				</div>

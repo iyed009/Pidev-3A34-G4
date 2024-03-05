@@ -35,8 +35,10 @@ class TicketFrontController extends AbstractController
     #[Route('/mesTickets', name: 'app_ticket_front_new', methods: ['GET'])]
     public function new(TicketRepository $ticketRepository): Response
     {
+        $user=$this->getUser();
         return $this->render('ticket_front/mesTicket.html.twig', [
-            'tickets' => $ticketRepository->findTicketsByUserId(2),
+            'tickets' => $ticketRepository->findTicketsByUserId($user->getId()),
+            'user'=>$user,
 
         ]);
     }
@@ -85,13 +87,13 @@ class TicketFrontController extends AbstractController
     public function decrementTicket($id,Ticket $ticket,UserRepository $userRepository, TicketRepository $ticketRepository , EntityManagerInterface $entityManager): Response
     {
         try {
-            $user = $userRepository->find(2);
-            $tick = $ticketRepository->find($id);
-            $tick->addUser($user);
-            $user->addTicket($tick);
-            $entityManager->persist($user);
-            $entityManager->persist($tick);
+            $user=$this->getUser();
 
+
+            $ticket->addUser($user);
+            $user->addTicket($ticket);
+            $entityManager->persist($user);
+            $entityManager->persist($ticket);
 
             $ticketRepository->decrementTicket($ticket);
             $entityManager->flush();
@@ -110,7 +112,7 @@ class TicketFrontController extends AbstractController
             $mailerWithTransport = new Mailer($transport);
             $email = (new Email())
                 ->from('belhouchet.koussay@esprit.tn')
-                ->to('koussay600@gmail.com')
+                ->to($user->getEmail())
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')

@@ -190,9 +190,9 @@
                                     <td>
                                         <div class="w-100 rounded mb-2 mb-lg-0 mt-2">
                                             {% if evenement.imageEvenement|length > 0 %}
-                                                <img src="{{ asset('uploads/' ~ evenement.imageEvenement) }}" class="img-fluid" alt="Evenement Image" width="150" height="100">
+                                                <img src="{{ asset('uploads/evenement/' ~ evenement.imageEvenement) }}" class="img-fluid" alt="Evenement Image" width="150" height="100">
                                             {% else %}
-                                                <img src="{{ asset('uploads/Not found.jpg') }}" class="img-fluid" alt="Image Not Found" width="150" height="100">
+                                                <img src="{{ asset('uploads/evenement/Not found.jpg') }}" class="img-fluid" alt="Image Not Found" width="150" height="100">
                                             {% endif %}
                                         </div>
                                     </td>
@@ -283,7 +283,7 @@
 
                     searchRequest = jQuery.ajax({
                         type: "GET",
-                        url: "{{ path('evenement_search1') }}",
+                        url: "{{ path('evenement_search5') }}",
                         data: {
                             'q': value
                         },
@@ -308,8 +308,8 @@
                                             "<td>" +
                                             "<div class='w-100 rounded mb-2 mb-lg-0 mt-2'>" +
                                             (evenement.imageEvenement.length > 0 ?
-                                                "<img src='{{ asset('uploads/') }}" + evenement.imageEvenement + "' class='img-fluid' alt='Evenement Image' width='150' height='100'>" :
-                                                "<img src='{{ asset('uploads/Not found.jpg') }}' class='img-fluid' alt='Image Not Found' width='150' height='100'>") +
+                                                "<img src='{{ asset('uploads/evenement/') }}" + evenement.imageEvenement + "' class='img-fluid' alt='Evenement Image' width='150' height='100'>" :
+                                                "<img src='{{ asset('uploads/evenement/Not found.jpg') }}' class='img-fluid' alt='Image Not Found' width='150' height='100'>") +
                                             "</div>" +
                                             "</td>" +
                                             "<td>" +
