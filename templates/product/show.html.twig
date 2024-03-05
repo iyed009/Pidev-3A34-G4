@@ -203,9 +203,9 @@
                                 <!--begin::Map-->
                                 <div class="w-100 rounded mb-2 mb-lg-0 mt-2" >
                                     {% if product.image|length > 0 %}
-                                        <img src="{{ asset('uploads/' ~ product.image) }}" class="img-fluid" alt="Product Image" width="320" height="200">
+                                        <img src="{{ asset('uploads/product/' ~ product.image) }}" class="img-fluid" alt="Product Image" width="320" height="200">
                                     {% else %}
-                                        <img src="{{ asset('uploads/Not found.jpg') }}" class="img-fluid" alt="Image Not Found">
+                                        <img src="{{ asset('uploads/product/Not found.jpg') }}" class="img-fluid" alt="Image Not Found">
                                     {% endif %}
                                 </div>
                                 <!--end::Map-->
