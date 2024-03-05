@@ -1,25 +1,3 @@
-{#
-
-/**
-
- * @file
-
- * Twitter Bootstrap v4 Sliding pagination control implementation.
-
- *
-
- * View that can be used with the pagination module
-
- * from the Twitter Bootstrap CSS Toolkit
-
- * https://getbootstrap.com/docs/4.5/components/pagination/
-
- *
-
- */
-
-#}
-
 {% if pageCount > 1 %}
 
     <nav>
@@ -35,7 +13,7 @@
             {% if previous is defined %}
                 <li class="page-item previous">
                     <a class="page-link" rel="prev" href="{{ path(route, query|merge({(pageParameterName): previous})) }}">
-                       <i class="previous"></i>
+                        <i class="previous"></i>
                     </a>
                 </li>
             {% else %}

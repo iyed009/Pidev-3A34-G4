@@ -45,4 +45,69 @@ class TicketRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+
+    public function findTicketsByUserId(int $userId): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT t
+             FROM App\Entity\Ticket t
+             JOIN t.users u
+             WHERE u.id = :userId'
+        )->setParameter('userId', $userId);
+
+        return $query->getResult();
+    }
+
+    // Your custom method to decrement the number of tickets
+    public function decrementTicket(Ticket $ticket): void
+    {
+        if ($ticket->getNbreTicket() > 0) {
+            $ticket->setNbreTicket($ticket->getNbreTicket() - 1);
+        } else {
+            // Handle the case when there are no tickets left
+            throw new \Exception('No tickets left to decrement');
+        }
+    }
+
+
+    public function findEntitiesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT t
+            FROM App\Entity\Ticket t
+            JOIN t.evenement e
+            WHERE t.prix LIKE :str 
+            OR t.type LIKE :str
+            OR t.nbreTicket LIKE :str
+            OR e.nom LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+    }
+
+
+    public function findTicketsByPrice()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT t FROM App\Entity\Ticket t ORDER BY t.prix ASC'
+        );
+
+        return $query->getResult();
+    }
+
+    public function findTicketsByPriceDESC()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT t FROM App\Entity\Ticket t ORDER BY t.prix DESC'
+        );
+
+        return $query->getResult();
+    }
 }

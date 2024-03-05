@@ -13,6 +13,8 @@
                         <h2>Ticket</h2>
                         <div class="bt-option">
                             <a href="#">Home</a>
+                            <a href="{{ path('app_evenement_front_index') }}"><span>Evenement</span></a>
+
                             <span>Ticket</span>
                         </div>
                     </div>
@@ -26,6 +28,7 @@
 
 
     <!-- Pricing Section Begin -->
+
     <section class="pricing-section spad">
         <div class="container">
             <div class="row">
@@ -36,25 +39,33 @@
                     </div>
                 </div>
             </div>
+
             <div class="row justify-content-center">
                 <div class="col-lg-4 col-md-8">
                     <div class="ps-item">
                         <h3>TICKET</h3>
                         <div class="pi-price">
                             <h2>{{ ticket.prix }}   DT</h2>
-                            <span>{{ ticket.type }}</span>
+                            <span>{{ ticket.evenement.nom }}</span>
                         </div>
                         <ul>
+                            <li>{{ ticket.type }}</li>
+
                             <li>{{ ticket.nbreTicket }}</li>
+                            <li>{{ ticket.evenement.dateEvenement ? ticket.evenement.dateEvenement|date('h:i') : '' }}</li>
+                            <li>{{ ticket.evenement.dateEvenement ? ticket.evenement.dateEvenement|date('D M Y') : '' }}</li>
 
                         </ul>
-                        <a href="#" class="primary-btn pricing-btn">Enroll now</a>
-                        <a href="#" class="thumb-icon"><i class="fa fa-picture-o"></i></a>
-                    </div>
-                </div>
+                        <a href="{{ path('decrement_ticket', {'id': ticket.id}) }}" class="primary-btn pricing-btn">Enroll now</a>
 
+
+                </div>
             </div>
+
         </div>
+            <div style="display: flex; justify-content: center;">
+                <a href="{{ path('app_evenement_front_show', {'id': ticket.evenement.id}) }}" class="primary-btn btn-normal cent appoinment-btn">Retour au details</a>
+            </div>
     </section>
     <!-- Pricing Section End -->
 {% endblock %}

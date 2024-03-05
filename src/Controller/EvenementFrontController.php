@@ -16,7 +16,7 @@ class EvenementFrontController extends AbstractController
 {
     #[Route('/', name: 'app_evenement_front_index', methods: ['GET'])]
     public function index(EvenementRepository $evenementRepository): Response
-    { 
+    {
         return $this->render('evenement_front/index.html.twig', [
             'evenements' => $evenementRepository->findAll(),
         ]);

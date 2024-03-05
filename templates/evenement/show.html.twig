@@ -4,7 +4,8 @@
 
 {% block body %}
 
-
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 
 
@@ -91,6 +92,8 @@
                                                     {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de l\'événement'}}) }}
                                                     {{ form_row(form.description, {'label': 'Description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de l\'événement'}}) }}
                                                     {{ form_row(form.lieu, {'label': 'Lieu', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
+                                                    <div id="map-container" style="padding-top: 15px; padding-bottom: 15px;">
+                                                        <div id="map"></div>
 
                                                     {{ form_row(form.date_evenement, {'label': 'Date de l\'événement', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid ps-12', 'placeholder': 'Sélectionnez une date', 'id': 'date_evenement_input'}}) }}
                                                     {{ form_row(form.image_evenement, {
@@ -231,5 +234,34 @@
         <!--end::Post-->
 
 
+        <style>
+            #map {
+                flex: 1; /* Utiliser tout l'espace disponible */
+                height: 300px;
 
+
+            }
+        </style>
+        <script>
+            var map = L.map('map').setView([36.8091, 10.1491], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+            /// hetha markeur l haja l t98amer bih penaise wle chsmo ahahha
+            var marker;
+            map.on('click', function(e) {
+                if (marker) {
+                    map.removeLayer(marker);
+                }
+                marker = L.marker(e.latlng).addTo(map);
+
+
+                // Envoyer une requête pour obtenir les informations du lieu
+                fetch('https://nominatim.openstreetmap.org/reverse?lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&format=json')
+                    .then(response => response.json())
+                    .then(data => { document.getElementById('evenement_lieu').value =  data.display_name;
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        </script>
 {% endblock %}

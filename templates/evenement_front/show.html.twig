@@ -16,7 +16,9 @@
                         <h2>Evenement</h2>
                         <div class="bt-option">
                             <a href="#">Home</a>
-                            <span>Evenement</span>
+                            <a href="{{ path('app_evenement_front_index') }}"><span>Evenement</span></a>
+                            <a ><span>Details Evenement</span></a>
+
                         </div>
                     </div>
                 </div>
@@ -53,8 +55,11 @@
                             <p>{{ evenement.description }}</p>
                         </div>
                         <div class="about-bar">
-                            <a href="{{ path('app_ticket_front_show', {'id': evenement.id}) }}" class="primary-btn btn-normal appoinment-btn">Reserver</a>
+                            {% for ticket in evenement.tickets %}
+                                <a href="{{ path('app_ticket_front_show', {'id': ticket.id}) }}" class="primary-btn btn-normal appoinment-btn">Participer</a>
+                            {% endfor %}
                         </div>
+
                     </div>
                 </div>
 
@@ -62,6 +67,10 @@
             </div>
 
         </div>
+        <iframe class="position-relative rounded w-100 h-100"
+                src="https://maps.google.com/maps?q={{ evenement.lieu }}&amp;ie=UTF8&amp;iwloc=&amp;output=embed"
+                frameborder="0" style="min-height: 650px; border:0; width: 200%;" allowfullscreen="" aria-hidden="false"
+                tabindex="0"></iframe>
     </section>
     <!-- About US Section End -->
 

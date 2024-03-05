@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: EvenementRepository::class)]
 class Evenement
@@ -17,22 +19,35 @@ class Evenement
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Le nom ne doit pas être vide.")]
+    #[Assert\Length(max:255, maxMessage:"Le nom ne peut pas dépasser {{ limit }} caractères.")]
+    #[Assert\Type(type: "string", message: "Le nom doit être une chaîne de caractères.")]
+
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: "text")]
+    #[Assert\NotBlank(message:"La description ne doit pas être vide.")]
+    #[Assert\Length(min:10, maxMessage:"Description doit  dépasser {{ limit }} caractères.")]
+
     private ?string $description = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:"Faut préciser le lieu ")]
+    #[Assert\Length(max:255, maxMessage:"Lieu ne doit pas  dépasser {{ limit }} caractères.")]
     private ?string $lieu = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date_evenement = null;
 
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'evenement')]
+    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'evenement' ,cascade: ["remove"])]
     private Collection $tickets;
+
+    #[ORM\Column(length: 255)]
+    private ?string $image_evenement = null;
 
     public function __construct()
     {
+        $this->date_evenement = new \DateTime();
         $this->tickets = new ArrayCollection();
     }
 
@@ -89,6 +104,11 @@ class Evenement
         return $this;
     }
 
+    public function setTickets(Collection $tickets): void
+    {
+        $this->tickets = $tickets;
+    }
+
     /**
      * @return Collection<int, Ticket>
      */
@@ -118,4 +138,17 @@ class Evenement
 
         return $this;
     }
+
+    public function getImageEvenement(): ?string
+    {
+        return $this->image_evenement;
+    }
+
+    public function setImageEvenement(string $image_evenement): self
+    {
+        $this->image_evenement = $image_evenement;
+
+        return $this;
+    }
+
 }

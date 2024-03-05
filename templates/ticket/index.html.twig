@@ -12,13 +12,13 @@
             <div id="kt_content_container" class="container-xxl">
                 <!--begin::Card-->
                 <div class="card">
-                <div class="card-header ">
-                    <!--begin::Card title-->
+                    <div class="card-header ">
+                        <!--begin::Card title-->
 
-                    <!--begin::Search-->
-                    <div class="d-flex align-items-center position-relative my-1">
-                        <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
-                        <span class="svg-icon svg-icon-1 position-absolute ms-6">
+                        <!--begin::Search-->
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
+                            <span class="svg-icon svg-icon-1 position-absolute ms-6">
 													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                          viewBox="0 0 24 24" fill="none">
 														<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
@@ -28,17 +28,17 @@
                                                               fill="black"/>
 													</svg>
 												</span>
-                        <!--end::Svg Icon-->
-                        <input type="text" data-kt-user-table-filter="search"
-                               class="form-control form-control-solid w-250px ps-14" placeholder="Search user"/>
-                    </div>
-                    <div class="card-header border-0 pt-5">
+                            <!--end::Svg Icon-->
+                            <input type="text" id="search1"
+                                   class="form-control form-control-solid w-250px ps-14" placeholder="Search Ticket"/>
+                        </div>
+                        <div class="card-header border-0 pt-5">
 
-                        <div class="card-toolbar">
-                            <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
-                               data-bs-target="#kt_modal_new_target">
-                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
-                                <span class="svg-icon svg-icon-2">
+                            <div class="card-toolbar">
+                                <a href="#" style="margin-right: 10px;" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                                   data-bs-target="#kt_modal_new_target" id="openModalButton">
+                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
+                                    <span class="svg-icon svg-icon-2">
 												<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                                      viewBox="0 0 24 24" fill="none">
 													<rect opacity="0.5" x="11.364" y="20.364" width="16" height="2"
@@ -47,21 +47,21 @@
                                                           fill="black"/>
 												</svg>
 											</span>
-                                <!--end::Svg Icon-->
-                                Ajouter Ticket</a>
-                            <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
-                                 aria-hidden="true">
-                                <!--begin::Modal dialog-->
-                                <div class="modal-dialog modal-dialog-centered mw-650px" id="mainModal">
-                                    <!--begin::Modal content-->
-                                    <div class="modal-content rounded" id="mainModal">
-                                        <!--begin::Modal header-->
-                                        <div class="modal-header pb-0 border-0 justify-content-end">
-                                            <!--begin::Close-->
-                                            <div class="btn btn-sm btn-icon btn-active-color-primary"
-                                                 data-bs-dismiss="modal">
-                                                <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                                                <span class="svg-icon svg-icon-1">
+                                    <!--end::Svg Icon-->
+                                    Ajouter Ticket</a>
+                                <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
+                                     aria-hidden="true">
+                                    <!--begin::Modal dialog-->
+                                    <div class="modal-dialog modal-dialog-centered mw-650px" id="mainModal">
+                                        <!--begin::Modal content-->
+                                        <div class="modal-content rounded" id="mainModal">
+                                            <!--begin::Modal header-->
+                                            <div class="modal-header pb-0 border-0 justify-content-end">
+                                                <!--begin::Close-->
+                                                <div class="btn btn-sm btn-icon btn-active-color-primary"
+                                                     data-bs-dismiss="modal" id="close-modal">
+                                                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
+                                                    <span class="svg-icon svg-icon-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                              viewBox="0 0 24 24" fill="none">
                                             <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
@@ -70,92 +70,113 @@
                                                   transform="rotate(45 7.41422 6)" fill="black"/>
                                         </svg>
                                     </span>
-                                                <!--end::Svg Icon-->
+                                                    <!--end::Svg Icon-->
+                                                </div>
+                                                <!--end::Close-->
                                             </div>
-                                            <!--end::Close-->
-                                        </div>
-                                        <!--begin::Modal header-->
-                                        <!--begin::Modal body-->
-                                        <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                                            <!--begin:Form-->
-                                            {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'class': 'form', 'action': '#' }}) }}
-                                            <!--begin::Heading-->
-                                            <div class="mb-13 text-center">
-                                                <!--begin::Title-->
-                                                <h1 class="mb-3">Ajouter Ticket</h1>
-                                                <!--end::Title-->
-                                                <!--begin::Description-->
+                                            <!--begin::Modal header-->
+                                            <!--begin::Modal body-->
+                                            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                                <!--begin:Form-->
+                                                {{ form_start(form, {'attr': {'novalidate': 'novalidate','id': 'kt_modal_new_target_form', 'class': 'form', 'action': '' }}) }}
+                                                <!--begin::Heading-->
+                                                <div class="mb-13 text-center">
+                                                    <!--begin::Title-->
+                                                    <h1 class="mb-3">Ajouter Ticket</h1>
+                                                    <!--end::Title-->
+                                                    <!--begin::Description-->
 
-                                                <!--end::Description-->
-                                            </div>
-                                            <!--end::Heading-->
-                                            {{ form_row(form.nbreTicket, {'label': 'Nbre Ticket', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nbr'}}) }}
-                                            {{ form_row(form.prix, {'label': 'Prix', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le prix'}}) }}
-
-                                            {{ form_row(form.type, {'label': 'Type', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le type de ticket'}}) }}
+                                                    <!--end::Description-->
+                                                </div>
+                                                <!--end::Heading-->
+                                                {{ form_row(form.nbreTicket, {'label': 'Nbre Ticket', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nbr','data-error': form_errors(form.nbreTicket) }}) }}
 
 
-                                            {{ form_row(form.evenement, {'label': 'Evenment', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
+                                                {{ form_row(form.prix, {'label': 'Prix', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le prix','data-error': form_errors(form.prix)  }}) }}
 
 
 
+                                                {{ form_row(form.type, {'label': 'Type', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le type de ticket','data-error': form_errors(form.type) }}) }}
 
 
 
-                                            <!--begin::Actions-->
-                                            <div class="text-center mt-5 mb-3">
+                                                {{ form_row(form.evenement, {'label': 'Evenment', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement','data-error': form_errors(form.evenement)}}) }}
 
-                                                <button type="submit" id="kt_modal_new_target_submit"
-                                                        class="btn btn-primary">
-                                                    <span class="indicator-label">Soumettre</span>
-                                                    <span class="indicator-progress">Veuillez patienter...
+
+                                                {{ form_row(form.recaptcha) }}
+                                                {{ form_errors(form.recaptcha) }}{#
+                                                #}
+
+
+                                                <!--begin::Actions-->
+                                                <div class="text-center mt-5 mb-3">
+
+                                                    <button type="submit" id="kt_modal_new_target_submit"
+                                                            class="btn btn-primary">
+                                                        <span class="indicator-label">Soumettrrrrrre</span>
+                                                        <span class="indicator-progress">Veuillez patienter...
                                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
                                         </span>
-                                                </button>
+                                                    </button>
 
+                                                </div>
+
+
+                                                <!--end::Actions-->
+                                                {{ form_end(form) }}
+                                                <!--end:Form-->
                                             </div>
-
-
-                                            <!--end::Actions-->
-                                            {{ form_end(form) }}
-                                            <!--end:Form-->
+                                            <!--end::Modal body-->
                                         </div>
-                                        <!--end::Modal body-->
+                                        <!--end::Modal content-->
                                     </div>
-                                    <!--end::Modal content-->
+                                    <!--end::Modal dialog-->
                                 </div>
-                                <!--end::Modal dialog-->
+
+                                <div class="toolbox-right" >
+                                    <div class="toolbox-sort"  >
+                                        <div class="select-custom" >
+                                            <select name="sortby" id="sortby" onchange="window.location.href=this.value;" data-control="select" class="form-select form-select-sm form-select-solid w-100px w-xxl-125px" style="padding-right: 10px; margin-right: 10px;">
+                                                <option value="#" selected="selected">Trier par</option>
+                                                <option value="{{path('ticket_tri_asc')}}">prix  &#9650;</option>
+                                                <option value="{{path('ticket_tri_desc')}}">prix  &#9660;</option>
+                                                <option value="{{path('app_ticket_index')}}" >Non triée</option>
+                                            </select>
+                                            {#<option value="#">Date</option>#}
+                                        </div>
+                                    </div><!-- End .toolbox-sort -->
+                                </div>
                             </div>
+
                         </div>
 
+
+                        <!--end::Search-->
+
+
+                        <!--end::Card toolbar-->
                     </div>
 
-
-                    <!--end::Search-->
-
-
-                    <!--end::Card toolbar-->
-                </div>
-
-                <div class="card-body pt-4">
-                <div class="row g-5 g-xl-8">
-                    {% for ticket in tickets %}
-                        <!--begin::Col-->
-                        <div class="col-xl-4">
-                            <!--begin::Mixed Widget 1-->
-                            <div class="card card-xl-stretch mb-xl-8">
-                                <!--begin::Body-->
-                                <div class="card-body p-0">
-                                    <!--begin::Header-->
-                                    <div class="px-9 pt-7 card-rounded h-275px w-100 bg-primary">
-                                        <!--begin::Heading-->
-                                        <div class="d-flex flex-stack">
-                                            <h3 class="m-0 text-white fw-bolder fs-3">TICKET</h3>
-                                            <div   class="ms-1">
-                                                <!--begin::Menu-->
-                                                <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-primary border-0 me-n3">
-                                                    <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
-                                                    <span class="svg-icon svg-icon-2">
+                    <div class="card-body pt-4">
+                        <div class="row g-5 g-xl-8">
+                            {% for ticket in tickets %}
+                                <!--begin::Col-->
+                                <div class="col-xl-4">
+                                    <!--begin::Mixed Widget 1-->
+                                    <div class="card card-xl-stretch mb-xl-8">
+                                        <!--begin::Body-->
+                                        <div class="card-body p-0">
+                                            <!--begin::Header-->
+                                            <div class="px-9 pt-7 card-rounded h-275px w-100 bg-primary">
+                                                <!--begin::Heading-->
+                                                <div class="d-flex flex-stack">
+                                                    <h3 class="m-0 text-white fw-bolder fs-3">TICKET</h3>
+                                                    <div class="ms-1">
+                                                        <!--begin::Menu-->
+                                                        <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}"
+                                                           class="btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-primary border-0 me-n3">
+                                                            <!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
+                                                            <span class="svg-icon svg-icon-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="5" y="5" width="5" height="5" rx="1" fill="#000000"/>
@@ -165,29 +186,29 @@
                             </g>
                         </svg>
                     </span>
-                                                    <!--end::Svg Icon-->
-                                                </a>
-                                                <!--begin::Menu 3-->
-                                                <!--end::Menu 3-->
-                                                <!--end::Menu-->
+                                                            <!--end::Svg Icon-->
+                                                        </a>
+                                                        <!--begin::Menu 3-->
+                                                        <!--end::Menu 3-->
+                                                        <!--end::Menu-->
+                                                    </div>
+                                                </div>
+                                                <!--end::Heading-->
+                                                <!--begin::Balance-->
+                                                <div class="d-flex text-center flex-column text-white pt-8">
+                                                    <span class="fw-bold fs-7">PRIX</span>
+                                                    <span class="fw-bolder fs-2x pt-1">{{ ticket.prix }}  DT</span>
+                                                </div>
+                                                <!--end::Balance-->
                                             </div>
-                                        </div>
-                                        <!--end::Heading-->
-                                        <!--begin::Balance-->
-                                        <div class="d-flex text-center flex-column text-white pt-8">
-                                            <span class="fw-bold fs-7">PRIX</span>
-                                            <span class="fw-bolder fs-2x pt-1">{{ ticket.prix }}  DT</span>
-                                        </div>
-                                        <!--end::Balance-->
-                                    </div>
-                                    <!--end::Header-->
-                                    <!--begin::Items-->
-                                    <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-6 py-9 position-relative z-index-1"
-                                         style="margin-top: -100px">
-                                        <!--begin::Item-->
-                                        <div class="d-flex align-items-center mb-6">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-45px w-40px me-5">
+                                            <!--end::Header-->
+                                            <!--begin::Items-->
+                                            <div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-6 py-9 position-relative z-index-1"
+                                                 style="margin-top: -100px">
+                                                <!--begin::Item-->
+                                                <div class="d-flex align-items-center mb-6">
+                                                    <!--begin::Symbol-->
+                                                    <div class="symbol symbol-45px w-40px me-5">
 															<span class="symbol-label bg-lighten">
 																<!--begin::Svg Icon | path: icons/duotune/maps/map004.svg-->
 																<span class="svg-icon svg-icon-1">
@@ -202,27 +223,28 @@
 																</span>
                                                                 <!--end::Svg Icon-->
 															</span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                            <!--begin::Description-->
-                                            <div class="d-flex align-items-center flex-wrap w-100">
-                                                <!--begin::Title-->
-                                                <div class="mb-1 pe-3 flex-grow-1">
-                                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Nombre
-                                                        Tickets</a>
-                                                    <div class="text-gray-400 fw-bold fs-7">{{ ticket.nbreTicket }}</div>
+                                                    </div>
+                                                    <!--end::Symbol-->
+                                                    <!--begin::Description-->
+                                                    <div class="d-flex align-items-center flex-wrap w-100">
+                                                        <!--begin::Title-->
+                                                        <div class="mb-1 pe-3 flex-grow-1">
+                                                            <a href="#"
+                                                               class="fs-5 text-gray-800 text-hover-primary fw-bolder">Nombre
+                                                                Tickets</a>
+                                                            <div class="text-gray-400 fw-bold fs-7">{{ ticket.nbreTicket }}</div>
+                                                        </div>
+                                                        <!--end::Title-->
+                                                        <!--begin::Label-->
+                                                        <!--end::Label-->
+                                                    </div>
+                                                    <!--end::Description-->
                                                 </div>
-                                                <!--end::Title-->
-                                                <!--begin::Label-->
-                                                <!--end::Label-->
-                                            </div>
-                                            <!--end::Description-->
-                                        </div>
-                                        <!--end::Item-->
-                                        <!--begin::Item-->
-                                        <div class="d-flex align-items-center mb-6">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-45px w-40px me-5">
+                                                <!--end::Item-->
+                                                <!--begin::Item-->
+                                                <div class="d-flex align-items-center mb-6">
+                                                    <!--begin::Symbol-->
+                                                    <div class="symbol symbol-45px w-40px me-5">
 															<span class="symbol-label bg-lighten">
 																<!--begin::Svg Icon | path: icons/duotune/general/gen024.svg-->
 																<span class="svg-icon svg-icon-1">
@@ -243,26 +265,27 @@
 																</span>
                                                                 <!--end::Svg Icon-->
 															</span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                            <!--begin::Description-->
-                                            <div class="d-flex align-items-center flex-wrap w-100">
-                                                <!--begin::Title-->
-                                                <div class="mb-1 pe-3 flex-grow-1">
-                                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Evenement</a>
-                                                    <div class="text-gray-400 fw-bold fs-7">{{ ticket.evenement.nom }}</div>
+                                                    </div>
+                                                    <!--end::Symbol-->
+                                                    <!--begin::Description-->
+                                                    <div class="d-flex align-items-center flex-wrap w-100">
+                                                        <!--begin::Title-->
+                                                        <div class="mb-1 pe-3 flex-grow-1">
+                                                            <a href="#"
+                                                               class="fs-5 text-gray-800 text-hover-primary fw-bolder">Evenement</a>
+                                                            <div class="text-gray-400 fw-bold fs-7">{{ ticket.evenement.nom }}</div>
+                                                        </div>
+                                                        <!--end::Title-->
+                                                        <!--begin::Label-->
+                                                        <!--end::Label-->
+                                                    </div>
+                                                    <!--end::Description-->
                                                 </div>
-                                                <!--end::Title-->
-                                                <!--begin::Label-->
-                                                <!--end::Label-->
-                                            </div>
-                                            <!--end::Description-->
-                                        </div>
-                                        <!--end::Item-->
-                                        <!--begin::Item-->
-                                        <div class="d-flex align-items-center mb-6">
-                                            <!--begin::Symbol-->
-                                            <div class="symbol symbol-45px w-40px me-5">
+                                                <!--end::Item-->
+                                                <!--begin::Item-->
+                                                <div class="d-flex align-items-center mb-6">
+                                                    <!--begin::Symbol-->
+                                                    <div class="symbol symbol-45px w-40px me-5">
 															<span class="symbol-label bg-lighten">
 																<!--begin::Svg Icon | path: icons/duotune/electronics/elc005.svg-->
 																<span class="svg-icon svg-icon-1">
@@ -277,43 +300,231 @@
 																</span>
                                                                 <!--end::Svg Icon-->
 															</span>
-                                            </div>
-                                            <!--end::Symbol-->
-                                            <!--begin::Description-->
-                                            <div class="d-flex align-items-center flex-wrap w-100">
-                                                <!--begin::Title-->
-                                                <div class="mb-1 pe-3 flex-grow-1">
-                                                    <a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Type</a>
-                                                    <div class="text-gray-400 fw-bold fs-7">{{ ticket.type }}</div>
+                                                    </div>
+                                                    <!--end::Symbol-->
+                                                    <!--begin::Description-->
+                                                    <div class="d-flex align-items-center flex-wrap w-100">
+                                                        <!--begin::Title-->
+                                                        <div class="mb-1 pe-3 flex-grow-1">
+                                                            <a href="#"
+                                                               class="fs-5 text-gray-800 text-hover-primary fw-bolder">Type</a>
+                                                            <div class="text-gray-400 fw-bold fs-7">{{ ticket.type }}</div>
+                                                        </div>
+                                                        <!--end::Title-->
+                                                        <!--begin::Label-->
+                                                        <!--end::Label-->
+                                                    </div>
+                                                    <!--end::Description-->
                                                 </div>
-                                                <!--end::Title-->
-                                                <!--begin::Label-->
-                                                <!--end::Label-->
+                                                <!--end::Item-->
+                                                <!--begin::Item-->
+                                                <!--end::Item-->
                                             </div>
-                                            <!--end::Description-->
+                                            <!--end::Items-->
                                         </div>
-                                        <!--end::Item-->
-                                        <!--begin::Item-->
-                                        <!--end::Item-->
+                                        <!--end::Body-->
                                     </div>
-                                    <!--end::Items-->
+                                    <!--end::Mixed Widget 1-->
                                 </div>
-                                <!--end::Body-->
+                                <!--end::Col-->
+                            {% else %}
+                                <div class="col-xl-12">
+                                    <p>No records found</p>
+                                </div>
+                            {% endfor %}
+                            <div class="d-flex justify-content-center pt-10">
+                                <div class="fs-6 fw-bold text-gray-700"></div>
+                                <!--begin::Pages-->
+                                <ul class="pagination">
+                                    {% do tickets.SetPageRange(3) %}
+                                    {{ knp_pagination_render(tickets, "pagination.html.twig") }}
+                                </ul>
                             </div>
-                            <!--end::Mixed Widget 1-->
+
+
                         </div>
-                        <!--end::Col-->
-                    {% else %}
-                        <div class="col-xl-12">
-                            <p>No records found</p>
-                        </div>
-                    {% endfor %}
+                    </div>
                 </div>
             </div>
-                </div>
+
         </div>
+
     </div>
-    </div>
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var modal = document.getElementById('kt_modal_new_target');
+                if (modal) {
+                    modal.classList.add('show');
+                    modal.style.display = 'block';
+                    modal.setAttribute('aria-modal', true);
+                }
+                var closeModalButton = document.getElementById('close-modal');
+
+                if (closeModalButton && modal) {
+                    closeModalButton.addEventListener('click', function () {
+                        modal.classList.remove('show');
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-modal', false);
+                    });
+                }
+            });
+        </script>
+    {% endif %}
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var searchRequest = null;
+            var originalTicket = jQuery('.row.g-5.g-xl-8').html(); // Store original ticket items
+            var tickets = []; // Define tickets array here
+
+
+            jQuery("#search1").keyup(function () {
+                var minlength = 1;
+                var that = this;
+                var value = jQuery(this).val();
+
+                if (value.length >= minlength) {
+                    // Abort previous request if it exists
+                    if (searchRequest != null) {
+                        searchRequest.abort();
+                    }
+
+                    searchRequest = jQuery.ajax({
+                        type: "GET",
+                        url: "{{ path('ticket_search') }}",
+                        data: {
+                            'q': value
+                        },
+                        dataType: "json",
+                        success: function (result) {
+                            var ticketContainer = jQuery('.row.g-5.g-xl-8');
+                            ticketContainer.empty();
+                            if (result.tickets.length === 0) {
+                                var messageHtml = '<div class="col-12">' +
+                                    '<div class="card text-center">' +
+                                    '<div class="card-body d-flex align-items-center justify-content-center" style="min-height: 200px;">' +
+                                    '<p class="fs-5 text-muted">Aucune ticket n\'a été trouvée.</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>';
+                                ticketContainer.append(messageHtml); // Change ticketContainer to ticketContainer
+                            } else {
+                                // Append search results to reclamation container
+                                jQuery.each(result.tickets, function (index, ticket) {
+                                    var ticketHtml ='<div class="col-xl-4">' +
+                                        '<div class="card card-xl-stretch mb-xl-8">' +
+                                        '<div class="card-body p-0">' +
+                                        '<div class="px-9 pt-7 card-rounded h-275px w-100 bg-primary">' +
+                                        '<div class="d-flex flex-stack">' +
+                                        '<h3 class="m-0 text-white fw-bolder fs-3">TICKET</h3>' +
+                                        '<div class="ms-1">' +
+                                        '<a href="/ticket/'+ ticket.id+ '" class="btn btn-sm btn-icon btn-color-white btn-active-white btn-active-color-primary border-0 me-n3">' +
+                                        '<span class="svg-icon svg-icon-2">' +
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">' +
+                                        '<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '<rect x="5" y="5" width="5" height="5" rx="1" fill="#000000"/>' +
+                                        '<rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3"/>' +
+                                        '<rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"/>' +
+                                        '<rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"/>' +
+                                        '</g>' +
+                                        '</svg>' +
+                                        '</span>' +
+                                        '</a>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="d-flex text-center flex-column text-white pt-8">' +
+                                        '<span class="fw-bold fs-7">PRIX</span>' +
+                                        '<span class="fw-bolder fs-2x pt-1">' + ticket.prix + '  DT</span>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="bg-body shadow-sm card-rounded mx-9 mb-9 px-6 py-9 position-relative z-index-1" style="margin-top: -100px">' +
+                                        '<div class="d-flex align-items-center mb-6">' +
+                                        '<div class="symbol symbol-45px w-40px me-5">' +
+                                        '<span class="symbol-label bg-lighten">' +
+                                        '<span class="svg-icon svg-icon-1">' +
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">' +
+                                        '<path opacity="0.3" d="M18.4 5.59998C21.9 9.09998 21.9 14.8 18.4 18.3C14.9 21.8 9.2 21.8 5.7 18.3L18.4 5.59998Z" fill="black"/>' +
+                                        '<path d="M12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2ZM19.9 11H13V8.8999C14.9 8.6999 16.7 8.00005 18.1 6.80005C19.1 8.00005 19.7 9.4 19.9 11ZM11 19.8999C9.7 19.6999 8.39999 19.2 7.39999 18.5C8.49999 17.7 9.7 17.2001 11 17.1001V19.8999ZM5.89999 6.90002C7.39999 8.10002 9.2 8.8 11 9V11.1001H4.10001C4.30001 9.4001 4.89999 8.00002 5.89999 6.90002ZM7.39999 5.5C8.49999 4.7 9.7 4.19998 11 4.09998V7C9.7 6.8 8.39999 6.3 7.39999 5.5ZM13 17.1001C14.3 17.3001 15.6 17.8 16.6 18.5C15.5 19.3 14.3 19.7999 13 19.8999V17.1001ZM13 4.09998C14.3 4.29998 15.6 4.8 16.6 5.5C15.5 6.3 14.3 6.80002 13 6.90002V4.09998ZM4.10001 13H11V15.1001C9.1 15.3001 7.29999 16 5.89999 17.2C4.89999 16 4.30001 14.6 4.10001 13ZM18.1 17.1001C16.6 15.9001 14.8 15.2 13 15V12.8999H19.9C19.7 14.5999 19.1 16.0001 18.1 17.1001Z" fill="black"/>' +
+                                        '</svg>' +
+                                        '</span>' +
+                                        '</span>' +
+                                        '</div>' +
+                                        '<div class="d-flex align-items-center flex-wrap w-100">' +
+                                        '<div class="mb-1 pe-3 flex-grow-1">' +
+                                        '<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Nombre Tickets</a>' +
+                                        '<div class="text-gray-400 fw-bold fs-7">' + ticket.nbreTicket + '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="d-flex align-items-center mb-6">' +
+                                        '<div class="symbol symbol-45px w-40px me-5">' +
+                                        '<span class="symbol-label bg-lighten">' +
+                                        '<span class="svg-icon svg-icon-1">' +
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">' +
+                                        '<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '<rect x="5" y="5" width="5" height="5" rx="1" fill="#000000"/>' +
+                                        '<rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3"/>' +
+                                        '<rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"/>' +
+                                        '<rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"/>' +
+                                        '</g>' +
+                                        '</svg>' +
+                                        '</span>' +
+                                        '</span>' +
+                                        '</div>' +
+                                        '<div class="d-flex align-items-center flex-wrap w-100">' +
+                                        '<div class="mb-1 pe-3 flex-grow-1">' +
+                                        '<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Evenement</a>' +
+                                        '<div class="text-gray-400 fw-bold fs-7">' + ticket.evenement + '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '<div class="d-flex align-items-center mb-6">' +
+                                        '<div class="symbol symbol-45px w-40px me-5">' +
+                                        '<span class="symbol-label bg-lighten">' +
+                                        '<span class="svg-icon svg-icon-1">' +
+                                        '<svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24">' +
+                                        '<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">' +
+                                        '<rect x="5" y="5" width="5" height="5" rx="1" fill="#000000"/>' +
+                                        '<rect x="14" y="5" width="5" height="5" rx="1" fill="#000000" opacity="0.3"/>' +
+                                        '<rect x="5" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"/>' +
+                                        '<rect x="14" y="14" width="5" height="5" rx="1" fill="#000000" opacity="0.3"/>' +
+                                        '</g>' +
+                                        '</svg>' +
+                                        '</span>' +
+                                        '</span>' +
+                                        '</div>' +
+                                        '<div class="d-flex align-items-center flex-wrap w-100">' +
+                                        '<div class="mb-1 pe-3 flex-grow-1">' +
+                                        '<a href="#" class="fs-5 text-gray-800 text-hover-primary fw-bolder">Type</a>' +
+                                        '<div class="text-gray-400 fw-bold fs-7">' + ticket.type + '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</div>';
+
+                                    ticketContainer.append(ticketHtml);
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    // Restore original ticket items if search input is empty
+                    jQuery('.row.g-6.g-xl-9').html(originalTicket);
+                }
+            });
+        });
+
+    </script>
+
 
     <!--end::Container-->
 {% endblock %}

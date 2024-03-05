@@ -21,6 +21,39 @@ class EvenementRepository extends ServiceEntityRepository
         parent::__construct($registry, Evenement::class);
     }
 
+
+
+    public function findProductsByName()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT e FROM App\Entity\Evenement e ORDER BY e.nom ASC'
+        );
+
+        return $query->getResult();
+    }
+
+
+
+    public function findEntitiesByString1($str) {
+        try {
+            return $this->getEntityManager()
+                ->createQuery(
+                    'SELECT e
+                FROM App\Entity\Evenement e
+                WHERE e.nom LIKE :str 
+                OR e.lieu LIKE :str
+                OR e.description LIKE :str'
+                )
+                ->setParameter('str', '%'.$str.'%')
+                ->getResult();
+        } catch (\Exception $exception) {
+            // Gérer l'erreur ici, par exemple, journaliser l'erreur ou renvoyer une réponse d'erreur
+            return [];
+        }
+    }
+
 //    /**
 //     * @return Evenement[] Returns an array of Evenement objects
 //     */

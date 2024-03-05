@@ -8,6 +8,8 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use VictorPrdh\RecaptchaBundle\Form\ReCaptchaType;
+
 
 class TicketType extends AbstractType
 {
@@ -17,6 +19,10 @@ class TicketType extends AbstractType
             ->add('prix')
             ->add('type')
             ->add('nbreTicket')
+
+
+            ->add('recaptcha', ReCaptchaType::class)
+
             ->add('evenement', EntityType::class, [
               'class' => Evenement::class,
               'choice_label' => 'nom',

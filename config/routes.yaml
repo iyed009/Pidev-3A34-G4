@@ -15,3 +15,12 @@ activite_search2:
 salle_search3:
   path: /search3
   controller: App\Controller\SalleController::search3
+
+ticket_search:
+  path: /search
+  controller: App\Controller\TicketController::search
+
+
+evenement_search1:
+  path: /search1
+  controller: App\Controller\EvenementController::search1

@@ -3,6 +3,8 @@
 {% block title %}Hello NomController!{% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
         <!--begin::Post-->
         <div class="post d-flex flex-column-fluid" id="kt_post">
@@ -12,29 +14,25 @@
                 <div class="card">
                     <!--begin::Card header-->
                     <div class="card-header ">
+
                         <!--begin::Card title-->
 
                         <!--begin::Search-->
                         <div class="d-flex align-items-center position-relative my-1">
                             <!--begin::Svg Icon | path: icons/duotune/general/gen021.svg-->
                             <span class="svg-icon svg-icon-1 position-absolute ms-6">
-													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                         viewBox="0 0 24 24" fill="none">
-														<rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546"
-                                                              height="2" rx="1" transform="rotate(45 17.0365 15.1223)"
-                                                              fill="black"/>
-														<path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z"
-                                                              fill="black"/>
-													</svg>
-												</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <rect opacity="0.5" x="17.0365" y="15.1223" width="8.15546" height="2" rx="1" transform="rotate(45 17.0365 15.1223)" fill="black"/>
+            <path d="M11 19C6.55556 19 3 15.4444 3 11C3 6.55556 6.55556 3 11 3C15.4444 3 19 6.55556 19 11C19 15.4444 15.4444 19 11 19ZM11 5C7.53333 5 5 7.53333 5 11C5 14.4667 7.53333 17 11 17C14.4667 17 17 14.4667 17 11C17 7.53333 14.4667 5 11 5Z" fill="black"/>
+        </svg>
+    </span>
                             <!--end::Svg Icon-->
-                            <input type="text" data-kt-user-table-filter="search"
-                                   class="form-control form-control-solid w-250px ps-14" placeholder="Search user"/>
+                            <input id="search" type="text" class="form-control form-control-solid w-250px ps-14" placeholder="Search events"/>
                         </div>
-                        <div class="card-header border-0 pt-5">
 
+                        <div class="card-header border-0 pt-5">
                             <div class="card-toolbar">
-                                <a href="#" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
+                                <a href="#" style="margin-right: 10px;" class="btn btn-sm btn-light-primary" data-bs-toggle="modal"
                                    data-bs-target="#kt_modal_new_target">
                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr075.svg-->
                                     <span class="svg-icon svg-icon-2">
@@ -48,6 +46,18 @@
 											</span>
                                     <!--end::Svg Icon-->
                                     Ajouter Evenement</a>
+                                <div class="toolbox-right" >
+                                    <div class="toolbox-sort"  >
+                                        <div class="select-custom" >
+                                            <select name="sortby" id="sortby" onchange="window.location.href=this.value;" data-control="select" class="form-select form-select-sm form-select-solid w-100px w-xxl-125px" style="padding-right: 10px; margin-right: 10px;">
+                                                <option value="#" selected="selected">Trier par</option>
+                                                <option value="{{path('evenement_tri_nom')}}">Nom</option>
+                                                <option value="{{path('app_evenement_index')}}" >Non triée</option>
+                                            </select>
+                                            {#<option value="#">Date</option>#}
+                                        </div>
+                                    </div><!-- End .toolbox-sort -->
+                                </div>
                                 <div class="modal fade" id="kt_modal_new_target" tabindex="-1"
                                      aria-hidden="true">
                                     <!--begin::Modal dialog-->
@@ -58,7 +68,7 @@
                                             <div class="modal-header pb-0 border-0 justify-content-end">
                                                 <!--begin::Close-->
                                                 <div class="btn btn-sm btn-icon btn-active-color-primary"
-                                                     data-bs-dismiss="modal">
+                                                     data-bs-dismiss="modal" id="close-modal">
                                                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                                                     <span class="svg-icon svg-icon-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -77,7 +87,7 @@
                                             <!--begin::Modal body-->
                                             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
                                                 <!--begin:Form-->
-                                                {{ form_start(form, {'attr': {'id': 'kt_modal_new_target_form', 'class': 'form', 'action': '#' }}) }}
+                                                {{ form_start(form, {'attr': {'novalidate': 'novalidate','id': 'kt_modal_new_target_form', 'class': 'form', 'action': '#' }}) }}
                                                 <!--begin::Heading-->
                                                 <div class="mb-13 text-center">
                                                     <!--begin::Title-->
@@ -91,12 +101,13 @@
                                                 {{ form_row(form.nom, {'label': 'Nom', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le nom de l\'événement'}}) }}
                                                 {{ form_row(form.description, {'label': 'Description', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez la description de l\'événement'}}) }}
                                                 {{ form_row(form.lieu, {'label': 'Lieu', 'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}, 'attr': {'class': 'form-control form-control-solid', 'placeholder': 'Entrez le lieu de l\'événement'}}) }}
-
+                                                <div id="map-container" style="padding-top: 15px; padding-bottom: 15px;">
+                                                    <div id="map"></div>
 
                                                 <div class="form-group">
-                                                {{ form_label(form.date_evenement) }}
-                                                {{ form_widget(form.date_evenement, { 'attr': {'class': 'form-control form-control-solid ps-12 ', 'placeholder': 'Sélectionnez une date', 'id': 'date_evenement_input'}}) }}
-                                                {{ form_errors(form.date_evenement) }}
+                                                    {{ form_label(form.date_evenement,'Date :',{'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'}}) }}
+                                                    {{ form_widget(form.date_evenement, { 'attr': {'class': 'form-control form-control-solid ps-12 ', 'placeholder': 'Sélectionnez une date', 'id': 'date_evenement_input'}}) }}
+                                                    {{ form_errors(form.date_evenement) }}
                                                 </div>
 
                                                 {{ form_row(form.image_evenement, {
@@ -104,6 +115,9 @@
                                                     'label_attr': {'class': 'fw-bolder fs-6 text-gray-800'},
                                                     'attr': {'class': 'form-control form-control-solid', 'accept': 'image/*'}
                                                 }) }}
+
+                                                {{ form_row(form.recaptcha) }}
+                                                {{ form_errors(form.recaptcha) }}
                                                 <!--begin::Actions-->
                                                 <div class="text-center mt-5 mb-3">
 
@@ -128,7 +142,10 @@
                                     </div>
                                     <!--end::Modal dialog-->
                                 </div>
+
                             </div>
+
+
 
                         </div>
 
@@ -169,7 +186,7 @@
                                     <td>{{ evenement.nom }}</td>
                                     <td>{{ evenement.lieu }}</td>
                                     <td>{{ evenement.dateEvenement ? evenement.dateEvenement|date('Y-m-d') : '' }}</td>
-                                    <td>{{ evenement.dateEvenement ? evenement.dateEvenement|date('H:i:s') : '' }}</td>
+                                    <td>{{ evenement.dateEvenement ? evenement.dateEvenement|date('H:i') : '' }}</td>
                                     <td>
                                         <div class="w-100 rounded mb-2 mb-lg-0 mt-2">
                                             {% if evenement.imageEvenement|length > 0 %}
@@ -203,7 +220,13 @@
                             <!--end::Table body-->
                         </table>
                         <!--end::Table-->
-
+                        <div class="d-flex justify-content-center pt-10">
+                            <div class="fs-6 fw-bold text-gray-700"></div>
+                            <!--begin::Pages-->
+                            <ul class="pagination">        {% do evenements.SetPageRange(3) %}
+                                {{ knp_pagination_render(evenements, "pagination.html.twig") }}
+                            </ul>
+                        </div>
 
                     </div>
                     <!--end::Card body-->
@@ -214,5 +237,141 @@
         </div>
         <!--end::Post-->
     </div>
+
+
+
+
+    {% if errors is defined and errors is not empty %}
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var modal = document.getElementById('kt_modal_new_target');
+                if (modal) {
+                    modal.classList.add('show');
+                    modal.style.display = 'block';
+                    modal.setAttribute('aria-modal', true);
+                }
+                var closeModalButton = document.getElementById('close-modal');
+
+                if (closeModalButton && modal) {
+                    closeModalButton.addEventListener('click', function() {
+                        modal.classList.remove('show');
+                        modal.style.display = 'none';
+                        modal.setAttribute('aria-modal', false);
+                    });
+                }
+            });
+        </script>
+    {% endif %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var searchRequest = null;
+            var originalTableBody = jQuery('.table tbody').html(); // Store original table body
+
+            jQuery("#search").keyup(function () {
+                var minlength = 1;
+                var that = this;
+                var value = jQuery(this).val();
+                var tableBody = jQuery(".table tbody");
+
+                if (value.length >= minlength) {
+                    // Abort previous request if it exists
+                    if (searchRequest != null) {
+                        searchRequest.abort();
+                    }
+
+                    searchRequest = jQuery.ajax({
+                        type: "GET",
+                        url: "{{ path('evenement_search1') }}",
+                        data: {
+                            'q': value
+                        },
+                        dataType: "json",
+                        success: function (result) {
+                            // Check if the value is still the same
+                            if (value === jQuery(that).val()) {
+                                // Clear the table body
+                                tableBody.empty();
+
+                                if (result.evenements.length === 0) {
+                                    // If no events found, display a message
+                                    tableBody.html("<tr><td colspan='6'>Aucun événement n'a été trouvé.</td></tr>");
+                                } else {
+                                    // Append the search results to the table
+                                    jQuery.each(result.evenements, function (index, evenement) {
+                                        var newRow = "<tr>" +
+                                            "<td>" + evenement.nom + "</td>" +
+                                            "<td>" + evenement.lieu + "</td>" +
+                                            "<td>" + (evenement.date ? evenement.date : '' ) + "</td>" +
+                                            "<td>" + (evenement.heure ? evenement.heure : '' ) + "</td>" +
+                                            "<td>" +
+                                            "<div class='w-100 rounded mb-2 mb-lg-0 mt-2'>" +
+                                            (evenement.imageEvenement.length > 0 ?
+                                                "<img src='{{ asset('uploads/') }}" + evenement.imageEvenement + "' class='img-fluid' alt='Evenement Image' width='150' height='100'>" :
+                                                "<img src='{{ asset('uploads/Not found.jpg') }}' class='img-fluid' alt='Image Not Found' width='150' height='100'>") +
+                                            "</div>" +
+                                            "</td>" +
+                                            "<td>" +
+                                            "<div class='d-inline-block'>" +
+                                            '<a href="/evenement/'+ evenement.id+'" class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">'+
+
+                                            "<span class='svg-icon svg-icon-3'>" +
+                                            "<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'>" +
+                                            "<path d='M17.5 11H6.5C4 11 2 9 2 6.5C2 4 4 2 6.5 2H17.5C20 2 22 4 22 6.5C22 9 20 11 17.5 11ZM15 6.5C15 7.9 16.1 9 17.5 9C18.9 9 20 7.9 20 6.5C20 5.1 18.9 4 17.5 4C16.1 4 15 5.1 15 6.5Z' fill='black' />" +
+                                            "<path opacity='0.3' d='M17.5 22H6.5C4 22 2 20 2 17.5C2 15 4 13 6.5 13H17.5C20 13 22 15 22 17.5C22 20 20 22 17.5 22ZM4 17.5C4 18.9 5.1 20 6.5 20C7.9 20 9 18.9 9 17.5C9 16.1 7.9 15 6.5 15C5.1 15 4 16.1 4 17.5Z' fill='black' />" +
+                                            "</svg>" +
+                                            "</span>" +
+                                            "</a>" +
+                                            "</div>" +
+                                            "</td>" +
+                                            "</tr>";
+
+                                        // Append the new row to the table
+                                        tableBody.append(newRow);
+                                    });
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    // If the search input is empty, restore the original table content
+                    tableBody.html(originalTableBody);
+                    return; // Exit the function early to prevent further execution
+                }
+            });
+        });
+
+    </script>
+    <style>
+        #map {
+            flex: 1; /* Utiliser tout l'espace disponible */
+            height: 300px;
+
+
+        }
+    </style>
+    <script>
+        var map = L.map('map').setView([36.8091, 10.1491], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        /// hetha markeur l haja l t98amer bih penaise wle chsmo ahahha
+        var marker;
+        map.on('click', function(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(map);
+
+
+            // Envoyer une requête pour obtenir les informations du lieu
+            fetch('https://nominatim.openstreetmap.org/reverse?lat=' + e.latlng.lat + '&lon=' + e.latlng.lng + '&format=json')
+                .then(response => response.json())
+                .then(data => { document.getElementById('evenement_lieu').value =  data.display_name;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    </script>
 
 {% endblock %}
